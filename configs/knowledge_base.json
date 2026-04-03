@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "documents": [
+    {
+      "id": "who_pneumonia_01",
+      "source": "WHO",
+      "title": "Pneumonia - key facts",
+      "domain_tags": ["imaging_xray_pneumonia", "pneumonia", "respiratory"],
+      "text": "Pneumonia is an acute respiratory infection affecting the lungs. Symptoms may include cough, fever, difficulty breathing. Management depends on severity, age, comorbidities, and suspected pathogen; urgent care is needed for severe symptoms."
+    },
+    {
+      "id": "radiology_cxr_01",
+      "source": "Radiology primer (curated)",
+      "title": "Chest X-ray findings in pneumonia",
+      "domain_tags": ["imaging_xray_pneumonia", "xray", "pneumonia"],
+      "text": "Common CXR findings in pneumonia include focal or multifocal consolidation, air bronchograms, interstitial opacities, and occasionally pleural effusion. Imaging must be interpreted with clinical context."
+    },
+    {
+      "id": "brain_tumor_01",
+      "source": "Neuro-oncology primer (curated)",
+      "title": "Brain tumor overview",
+      "domain_tags": ["imaging_mri_brain_tumor", "mri", "brain_tumor"],
+      "text": "Brain tumors can present with headaches, seizures, focal neurologic deficits, or cognitive changes. MRI findings vary by tumor type. Any suspicion requires urgent specialist review; imaging AI is assistive, not diagnostic."
+    }
+  ]
+}
+

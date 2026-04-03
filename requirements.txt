@@ -15,3 +15,6 @@ pydicom>=2.4.0
 nibabel>=5.0.0
 pylibjpeg>=1.4.0
 
+# Utilities
+requests>=2.31.0
+
