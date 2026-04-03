@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/medical-ai/orchestrator_output",
+  "title": "OrchestratorOutput",
+  "type": "object",
+  "required": ["version", "intent", "entities", "routing"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "const": 1 },
+    "intent": {
+      "type": "string",
+      "description": "High-level intent for the clinical assistant turn."
+    },
+    "entities": {
+      "type": "object",
+      "description": "Extracted structured slots (labs, vitals, demographics).",
+      "additionalProperties": true
+    },
+    "routing": {
+      "type": "object",
+      "required": ["resolved_domain"],
+      "additionalProperties": false,
+      "properties": {
+        "resolved_domain": { "type": "string" },
+        "domain_candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["domain", "score"],
+            "properties": {
+              "domain": { "type": "string" },
+              "score": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "missing_data": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Suggested follow-up questions or missing fields."
+    },
+    "tool_plan": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered tool/model steps (for logging and UI)."
+    }
+  }
+}

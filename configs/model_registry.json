@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "policy": {
+    "min_models_per_domain": 2,
+    "max_models_per_domain": 3,
+    "disagreement_threshold": 0.35,
+    "default_fusion": "weighted_mean"
+  },
+  "domains": {
+    "hybrid_diabetes_risk": {
+      "type": "tabular",
+      "description": "Hybrid diabetes risk (rules + HF text model). Inference-only; no custom training.",
+      "models": [
+        {
+          "key": "rules_diabetes_v1",
+          "provider": "rules",
+          "weight": 0.6
+        },
+        {
+          "key": "hf_zero_shot_diabetes_v1",
+          "provider": "huggingface",
+          "hf_id": "facebook/bart-large-mnli",
+          "weight": 0.4
+        }
+      ]
+    },
+    "hybrid_heart_risk": {
+      "type": "tabular",
+      "description": "Hybrid heart/cardiac risk (rules + HF text model). Inference-only; no custom training.",
+      "models": [
+        {
+          "key": "rules_heart_v1",
+          "provider": "rules",
+          "weight": 0.6
+        },
+        {
+          "key": "hf_zero_shot_heart_v1",
+          "provider": "huggingface",
+          "hf_id": "facebook/bart-large-mnli",
+          "weight": 0.4
+        }
+      ]
+    },
+    "imaging_xray_pneumonia": {
+      "type": "imaging",
+      "description": "Chest X-Ray pneumonia screening (inference-only).",
+      "models": [
+        {
+          "key": "xray_pneumonia",
+          "provider": "huggingface",
+          "hf_id": "nickmuchi/vit-finetuned-chest-xray-pneumonia",
+          "weight": 0.6
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.4
+        }
+      ]
+    },
+    "imaging_mri_brain_tumor": {
+      "type": "imaging",
+      "description": "Brain MRI tumor screening (inference-only).",
+      "models": [
+        {
+          "key": "mri_brain_tumor",
+          "provider": "huggingface",
+          "hf_id": "Devarshi/Brain_Tumor_Classification",
+          "weight": 0.7
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.3
+        }
+      ]
+    },
+    "imaging_skin_lesion": {
+      "type": "imaging",
+      "description": "Skin lesion / dermoscopy (inference-only). See docs/MODEL_CATALOG.md.",
+      "models": [
+        {
+          "key": "skin_lesion",
+          "provider": "huggingface",
+          "hf_id": "dima806/skin_lesions_image_detection",
+          "weight": 0.65
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.35
+        }
+      ]
+    }
+  }
+}
+

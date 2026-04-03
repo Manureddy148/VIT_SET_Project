@@ -466,7 +466,7 @@
   <header>
     <div class="badge">Master's Research Project · 8 Credits</div>
     <h1>Dynamic Medical <span>AI Diagnostic</span> System</h1>
-    <p class="subtitle">Agentic RAG + ML Ensemble · Severity Magnitude Prediction</p>
+    <p class="subtitle">Agentic RAG + Open-Source Model Ensemble · No Custom Training</p>
   </header>
 
   <div class="flow">
@@ -511,9 +511,9 @@
           <div class="card-desc">
             The core intelligence. Performs 4 simultaneous tasks: <strong style="color:#e2e8f0">Intent Classification</strong> (which domain?), <strong style="color:#e2e8f0">Entity Extraction</strong> (parse clinical variables), <strong style="color:#e2e8f0">Missing Data Loop</strong> (ask follow-up questions), and <strong style="color:#e2e8f0">Tool Selection</strong> (route to correct model).
           </div>
-          <span class="card-tag">Llama 3 / Mistral / GPT-4</span>
+          <span class="card-tag">Llama 3 / Mistral</span>
           <span class="card-tag">LangChain / LlamaIndex</span>
-          <span class="card-tag">Zero-shot CoT</span>
+          <span class="card-tag">HF / Open-source</span>
         </div>
       </div>
     </div>
@@ -557,34 +557,34 @@
     <div class="layer">
       <div class="layer-label">
         <div class="layer-num">LAYER 04</div>
-        <div class="layer-name" style="color:#f59e0b">ML Prediction<br>Engine</div>
+        <div class="layer-name" style="color:#f59e0b">Model Inference<br>Engine</div>
       </div>
       <div class="cards-row">
         <div class="card amber">
           <div class="card-dot"></div>
-          <div class="card-title">Regression / Severity Models</div>
-          <div class="card-desc">XGBoost / Random Forest models trained to output continuous severity scores (0–100) and risk magnitudes — not binary yes/no outputs.</div>
-          <span class="card-tag">XGBoost</span>
-          <span class="card-tag">Severity Score</span>
+          <div class="card-title">Per-Disease Model Packs (Open-Source)</div>
+          <div class="card-desc">For each disease/domain, run 2–3 vetted pre-trained models (Hugging Face + open-source). No custom training; only inference + calibration to a common 0–100 severity scale.</div>
+          <span class="card-tag">Hugging Face</span>
+          <span class="card-tag">No training</span>
         </div>
         <div class="card amber">
           <div class="card-dot"></div>
-          <div class="card-title">Ensemble Layer</div>
-          <div class="card-desc">For ambiguous inputs, multiple models run in parallel. Results are aggregated via weighted voting based on confidence scores.</div>
-          <span class="card-tag">Multi-model</span>
-          <span class="card-tag">Confidence</span>
+          <div class="card-title">Ensemble + Arbitration</div>
+          <div class="card-desc">Run multiple models in parallel and combine outputs using weighted fusion (confidence, domain fit, latency). If disagreement is high, trigger clarification questions or human escalation.</div>
+          <span class="card-tag">2–3 models</span>
+          <span class="card-tag">Disagreement</span>
         </div>
         <div class="card amber">
           <div class="card-dot"></div>
-          <div class="card-title">SHAP Explainer</div>
-          <div class="card-desc">Computes feature importances for each prediction — shows which clinical variable contributed most to the severity magnitude.</div>
+          <div class="card-title">Explanation Signals</div>
+          <div class="card-desc">Produce explanation cues from model outputs (labels, probabilities, attention/attribution where available) and use them as inputs to retrieval and response synthesis.</div>
           <span class="card-tag">XAI</span>
-          <span class="card-tag">SHAP</span>
+          <span class="card-tag">Attribution</span>
         </div>
       </div>
     </div>
 
-    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ severity score + SHAP values</div></div></div>
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ severity score + explanation cues</div></div></div>
 
     <!-- LAYER 5: RAG -->
     <div class="layer">
@@ -603,7 +603,7 @@
         <div class="card red">
           <div class="card-dot"></div>
           <div class="card-title">Semantic Retriever</div>
-          <div class="card-desc">Uses SHAP-identified top features as query terms to retrieve the most clinically relevant literature for the specific prediction.</div>
+          <div class="card-desc">Uses extracted clinical entities and explanation cues to retrieve the most clinically relevant literature for the specific prediction.</div>
           <span class="card-tag">Hybrid search</span>
           <span class="card-tag">MMR</span>
         </div>
@@ -692,12 +692,12 @@
       <div class="step-arrow">→</div>
       <div class="flow-step">
         <div class="step-num" style="background:rgba(245,158,11,0.15);color:#f59e0b">4</div>
-        <div class="step-text">ML model outputs severity score (0–100)</div>
+        <div class="step-text">2–3 models run and fuse into a 0–100 score</div>
       </div>
       <div class="step-arrow">→</div>
       <div class="flow-step">
         <div class="step-num" style="background:rgba(239,68,68,0.15);color:#ef4444">5</div>
-        <div class="step-text">SHAP values query vector DB for evidence</div>
+        <div class="step-text">Entities + signals query vector DB for evidence</div>
       </div>
       <div class="step-arrow">→</div>
       <div class="flow-step">
@@ -714,8 +714,8 @@
       <div class="tech-icon">🧠</div>
       <div class="tech-info">
         <div class="tech-role">LLM Brain</div>
-        <div class="tech-name">Llama 3 or Mistral</div>
-        <div class="tech-alt">alt: GPT-4 via API</div>
+        <div class="tech-name">Llama 3 / Mistral (Open-Source)</div>
+        <div class="tech-alt">local or hosted</div>
       </div>
     </div>
     <div class="tech-item">
@@ -729,9 +729,9 @@
     <div class="tech-item">
       <div class="tech-icon">📊</div>
       <div class="tech-info">
-        <div class="tech-role">ML Models</div>
-        <div class="tech-name">XGBoost + SHAP</div>
-        <div class="tech-alt">scikit-learn, joblib</div>
+        <div class="tech-role">Model Inference</div>
+        <div class="tech-name">Hugging Face Transformers</div>
+        <div class="tech-alt">pipelines + safetensors</div>
       </div>
     </div>
     <div class="tech-item">
@@ -782,10 +782,10 @@
     <div class="novelty-grid">
       <div class="novelty-item">Dynamic domain routing at inference time — no disease hardcoding, making the system generalizable across medical domains.</div>
       <div class="novelty-item">Severity magnitude outputs (continuous 0–100 scores) instead of binary classification — clinically more useful and academically differentiated.</div>
-      <div class="novelty-item">SHAP-guided RAG retrieval — using explainability values as semantic queries, bridging XAI and retrieval-augmented generation.</div>
+      <div class="novelty-item">Signal-guided RAG retrieval — using extracted entities + model signals as semantic queries, bridging inference and retrieval-augmented generation.</div>
       <div class="novelty-item">RAGAS-evaluated faithfulness loop — quantifiably proving zero hallucination in medical explanations, a key safety research contribution.</div>
       <div class="novelty-item">Missing-data dialogue agent — conversational clarification loop, relevant to real-world EHR incomplete data challenges.</div>
-      <div class="novelty-item">Modular model registry pattern — hot-swappable ML backends, enabling future expansion to imaging and genomic models.</div>
+      <div class="novelty-item">Modular model pack registry — hot-swappable open-source model ensembles per disease, enabling future expansion to imaging and multi-modal models.</div>
     </div>
   </div>
 
