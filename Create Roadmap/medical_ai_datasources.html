@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical AI — Complete Data Source Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ─────────────────────────────────────────────────────── */
+:root {
+  --bg:          #080c10;
+  --bg-card:     #0d1117;
+  --bg-elevated: #111820;
+  --bg-hover:    #161e28;
+  --border:      rgba(255,255,255,0.07);
+  --border-glow: rgba(0,210,170,0.25);
+
+  --text-primary:   #e8edf5;
+  --text-secondary: #8896aa;
+  --text-muted:     #4a5568;
+  --text-label:     #c0ccd8;
+
+  --accent:       #00d2aa;
+  --accent-dim:   rgba(0,210,170,0.12);
+  --accent-glow:  rgba(0,210,170,0.35);
+  --warn:         #f59e0b;
+  --warn-dim:     rgba(245,158,11,0.12);
+  --danger:       #ef4444;
+  --danger-dim:   rgba(239,68,68,0.12);
+  --info:         #3b82f6;
+  --info-dim:     rgba(59,130,246,0.12);
+  --purple:       #a78bfa;
+  --purple-dim:   rgba(167,139,250,0.12);
+  --pink:         #f472b6;
+  --pink-dim:     rgba(244,114,182,0.12);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 18px;
+
+  --shadow:      0 4px 24px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 40px rgba(0,210,170,0.08);
+}
+
+/* ── RESET & BASE ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID NOISE TEXTURE ────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(0,210,170,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(167,139,250,0.04) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0z' fill='none'/%3E%3Cpath d='M40 0v40M0 40h40' stroke='rgba(255,255,255,0.015)' stroke-width='0.5'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(0,210,170,0.3); border-radius: 3px; }
+
+/* ── LAYOUT ────────────────────────────────────────────────────────────── */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── HERO HEADER ───────────────────────────────────────────────────────── */
+.hero {
+  padding: 72px 0 52px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 56px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: 'MEDICAL·AI·DATA';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0.4;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+h1.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  max-width: 780px;
+}
+h1.hero-title span {
+  color: var(--accent);
+  font-style: italic;
+}
+.hero-sub {
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.7;
+}
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hero-stat-num {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── TOC NAV ───────────────────────────────────────────────────────────── */
+.toc-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 60px;
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.toc-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  width: 100%;
+  margin-bottom: 4px;
+}
+.toc-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.toc-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ── SECTION ───────────────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 72px;
+  scroll-margin-top: 24px;
+}
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.section-icon-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+}
+.section-title-group {
+  flex: 1;
+}
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  max-width: 680px;
+  line-height: 1.65;
+}
+
+/* ── SOURCE CARDS GRID ─────────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+.cards-grid.wide {
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+}
+
+/* ── SOURCE CARD ───────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  animation: fadeInUp 0.4s both;
+}
+.card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow), var(--shadow-glow);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.card:hover::before { opacity: 1; }
+
+/* color themes */
+.card.green::before  { background: linear-gradient(90deg, var(--accent), transparent); }
+.card.amber::before  { background: linear-gradient(90deg, var(--warn), transparent); }
+.card.red::before    { background: linear-gradient(90deg, var(--danger), transparent); }
+.card.blue::before   { background: linear-gradient(90deg, var(--info), transparent); }
+.card.purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
+.card.pink::before   { background: linear-gradient(90deg, var(--pink), transparent); }
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.card-icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.badge.green  { background: var(--accent-dim);  color: var(--accent);  border: 1px solid rgba(0,210,170,0.2); }
+.badge.amber  { background: var(--warn-dim);    color: var(--warn);    border: 1px solid rgba(245,158,11,0.2); }
+.badge.red    { background: var(--danger-dim);  color: var(--danger);  border: 1px solid rgba(239,68,68,0.2); }
+.badge.blue   { background: var(--info-dim);    color: var(--info);    border: 1px solid rgba(59,130,246,0.2); }
+.badge.purple { background: var(--purple-dim);  color: var(--purple);  border: 1px solid rgba(167,139,250,0.2); }
+.badge.pink   { background: var(--pink-dim);    color: var(--pink);    border: 1px solid rgba(244,114,182,0.2); }
+.badge.muted  { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+
+.card-title {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.card-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.card-desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+
+/* ── INFO ROWS ─────────────────────────────────────────────────────────── */
+.info-rows { display: flex; flex-direction: column; gap: 0; }
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 112px;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+  padding-top: 1px;
+}
+.info-row-val {
+  color: var(--text-label);
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* ── CODE BLOCK ────────────────────────────────────────────────────────── */
+.code-block {
+  margin-top: 16px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  overflow-x: auto;
+  position: relative;
+}
+.code-block .comment { color: var(--text-muted); }
+.code-block .key { color: var(--purple); }
+.code-block .val { color: var(--accent); }
+.code-block .str { color: var(--warn); }
+.code-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* ── SIGNAL TABLE ──────────────────────────────────────────────────────── */
+.signal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 14px;
+}
+.signal-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.signal-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-label);
+  vertical-align: top;
+}
+.signal-table tr:last-child td { border-bottom: none; }
+.signal-table tr:hover td { background: rgba(255,255,255,0.02); }
+.signal-name { font-family: var(--font-mono); color: var(--accent); font-size: 12px; }
+
+/* ── HF MODEL TAG ──────────────────────────────────────────────────────── */
+.hf-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,166,0,0.08);
+  border: 1px solid rgba(255,166,0,0.2);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #ffb84d;
+  margin-top: 12px;
+  text-decoration: none;
+}
+.hf-tag::before { content: '🤗'; font-size: 13px; }
+
+/* ── PIPELINE FLOW ─────────────────────────────────────────────────────── */
+.pipeline-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  align-items: center;
+  margin-top: 16px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.flow-step {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.flow-arrow {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 0 6px;
+}
+
+/* ── SEVERITY METER ────────────────────────────────────────────────────── */
+.severity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+.severity-label-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 90px;
+  flex-shrink: 0;
+}
+.severity-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.severity-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+.severity-pct {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  width: 36px;
+  text-align: right;
+}
+
+/* ── INTEGRATION BANNER ────────────────────────────────────────────────── */
+.integration-banner {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+.integration-banner h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.integration-banner p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* ── ANIMATION ─────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+.card:nth-child(6) { animation-delay: 0.30s; }
+
+/* ── COMPARISON TABLE ──────────────────────────────────────────────────── */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.compare-table thead { background: var(--bg-elevated); }
+.compare-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-label);
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+.compare-table td:first-child { font-weight: 500; color: var(--text-primary); }
+.check { color: var(--accent); }
+.cross { color: var(--text-muted); }
+.partial { color: var(--warn); }
+
+/* ── FOOTER ────────────────────────────────────────────────────────────── */
+.page-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 80px;
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  gap: 16px;
+}
+.footer-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.footer-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 14px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,210,170,0.2);
+  border-radius: 20px;
+  color: var(--accent);
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  .section-header { flex-direction: column; }
+  .compare-table { font-size: 12px; }
+  .compare-table th, .compare-table td { padding: 9px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-eyebrow">Medical AI Severity System</div>
+  <h1 class="hero-title">Complete <span>Data Source</span> Reference</h1>
+  <p class="hero-sub">
+    Every signal type, modality, and data source supported by the Medical AI pipeline — 
+    from raw ECG waveforms to genomic variants — with HuggingFace models, 
+    file formats, severity mappings, and integration patterns.
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">14</span>
+      <span class="hero-stat-label">Data Categories</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">60+</span>
+      <span class="hero-stat-label">Signal Types</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">40+</span>
+      <span class="hero-stat-label">HF Models</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">∞</span>
+      <span class="hero-stat-label">Extensible</span>
+    </div>
+  </div>
+</header>
+
+<!-- TOC -->
+<nav class="toc-nav">
+  <span class="toc-label">Jump to section</span>
+  <a href="#ecg"     class="toc-btn">⚡ ECG</a>
+  <a href="#echo"    class="toc-btn">🫀 Echocardiography</a>
+  <a href="#sono"    class="toc-btn">🔊 Sonography / US</a>
+  <a href="#imaging" class="toc-btn">🧠 MRI / CT / X-Ray</a>
+  <a href="#eeg"     class="toc-btn">🌊 EEG / Neuro</a>
+  <a href="#lab"     class="toc-btn">🧪 Lab Results</a>
+  <a href="#vitals"  class="toc-btn">📊 Vitals / Wearables</a>
+  <a href="#path"    class="toc-btn">🔬 Pathology</a>
+  <a href="#endo"    class="toc-btn">🎥 Endoscopy</a>
+  <a href="#genomic" class="toc-btn">🧬 Genomics</a>
+  <a href="#ehr"     class="toc-btn">📋 EHR / Notes</a>
+  <a href="#pft"     class="toc-btn">💨 Pulmonary</a>
+  <a href="#dental"  class="toc-btn">🦷 Dental</a>
+  <a href="#compare" class="toc-btn">📊 Comparison</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 1. ECG                                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="ecg">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--accent-dim);">
+      <span>⚡</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--accent)">Cardiac · Electrophysiology</span>
+      <h2 class="section-title">ECG — Electrocardiogram</h2>
+      <p class="section-desc">
+        Time-series electrical activity of the heart. 12-lead ECG remains the gold standard for arrhythmia detection, 
+        MI diagnosis, and cardiac risk stratification. AI models analyse waveform morphology across leads simultaneously.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <!-- 12-Lead ECG -->
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">📈</span>
+        <div class="card-badges">
+          <span class="badge green">AI-Ready</span>
+          <span class="badge blue">Waveform</span>
+          <span class="badge muted">12-Lead</span>
+        </div>
+      </div>
+      <div class="card-title">12-Lead Standard ECG</div>
+      <div class="card-subtitle">RESTING · 10-SECOND · 500 HZ STANDARD</div>
+      <div class="card-desc">
+        Gold standard cardiac recording. Captures P wave, QRS complex, T wave across 12 anatomical leads. 
+        Critical for diagnosing STEMI, NSTEMI, bundle branch blocks, LVH, Wolff-Parkinson-White syndrome.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File formats</span>
+          <span class="info-row-val">.dicom (waveform), .xml (HL7 aECG), .csv, .mat, .dat+.hea (PhysioNet)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Sampling</span>
+          <span class="info-row-val">250–1000 Hz, 12 leads, 10 sec standard; 30 min for Holter</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Key signals</span>
+          <span class="info-row-val">QRS duration, QTc interval, PR interval, ST deviation, T-wave inversion, axis</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Diseases</span>
+          <span class="info-row-val">STEMI, NSTEMI, AF, VT, complete HB, hypertrophy, WPW, QT prolongation</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">physionet/computing-in-cardiology-challenge-2021</a>
+      <div class="code-block" style="margin-top:12px">
+        <div class="comment"># ECG integration</div>
+        <span class="key">registry</span>._domain_keywords[<span class="str">"ecg"</span>] = [<br>
+        &nbsp;&nbsp;<span class="str">"ecg"</span>, <span class="str">"electrocardiogram"</span>, <span class="str">"arrhythmia"</span>,<br>
+        &nbsp;&nbsp;<span class="str">"heart rhythm"</span>, <span class="str">"qtc"</span>, <span class="str">"stemi"</span><br>
+        ]
+      </div>
+    </div>
+
+    <!-- Holter -->
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">📟</span>
+        <div class="card-badges">
+          <span class="badge green">Long-term</span>
+          <span class="badge amber">24–48h</span>
+        </div>
+      </div>
+      <div class="card-title">Holter Monitor / Ambulatory ECG</div>
+      <div class="card-subtitle">CONTINUOUS · 24–72 HOURS · 3–12 LEAD</div>
+      <div class="card-desc">
+        Continuous cardiac monitoring for intermittent arrhythmia detection. 
+        AI analyses millions of beats for paroxysmal AF, nocturnal events, 
+        and autonomic dysfunction via HRV analysis.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Data size</span>
+          <span class="info-row-val">~100k–500k beats per recording; 50–200 MB per study</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Key metrics</span>
+          <span class="info-row-val">HRV (SDNN, RMSSD, pNN50), AF burden %, premature beats/hour</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI task</span>
+          <span class="info-row-val">Beat classification, rhythm episode detection, sleep-wake scoring</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">Bangxi-Li/ECG-arrhythmia-classification</a>
+      <div class="severity-row">
+        <span class="severity-label-text">AF detection</span>
+        <div class="severity-bar-wrap"><div class="severity-bar-fill" style="width:94%; background: var(--accent)"></div></div>
+        <span class="severity-pct">94%</span>
+      </div>
+      <div class="severity-row">
+        <span class="severity-label-text">VT detection</span>
+        <div class="severity-bar-wrap"><div class="severity-bar-fill" style="width:88%; background: var(--warn)"></div></div>
+        <span class="severity-pct">88%</span>
+      </div>
+    </div>
+
+    <!-- Wearable ECG -->
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">⌚</span>
+        <div class="card-badges">
+          <span class="badge blue">Wearable</span>
+          <span class="badge muted">1–6 Lead</span>
+        </div>
+      </div>
+      <div class="card-title">Wearable / Patch ECG</div>
+      <div class="card-subtitle">APPLE WATCH · ZIOPATCH · KARDIA · 2-WEEK</div>
+      <div class="card-desc">
+        Consumer and clinical wearable ECG. Lower signal quality but continuous 
+        multi-week capture. Apple Watch Series 4+ generates HL7 aECG XML. 
+        KardiaMobile and ZioPatch provide single-lead recordings.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Formats</span>
+          <span class="info-row-val">HL7 aECG (.xml), PDF export, proprietary CSV, Health Kit data</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Limitations</span>
+          <span class="info-row-val">1-lead only, motion artifact, no ST analysis, PPG-gated</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI use case</span>
+          <span class="info-row-val">AF screening, heart rate monitoring, PAC/PVC detection</span>
+        </div>
+      </div>
+      <div class="pipeline-flow">
+        <span class="flow-step">Raw Signal</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Denoising</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">R-peak detect</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Beat classify</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Severity Score</span>
+      </div>
+    </div>
+
+    <!-- ECG Models -->
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">🤖</span>
+        <div class="card-badges">
+          <span class="badge purple">HF Models</span>
+          <span class="badge green">OSS</span>
+        </div>
+      </div>
+      <div class="card-title">Published ECG AI Models</div>
+      <div class="card-subtitle">OPEN-SOURCE · HuggingFace REGISTRY</div>
+      <div class="card-desc">
+        Pre-trained models deployable without any fine-tuning for standard 12-lead ECG tasks.
+      </div>
+      <table class="signal-table">
+        <thead><tr><th>Model</th><th>Task</th><th>Dataset</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="signal-name">Springboard ECGFounder</span></td>
+            <td>10-condition classification</td>
+            <td>PTB-XL (21k)</td>
+          </tr>
+          <tr>
+            <td><span class="signal-name">Bangxi-Li/ECG-arrhythmia</span></td>
+            <td>5-class arrhythmia</td>
+            <td>MIT-BIH</td>
+          </tr>
+          <tr>
+            <td><span class="signal-name">Sharan185/ecg_classification</span></td>
+            <td>AF vs Normal</td>
+            <td>PhysioNet 2017</td>
+          </tr>
+          <tr>
+            <td><span class="signal-name">Ibrahim-MH/ECG-Heartbeat</span></td>
+            <td>Beat-level (5 classes)</td>
+            <td>PTB + MITDB</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 2. ECHO                                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="echo">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--danger-dim);">
+      <span>🫀</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--danger)">Cardiac · Structural</span>
+      <h2 class="section-title">Echocardiography</h2>
+      <p class="section-desc">
+        Ultrasound imaging of cardiac structure and function. Transthoracic (TTE), 
+        Transesophageal (TEE), and Stress Echo. AI measures ejection fraction, 
+        wall motion, valve areas, and detects cardiomyopathies automatically.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card red">
+      <div class="card-head">
+        <span class="card-icon">🎬</span>
+        <div class="card-badges">
+          <span class="badge red">Video</span>
+          <span class="badge blue">DICOM</span>
+          <span class="badge muted">TTE/TEE</span>
+        </div>
+      </div>
+      <div class="card-title">Transthoracic Echocardiography (TTE)</div>
+      <div class="card-subtitle">2D · M-MODE · DOPPLER · COLOR FLOW</div>
+      <div class="card-desc">
+        Standard non-invasive cardiac ultrasound. Provides real-time video of cardiac chambers, 
+        valves, and wall motion. AI models measure EF (left ventricular ejection fraction), 
+        GLS (global longitudinal strain), and classify cardiomyopathies.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">DICOM multiframe (.dcm), AVI, MP4 (30–150 fps, 112×112 to 608×452)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Views</span>
+          <span class="info-row-val">Parasternal long/short axis, Apical 4/2/3-chamber, Subcostal</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Key metrics</span>
+          <span class="info-row-val">EF%, LVEDV, LVESV, LV mass, E/A ratio, TAPSE, PAP</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI targets</span>
+          <span class="info-row-val">EF estimation, HCM/DCM classification, AS severity, TR/MR grading</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">echonet-dynamic/echonet-dynamic (Stanford)</a>
+      <div class="integration-banner">
+        <h4>🔗 Pipeline Integration</h4>
+        <p>Stanford EchoNet-Dynamic outputs EF% directly on a 0–100 scale, 
+        making it trivial to map: <code>severity = 100 - EF_percent</code> for systolic dysfunction severity.</p>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-head">
+        <span class="card-icon">🌊</span>
+        <div class="card-badges">
+          <span class="badge red">Spectral</span>
+          <span class="badge amber">Doppler</span>
+        </div>
+      </div>
+      <div class="card-title">Doppler Echocardiography</div>
+      <div class="card-subtitle">PW · CW · TISSUE · COLOR FLOW MAPPING</div>
+      <div class="card-desc">
+        Velocity-based assessment of blood and tissue motion. Pulsed Wave (PW) for 
+        mitral inflow patterns, Continuous Wave (CW) for valve gradient, 
+        Tissue Doppler Imaging (TDI) for diastolic function. Critical for 
+        heart failure with preserved EF (HFpEF) diagnosis.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">PW metrics</span>
+          <span class="info-row-val">E velocity, A velocity, E/A ratio, DT (deceleration time)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">TDI metrics</span>
+          <span class="info-row-val">e', a', s' velocities, E/e' ratio (filling pressure proxy)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">CW metrics</span>
+          <span class="info-row-val">Peak gradient, mean gradient, AVA (aortic valve area)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">E/e' &lt;8 = normal; 8–14 = intermediate; &gt;14 = elevated filling pressure</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-head">
+        <span class="card-icon">💉</span>
+        <div class="card-badges">
+          <span class="badge red">TEE</span>
+          <span class="badge purple">3D Echo</span>
+        </div>
+      </div>
+      <div class="card-title">TEE & 3D Echocardiography</div>
+      <div class="card-subtitle">TRANS-ESOPHAGEAL · VOLUMETRIC</div>
+      <div class="card-desc">
+        Transesophageal echo provides superior image quality for valve disease, 
+        endocarditis, and intracardiac thrombus. 3D echo enables volumetric 
+        EF calculation and mitral valve anatomy for surgical planning.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">3D Formats</span>
+          <span class="info-row-val">DICOM volumetric, proprietary (Philips QLAB, GE EchoPAC)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI advantage</span>
+          <span class="info-row-val">Automated 3D EF (no geometric assumptions), mitral annulus quantification</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 3. SONOGRAPHY                                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="sono">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--info-dim);">
+      <span>🔊</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--info)">Ultrasound · Multi-Organ</span>
+      <h2 class="section-title">Sonography / General Ultrasound</h2>
+      <p class="section-desc">
+        Real-time high-frequency sound wave imaging. Covers abdominal, pelvic, 
+        thyroid, vascular, musculoskeletal, and point-of-care applications. 
+        No ionising radiation. AI models for organ measurement, lesion detection, 
+        and obstetric dating are well-established.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid wide">
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🏥</span>
+        <div class="card-badges">
+          <span class="badge blue">Abdominal</span>
+          <span class="badge muted">B-Mode</span>
+        </div>
+      </div>
+      <div class="card-title">Abdominal Ultrasound</div>
+      <div class="card-subtitle">LIVER · KIDNEY · PANCREAS · SPLEEN · GALLBLADDER</div>
+      <div class="card-desc">
+        Comprehensive abdominal organ assessment. AI detects fatty liver disease (NAFLD/NASH), 
+        gallstones, renal calculi, hydronephrosis, splenic pathology, ascites, 
+        and aortic aneurysm. CEUS (contrast-enhanced US) for focal liver lesions.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">DICOM (.dcm), JPEG still frames, AVI/MP4 cineloops</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Liver AI</span>
+          <span class="info-row-val">Steatosis grading (S0–S3), fibrosis (F0–F4), focal lesion classification</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Kidney AI</span>
+          <span class="info-row-val">Hydronephrosis grading (G0–G4), stone detection, cyst classification (Bosniak)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Gallbladder</span>
+          <span class="info-row-val">Stone vs polyp vs sludge, wall thickening (cholecystitis), polyp size</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">BiomedCLIP zero-shot + retrained on CAMUS/EchoNet</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🤰</span>
+        <div class="card-badges">
+          <span class="badge blue">Obstetric</span>
+          <span class="badge green">AI-Ready</span>
+        </div>
+      </div>
+      <div class="card-title">Obstetric / Fetal Ultrasound</div>
+      <div class="card-subtitle">1ST · 2ND · 3RD TRIMESTER · ANATOMY SCAN</div>
+      <div class="card-desc">
+        Fetal biometry, anatomical survey, placental assessment, amniotic fluid index. 
+        AI automates fetal measurements (BPD, HC, AC, FL), gestational age estimation, 
+        fetal weight calculation, and cardiac anatomy screening.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Biometry</span>
+          <span class="info-row-val">BPD, HC, AC, FL — automated caliper placement to ±2 days GA accuracy</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Anatomy AI</span>
+          <span class="info-row-val">Nuchal fold, brain structures, cardiac 4-chamber, spine, face</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Doppler</span>
+          <span class="info-row-val">Umbilical artery PI, MCA PI, DV S/D ratio (fetal compromise)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">IUGR score, preterm risk, placenta previa grading, AFI percentile</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">tensorflow/fetal-health-classification</a>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🧠</span>
+        <div class="card-badges">
+          <span class="badge blue">Thyroid</span>
+          <span class="badge amber">TI-RADS</span>
+        </div>
+      </div>
+      <div class="card-title">Thyroid & Neck Ultrasound</div>
+      <div class="card-subtitle">TI-RADS GRADING · NODULE CHARACTERISATION</div>
+      <div class="card-desc">
+        High-resolution imaging of thyroid nodules using ACR TI-RADS scoring (1–5). 
+        AI classifies nodule composition, echogenicity, shape, margin, and 
+        echogenic foci. Determines FNA candidacy based on risk category.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">TI-RADS</span>
+          <span class="info-row-val">TR1 (benign) → TR5 (highly suspicious); AI achieves AUC 0.90+</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">TR1=5pts, TR2=20pts, TR3=40pts, TR4=65pts, TR5=85pts</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">microsoft/BiomedCLIP zero-shot + thyroid-specific fine-tuning</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🩸</span>
+        <div class="card-badges">
+          <span class="badge blue">Vascular</span>
+          <span class="badge muted">Duplex</span>
+        </div>
+      </div>
+      <div class="card-title">Vascular Duplex Ultrasound</div>
+      <div class="card-subtitle">CAROTID · DVT · PERIPHERAL ARTERIAL · ABI</div>
+      <div class="card-desc">
+        Combines B-mode anatomy with Doppler flow. Carotid IMT measurement for 
+        atherosclerosis, plaque characterisation (soft/calcified/ulcerated), 
+        DVT detection, AAA screening, renal artery stenosis.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Carotid</span>
+          <span class="info-row-val">IMT (intima-media thickness mm), plaque echogenicity, NASCET stenosis %</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">DVT</span>
+          <span class="info-row-val">Compressibility scoring, flow waveform, Wells score integration</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AAA</span>
+          <span class="info-row-val">Max diameter (cm) → severity: &lt;3 normal, 3–5 monitor, &gt;5.5 surgical</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🏃</span>
+        <div class="card-badges">
+          <span class="badge blue">POCUS</span>
+          <span class="badge green">Bedside</span>
+        </div>
+      </div>
+      <div class="card-title">Point-of-Care Ultrasound (POCUS)</div>
+      <div class="card-subtitle">eFAST · LUNG · IVC · CARDIAC · FAST</div>
+      <div class="card-desc">
+        Bedside emergency and critical care ultrasound. AI on handheld devices 
+        (Butterfly iQ, Lumify) performs automated IVC collapse ratio for 
+        volume status, A/B-line lung classification, pneumothorax detection, 
+        and rapid cardiac tamponade screening.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Lung US</span>
+          <span class="info-row-val">A-lines (normal), B-lines (≥3 = interstitial oedema), consolidation, sliding sign</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">IVC ratio</span>
+          <span class="info-row-val">Collapse &gt;50% = fluid responsive; &lt;15% = fluid overloaded</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">eFAST</span>
+          <span class="info-row-val">Free fluid detection in Morrison's, splenorenal, pericardial, pelvic spaces</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">gaborvecsei/LUNA16-lung-nodules (adapted), COVID-US datasets</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🦴</span>
+        <div class="card-badges">
+          <span class="badge blue">MSK</span>
+          <span class="badge muted">Dynamic</span>
+        </div>
+      </div>
+      <div class="card-title">Musculoskeletal Ultrasound</div>
+      <div class="card-subtitle">TENDONS · JOINTS · NERVES · GUIDED PROCEDURES</div>
+      <div class="card-desc">
+        Dynamic real-time assessment of tendons, muscles, ligaments, and joint effusions. 
+        Rotator cuff tears, carpal tunnel syndrome nerve cross-section area, 
+        enthesitis in inflammatory arthritis (OMERACT scoring).
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Tendon AI</span>
+          <span class="info-row-val">Rotator cuff tear classification (partial/full), Achilles tendinopathy scoring</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Nerve</span>
+          <span class="info-row-val">Median nerve CSA ≥10mm² = CTS; AI auto-measures in real-time</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 4. IMAGING (MRI/CT/XRAY already covered in previous code)               -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="imaging">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--purple-dim);">
+      <span>🧠</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--purple)">Radiology · Cross-Sectional</span>
+      <h2 class="section-title">MRI / CT / X-Ray / Nuclear</h2>
+      <p class="section-desc">
+        Cross-sectional and planar imaging modalities. Covered in depth in <code>imaging_extension.py</code>. 
+        Summary of additional modalities and specialised sequences below.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">🔲</span>
+        <div class="card-badges"><span class="badge purple">MRI</span><span class="badge muted">Sequences</span></div>
+      </div>
+      <div class="card-title">Advanced MRI Sequences</div>
+      <div class="card-subtitle">fMRI · DTI · MRS · ASL · BOLD</div>
+      <div class="card-desc">
+        Beyond structural T1/T2. Functional MRI (BOLD signal) for presurgical mapping, 
+        DTI tractography for white matter integrity, MR spectroscopy for metabolite 
+        quantification (NAA, Cho, Cr), ASL for perfusion without contrast.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">fMRI</span>
+          <span class="info-row-val">4D BOLD volumes (.nii.gz), TR 1–2s, task-based or resting-state</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">DTI</span>
+          <span class="info-row-val">FA (fractional anisotropy), MD, tractography (.trk files)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">MRS</span>
+          <span class="info-row-val">NAA/Cr ratio (neuronal integrity), Cho/Cr (gliosis), Lac (ischemia)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">Microsoft/BiomedCLIP; nilearn for fMRI; TorchIO for volumetric</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">☢️</span>
+        <div class="card-badges"><span class="badge purple">Nuclear</span><span class="badge amber">PET/SPECT</span></div>
+      </div>
+      <div class="card-title">Nuclear Medicine — PET / SPECT</div>
+      <div class="card-subtitle">FDG-PET · PERFUSION · DOPAMINE · BONE SCAN</div>
+      <div class="card-desc">
+        Functional metabolic imaging via radiotracers. FDG-PET for oncology staging 
+        and dementia diagnosis, myocardial perfusion SPECT for CAD, DaTscan for 
+        Parkinson's, bone scan for metastatic disease.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">FDG-PET</span>
+          <span class="info-row-val">SUVmax, SUVmean, MTV, TLG — automatic lesion segmentation</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Formats</span>
+          <span class="info-row-val">DICOM PET (.dcm), NIfTI (.nii.gz), ECAT7 (.v)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI task</span>
+          <span class="info-row-val">Tumour segmentation, Deauville scoring, amyloid PET read (Centiloid)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">💉</span>
+        <div class="card-badges"><span class="badge purple">Angio</span><span class="badge red">DSA</span></div>
+      </div>
+      <div class="card-title">CT/MR Angiography & DSA</div>
+      <div class="card-subtitle">CTA · MRA · DSA · CORONARY CTA</div>
+      <div class="card-desc">
+        Vascular lumen imaging. Coronary CTA (CTCA) for CAD-RADS scoring, 
+        intracranial aneurysm detection, pulmonary artery for PE, 
+        peripheral run-off studies. AI auto-segments vessels and measures stenosis %.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">CTCA metrics</span>
+          <span class="info-row-val">CAD-RADS 0–5, plaque volume (mm³), stenosis % per segment</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Aorta</span>
+          <span class="info-row-val">Max diameter, dissection flap detection, endoleak post-EVAR</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">RadImageNet pretrained, TotalSegmentator for vessel segmentation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 5. EEG / NEURO                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="eeg">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--warn-dim);">
+      <span>🌊</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--warn)">Neurophysiology · Signals</span>
+      <h2 class="section-title">EEG & Neurophysiology</h2>
+      <p class="section-desc">
+        Electrical brain activity recorded from scalp electrodes. EEG, EMG, 
+        nerve conduction studies, evoked potentials. Critical for epilepsy, 
+        sleep staging, anaesthesia depth monitoring, and BCI applications.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card amber">
+      <div class="card-head">
+        <span class="card-icon">🧠</span>
+        <div class="card-badges"><span class="badge amber">EEG</span><span class="badge blue">Time-Series</span></div>
+      </div>
+      <div class="card-title">EEG — Electroencephalogram</div>
+      <div class="card-subtitle">10-20 SYSTEM · 19–256 CHANNELS · 256–2048 HZ</div>
+      <div class="card-desc">
+        Multichannel brain electrical activity. AI detects seizure patterns (ictal/interictal), 
+        classifies sleep stages (N1/N2/N3/REM), estimates anaesthesia depth (BIS equivalent), 
+        and diagnoses encephalopathy.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File formats</span>
+          <span class="info-row-val">EDF/EDF+ (.edf), BDF (.bdf), EEGLAB (.set), BrainVision (.vhdr/.vmrk/.eeg)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Bands</span>
+          <span class="info-row-val">Delta (0.5–4Hz), Theta (4–8Hz), Alpha (8–13Hz), Beta (13–30Hz), Gamma (30+Hz)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI tasks</span>
+          <span class="info-row-val">Seizure detection (sensitivity 95%+), sleep staging, spike/sharp-wave classify</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">Seizure burden (%/hour), NCSE detection, burst-suppression ratio</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">ChaoZhang/EEG-Sleep-Stage-Scoring</a>
+      <div class="pipeline-flow">
+        <span class="flow-step">Raw EDF</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Bandpass</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Artifact ICA</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Spectrogram</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">CNN/LSTM</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Score</span>
+      </div>
+    </div>
+
+    <div class="card amber">
+      <div class="card-head">
+        <span class="card-icon">💪</span>
+        <div class="card-badges"><span class="badge amber">EMG</span><span class="badge muted">NCS</span></div>
+      </div>
+      <div class="card-title">EMG & Nerve Conduction Studies</div>
+      <div class="card-subtitle">NEEDLE EMG · SURFACE EMG · NCS · BERA</div>
+      <div class="card-desc">
+        Peripheral nervous system assessment. Motor and sensory nerve conduction 
+        velocities, F-wave, H-reflex, needle EMG for motor unit analysis. 
+        AI classifies neuropathy vs myopathy vs normal, localises lesion level.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">NCS metrics</span>
+          <span class="info-row-val">Conduction velocity (m/s), CMAP amplitude (mV), DML (ms), latency</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">EMG metrics</span>
+          <span class="info-row-val">MUAP duration/amplitude/polyphasia, interference pattern, spontaneous activity</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Patterns</span>
+          <span class="info-row-val">Axonal neuropathy vs demyelinating vs myopathy — severity grading</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 6. LAB RESULTS                                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="lab">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--accent-dim);">
+      <span>🧪</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--accent)">Laboratory · Biochemistry</span>
+      <h2 class="section-title">Laboratory Results</h2>
+      <p class="section-desc">
+        Structured numerical data from blood, urine, and other bodily fluid analyses. 
+        The most mature AI input type — directly feeds XGBoost/SHAP models. 
+        Includes haematology, chemistry, immunology, microbiology, and coagulation panels.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid wide">
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">🩸</span>
+        <div class="card-badges"><span class="badge green">Structured</span><span class="badge muted">CBC</span></div>
+      </div>
+      <div class="card-title">Complete Blood Count (CBC) & Differentials</div>
+      <div class="card-subtitle">HAEMATOLOGY · AUTOMATED · IMMEDIATE</div>
+      <div class="card-desc">Full blood panel directly usable by the existing XGBoost severity engine.</div>
+      <table class="signal-table">
+        <thead><tr><th>Parameter</th><th>Normal Range</th><th>Severity Threshold</th></tr></thead>
+        <tbody>
+          <tr><td><span class="signal-name">Haemoglobin (Hb)</span></td><td>12–17.5 g/dL</td><td>&lt;7 = Critical anaemia</td></tr>
+          <tr><td><span class="signal-name">WBC</span></td><td>4–11 ×10³/μL</td><td>&gt;30 = leukaemia concern</td></tr>
+          <tr><td><span class="signal-name">Neutrophils%</span></td><td>50–70%</td><td>&lt;10% = severe neutropenia</td></tr>
+          <tr><td><span class="signal-name">Platelets</span></td><td>150–400 ×10³</td><td>&lt;20 = bleeding risk</td></tr>
+          <tr><td><span class="signal-name">MCV</span></td><td>80–100 fL</td><td>Microcytic/macrocytic anaemia classification</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">⚗️</span>
+        <div class="card-badges"><span class="badge green">Biochemistry</span><span class="badge muted">CMP</span></div>
+      </div>
+      <div class="card-title">Comprehensive Metabolic Panel (CMP)</div>
+      <div class="card-subtitle">RENAL · HEPATIC · ELECTROLYTES · GLUCOSE</div>
+      <div class="card-desc">Core structured inputs already implemented. Extension adds derived ratios.</div>
+      <table class="signal-table">
+        <thead><tr><th>Parameter</th><th>Critical Value</th><th>Derived Feature</th></tr></thead>
+        <tbody>
+          <tr><td><span class="signal-name">Creatinine</span></td><td>&gt;10 mg/dL</td><td>eGFR (CKD-EPI formula)</td></tr>
+          <tr><td><span class="signal-name">ALT/AST</span></td><td>&gt;500 IU/L</td><td>AST/ALT ratio (alcoholic vs viral)</td></tr>
+          <tr><td><span class="signal-name">Na+</span></td><td>&lt;120 or &gt;155 mEq/L</td><td>Anion gap calculation</td></tr>
+          <tr><td><span class="signal-name">K+</span></td><td>&lt;2.5 or &gt;6.5 mEq/L</td><td>K/Mg ratio (arrhythmia risk)</td></tr>
+          <tr><td><span class="signal-name">Albumin</span></td><td>&lt;2 g/dL</td><td>Child-Pugh score component</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">❤️</span>
+        <div class="card-badges"><span class="badge green">Cardiac</span><span class="badge red">Critical</span></div>
+      </div>
+      <div class="card-title">Cardiac Biomarkers</div>
+      <div class="card-subtitle">TROPONIN · BNP · CK-MB · D-DIMER · HOMOCYSTEINE</div>
+      <div class="card-desc">
+        Time-sensitive biomarkers with strong severity mapping. 
+        High-sensitivity Troponin (hs-TnI/T) serial measurement for AMI rule-in/out. 
+        NT-proBNP/BNP for heart failure severity and prognosis.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">hs-Troponin</span>
+          <span class="info-row-val">&lt;5 ng/L = low; 5–52 = intermediate; &gt;52 = AMI (NICE 0h/1h/3h pathway)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">NT-proBNP</span>
+          <span class="info-row-val">&lt;125 = rule out HF; &gt;900 (&lt;75yr) or &gt;1800 (&gt;75yr) = HF severity indicator</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">D-Dimer</span>
+          <span class="info-row-val">&lt;500 μg/L rules out VTE; age-adjusted (age×10); fibrinolysis marker</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">TIMI Score</span>
+          <span class="info-row-val">Derivable from labs + ECG + history — risk stratifies NSTEMI 0–7</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">🔬</span>
+        <div class="card-badges"><span class="badge green">Serology</span><span class="badge purple">Autoimmune</span></div>
+      </div>
+      <div class="card-title">Immunology & Serology Panel</div>
+      <div class="card-subtitle">ANA · ANCA · dsDNA · COMPLEMENT · HIV · HEPATITIS</div>
+      <div class="card-desc">
+        Antibody panels for autoimmune diseases, infections, and cancer screening. 
+        Titre levels (1:40 to 1:2560) and pattern types (homogeneous/speckled/nucleolar) 
+        require semi-structured parsing.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">SLE markers</span>
+          <span class="info-row-val">ANA titre, anti-dsDNA (IU/mL), complement C3/C4, anti-Sm, anti-Ro/La</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Vasculitis</span>
+          <span class="info-row-val">c-ANCA/p-ANCA titres, PR3-ANCA, MPO-ANCA — BVAS score input</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Parsing</span>
+          <span class="info-row-val">Requires NER to extract titre + pattern from free-text lab reports</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 7. VITALS / WEARABLES                                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="vitals">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--pink-dim);">
+      <span>📊</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--pink)">Continuous Monitoring · IoT</span>
+      <h2 class="section-title">Vitals, Wearables & Continuous Monitoring</h2>
+      <p class="section-desc">
+        Continuous physiological streams from bedside monitors, implants, and consumer wearables. 
+        SpO2, HR, BP trends, respiratory rate, skin conductance, motion, sleep architecture.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card pink">
+      <div class="card-head">
+        <span class="card-icon">📱</span>
+        <div class="card-badges"><span class="badge pink">PPG</span><span class="badge blue">SpO2</span></div>
+      </div>
+      <div class="card-title">Photoplethysmography (PPG) & SpO2</div>
+      <div class="card-subtitle">WEARABLE · CONTINUOUS · OPTICAL SENSOR</div>
+      <div class="card-desc">
+        Optical pulse waveform from smartwatches, ring sensors, and bedside pulse oximeters. 
+        PPG morphology encodes HR, HRV, respiratory rate, blood pressure estimation, 
+        AF screening, and SpO2 (blood oxygen saturation).
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Signals</span>
+          <span class="info-row-val">Green (motion), Red+IR (SpO2), raw waveform at 25–500 Hz</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Derived</span>
+          <span class="info-row-val">SpO2, PR (pulse rate), HRV, respiratory rate, PTT (blood pressure proxy)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity</span>
+          <span class="info-row-val">SpO2 &gt;95% normal; 90–94% mild hypoxia; &lt;90% = critical</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Formats</span>
+          <span class="info-row-val">CSV, Health Kit JSON, Garmin FIT, Polar H10 CSV, PhysioNet WFDB</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card pink">
+      <div class="card-head">
+        <span class="card-icon">🏥</span>
+        <div class="card-badges"><span class="badge pink">ICU</span><span class="badge red">Critical</span></div>
+      </div>
+      <div class="card-title">ICU / Bedside Monitor Streams</div>
+      <div class="card-subtitle">INVASIVE BP · CVP · CAPNOGRAPHY · CO</div>
+      <div class="card-desc">
+        High-frequency bedside monitor data from ICU systems (Philips IntelliVue, 
+        GE CARESCAPE). Arterial line BP waveform, CVP, cardiac output (thermodilution), 
+        etCO2 capnography. MIMIC-IV dataset provides 40k+ patient records.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">ABP waveform</span>
+          <span class="info-row-val">SBP/DBP/MAP, pulse pressure variation (PPV), dP/dt (contractility)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">MIMIC-IV</span>
+          <span class="info-row-val">40k+ ICU admissions, hourly vitals, labs, notes — freely available</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity</span>
+          <span class="info-row-val">APACHE-II, SOFA score, NEWS2 — all computable from this data</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">temporal-fusion-transformer (Lim et al.), RETAIN, LSTM-based sepsis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card pink">
+      <div class="card-head">
+        <span class="card-icon">😴</span>
+        <div class="card-badges"><span class="badge pink">Sleep</span><span class="badge muted">PSG</span></div>
+      </div>
+      <div class="card-title">Polysomnography (PSG) & Sleep Studies</div>
+      <div class="card-subtitle">EEG + EOG + EMG + SPO2 + RESPIRATORY EFFORT</div>
+      <div class="card-desc">
+        Full overnight sleep study combining EEG, eye movements, muscle activity, 
+        SpO2, nasal airflow, and chest/abdominal effort bands. AI performs 
+        automated sleep staging (AASM) and AHI (apnoea-hypopnoea index) calculation 
+        for OSA diagnosis.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">AHI severity</span>
+          <span class="info-row-val">&lt;5 = normal; 5–15 = mild OSA; 15–30 = moderate; &gt;30 = severe</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">EDF (.edf) with XML annotations; PhysioNet NSRR archive (8000+ studies)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">EnriqueGarcia93/sleep-stage-classification (U-Sleep architecture)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 8. PATHOLOGY                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="path">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--danger-dim);">
+      <span>🔬</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--danger)">Histopathology · Cytology</span>
+      <h2 class="section-title">Digital Pathology & Cytology</h2>
+      <p class="section-desc">
+        Whole-slide images (WSI) from H&E, IHC, and special stains. Gigapixel images 
+        requiring patch-based deep learning. Cytology smears for cervical cancer screening, 
+        pleural/peritoneal fluid, and sputum analysis.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card red">
+      <div class="card-head">
+        <span class="card-icon">🖼️</span>
+        <div class="card-badges"><span class="badge red">WSI</span><span class="badge purple">Gigapixel</span></div>
+      </div>
+      <div class="card-title">Whole Slide Imaging (WSI)</div>
+      <div class="card-subtitle">H&E · IHC · SPECIAL STAINS · 0.25 μm/pixel</div>
+      <div class="card-desc">
+        Digitised glass slides at 20×–40× magnification. 100,000×100,000 pixel images (5–10 GB). 
+        Processed via patch-based inference with multiple-instance learning (MIL) 
+        for tumour grading, biomarker scoring (Ki-67, HER2, ER/PR), and survival prediction.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File formats</span>
+          <span class="info-row-val">SVS (Aperio), NDPI (Hamamatsu), MRXS (3DHISTECH), OME-TIFF, DICOM WSI</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Tasks</span>
+          <span class="info-row-val">Tumour/stroma/necrosis segmentation, Gleason grading, PD-L1 TPS scoring</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Tools</span>
+          <span class="info-row-val">OpenSlide, QuPath, TIAToolbox, CLAM (MIL framework)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">owkin/phikon (UNI), MahmoodLab/conch — foundation models for WSI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card red">
+      <div class="card-head">
+        <span class="card-icon">🔴</span>
+        <div class="card-badges"><span class="badge red">Cytology</span><span class="badge green">Pap Smear</span></div>
+      </div>
+      <div class="card-title">Cytology & Liquid Biopsy</div>
+      <div class="card-subtitle">CERVICAL · SPUTUM · EFFUSION · FINE-NEEDLE</div>
+      <div class="card-desc">
+        Cell-level analysis of Pap smears (ThinPrep), sputum, BAL, 
+        and body fluid cytology. AI classifies Bethesda categories (NILM/ASCUS/HSIL/LSIL) 
+        and detects malignant cells. Liquid biopsy for circulating tumour DNA (ctDNA).
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Pap grading</span>
+          <span class="info-row-val">NILM (score 5) → ASCUS (35) → LSIL (55) → HSIL (80) → Carcinoma (95)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">ctDNA</span>
+          <span class="info-row-val">VAF (variant allele frequency), copy number alterations, methylation patterns</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">Tencent/HIPT-cervical — Vision Transformer for cervical cytology</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 9. ENDOSCOPY                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="endo">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--info-dim);">
+      <span>🎥</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--info)">Endoscopy · GI · Bronchoscopy</span>
+      <h2 class="section-title">Endoscopy & Video Analysis</h2>
+      <p class="section-desc">
+        Real-time video from GI endoscopes, bronchoscopes, cystoscopes, and capsule cameras. 
+        AI provides real-time polyp detection, bleeding localisation, 
+        anatomical landmark confirmation, and quality metrics during live procedures.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🍃</span>
+        <div class="card-badges"><span class="badge blue">GI</span><span class="badge green">Real-time</span><span class="badge amber">FDA Cleared</span></div>
+      </div>
+      <div class="card-title">Colonoscopy / Upper GI Endoscopy</div>
+      <div class="card-subtitle">REAL-TIME AI · POLYP DETECTION · PARIS CLASSIFICATION</div>
+      <div class="card-desc">
+        FDA-cleared AI systems (GI Genius, EndoScreener, ENDO-AID) detect polyps 
+        in real-time with &gt;90% sensitivity. AI classifies lesion morphology (Paris), 
+        predicts histology (NICE/JNET), detects Barrett's oesophagus dysplasia 
+        and H. pylori gastritis patterns.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Video format</span>
+          <span class="info-row-val">MP4/H.264 at 25–30fps, 1080p HD; DICOM SC for snapshots</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Polyp AI</span>
+          <span class="info-row-val">Paris 0-I/II/III, NICE type 1–3 (hyperplastic/adenoma/cancer), size estimate</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">Hyperplastic=10, Tubular adenoma=40, Villous/HGD=75, Carcinoma=95</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">SunshanHuang/polyp-detection; PolypPVT; TransFuse (Kvasir-SEG)</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">reab/colonoscopy-polyp-segmentation</a>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">💊</span>
+        <div class="card-badges"><span class="badge blue">Capsule</span><span class="badge muted">VCE</span></div>
+      </div>
+      <div class="card-title">Capsule Endoscopy</div>
+      <div class="card-subtitle">SMALL BOWEL · ~55,000 FRAMES · 8 HOURS</div>
+      <div class="card-desc">
+        Wireless capsule camera imaging the entire small bowel — inaccessible to conventional endoscopy. 
+        Generates 55,000+ frames per study requiring automated AI review for bleeding, 
+        Crohn's disease lesions, angiodysplasia, polyps, and celiac changes.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">AVI/proprietary (Given Imaging, Medtronic PillCam), ZIP of JPEG frames</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI tasks</span>
+          <span class="info-row-val">Blood detection, erosion/ulcer grading, Lewis score (Crohn's), polyp flag</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Throughput</span>
+          <span class="info-row-val">8h → 2min review with AI; highlights suspicious frames automatically</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 10. GENOMICS                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="genomic">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--purple-dim);">
+      <span>🧬</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--purple)">Genomics · Precision Medicine</span>
+      <h2 class="section-title">Genomics & Multi-Omics</h2>
+      <p class="section-desc">
+        DNA/RNA sequencing, genetic variant interpretation, polygenic risk scores, 
+        pharmacogenomics, and multi-omics integration. The frontier of personalised medicine.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">🔄</span>
+        <div class="card-badges"><span class="badge purple">NGS</span><span class="badge blue">WGS/WES</span></div>
+      </div>
+      <div class="card-title">Next-Generation Sequencing (NGS)</div>
+      <div class="card-subtitle">WGS · WES · PANEL · RNA-SEQ · METHYLATION</div>
+      <div class="card-desc">
+        Whole genome (WGS), whole exome (WES), targeted gene panels, and RNA-seq. 
+        AI interprets SNVs/indels, CNVs, SVs against ClinVar/OMIM databases. 
+        Tumour mutational burden (TMB), microsatellite instability (MSI) for immunotherapy selection.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File formats</span>
+          <span class="info-row-val">FASTQ (raw reads), BAM/CRAM (aligned), VCF/gVCF (variants)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Variant class</span>
+          <span class="info-row-val">Pathogenic, Likely Pathogenic, VUS, Likely Benign, Benign (ACMG 2015)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">Pathogenic BRCA1/2 = 90pts; ACMG Tier 1 secondary findings = 85pts</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">InstaDeep/nucleotide-transformer; Microsoft/BioGPT for variant report NLP</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">InstaDeep/nucleotide-transformer-2.5b-multi-species</a>
+    </div>
+
+    <div class="card purple">
+      <div class="card-head">
+        <span class="card-icon">💊</span>
+        <div class="card-badges"><span class="badge purple">PGx</span><span class="badge green">Clinical</span></div>
+      </div>
+      <div class="card-title">Pharmacogenomics (PGx)</div>
+      <div class="card-subtitle">CYP2D6 · CYP2C19 · DPYD · UGT1A1 · SLCO1B1</div>
+      <div class="card-desc">
+        Genetic variants affecting drug metabolism, efficacy, and toxicity. 
+        Critical for warfarin dosing, clopidogrel response (CYP2C19*2), 
+        5-FU toxicity (DPYD), codeine safety, and statin myopathy (SLCO1B1).
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Star alleles</span>
+          <span class="info-row-val">CYP2D6 *1–*100+; diplotype → phenotype (PM/IM/NM/UM)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">CPIC database</span>
+          <span class="info-row-val">1500+ drug-gene pairs with prescribing recommendations (CPIC guidelines)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Integration</span>
+          <span class="info-row-val">PGx report modifies severity score — drug-induced risk amplifier</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 11. EHR / CLINICAL NOTES                                                 -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="ehr">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--accent-dim);">
+      <span>📋</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--accent)">NLP · Unstructured Text</span>
+      <h2 class="section-title">EHR, Clinical Notes & Radiology Reports</h2>
+      <p class="section-desc">
+        Unstructured clinical text — the largest source of clinical data. Discharge summaries, 
+        radiology reports, pathology reports, nurse notes, and medication lists. 
+        NLP with biomedical LLMs extracts structured features for the severity engine.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid wide">
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">📝</span>
+        <div class="card-badges"><span class="badge green">NLP</span><span class="badge blue">BERT</span></div>
+      </div>
+      <div class="card-title">Clinical Notes & Discharge Summaries</div>
+      <div class="card-subtitle">PHYSICIAN NOTES · NURSING · OPERATIVE · DISCHARGE</div>
+      <div class="card-desc">
+        Free-text SOAP notes, operative reports, consultation letters. 
+        Clinical NER extracts diagnoses, medications, procedures, symptoms, 
+        and abnormal lab values. Named entity recognition maps to ICD-10 and SNOMED CT codes.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">NER targets</span>
+          <span class="info-row-val">Diagnoses, medications (drug+dose+frequency), procedures, anatomy, severity adverbs</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Negation</span>
+          <span class="info-row-val">NegEx algorithm — "no chest pain" ≠ "chest pain" (critical for severity)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Standards</span>
+          <span class="info-row-val">FHIR R4, HL7 v2, CDA (Clinical Document Architecture), CCDA</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Models</span>
+          <span class="info-row-val">microsoft/BiomedNLP-BiomedBERT; emilyalsentzer/Bio_ClinicalBERT; allenai/led-base-clinical</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">emilyalsentzer/Bio_ClinicalBERT</a>
+      <a class="hf-tag" href="#">microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext</a>
+    </div>
+
+    <div class="card green">
+      <div class="card-head">
+        <span class="card-icon">📡</span>
+        <div class="card-badges"><span class="badge green">Radiology</span><span class="badge purple">Impression</span></div>
+      </div>
+      <div class="card-title">Radiology & Pathology Reports</div>
+      <div class="card-subtitle">IMPRESSION · FINDINGS · COMPARISON · RECOMMENDATION</div>
+      <div class="card-desc">
+        Structured reporting with RSNA/ACR templates. AI extracts impression-level 
+        findings (e.g. "2.3cm hepatic lesion — recommend MRI") and maps to 
+        severity scores. Report generation models create draft reports from images.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Structure</span>
+          <span class="info-row-val">INDICATION → TECHNIQUE → FINDINGS → IMPRESSION (parse separately)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity NLP</span>
+          <span class="info-row-val">"unremarkable"=5, "mild"=20, "moderate"=50, "severe"=75, "critical"=90</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Templates</span>
+          <span class="info-row-val">RSNA RadLex ontology, LOINC codes for report sections</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Models</span>
+          <span class="info-row-val">Falconsai/medical_summarization; Llama-3-based radiology report generation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 12. PULMONARY FUNCTION                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="pft">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--info-dim);">
+      <span>💨</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--info)">Pulmonology · Respiratory</span>
+      <h2 class="section-title">Pulmonary Function & Respiratory Monitoring</h2>
+      <p class="section-desc">
+        Spirometry, body plethysmography, DLCO, exhaled breath condensate, 
+        and continuous respiratory monitoring. GOLD classification for COPD, 
+        ATS severity staging for obstruction/restriction.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🫁</span>
+        <div class="card-badges"><span class="badge blue">Spirometry</span><span class="badge amber">GOLD</span></div>
+      </div>
+      <div class="card-title">Spirometry & PFTs</div>
+      <div class="card-subtitle">FVC · FEV1 · DLCO · TLC · BRONCHODILATOR RESPONSE</div>
+      <div class="card-desc">
+        Forced vital capacity manoeuvres produce F-V loops and time-volume curves. 
+        AI interprets patterns (obstructive/restrictive/mixed), GOLD staging, 
+        ATS quality grades (A–F), and bronchodilator reversibility (MCID 200mL + 12%).
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">FEV1% pred</span>
+          <span class="info-row-val">≥80% normal; 50–79% mild; 30–49% moderate; &lt;30% very severe (GOLD 1–4)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">FEV1/FVC</span>
+          <span class="info-row-val">&lt;0.70 = obstructive (post-BD); &lt;LLN by GLI 2012 (age/sex/height/ethnicity)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">DLCO</span>
+          <span class="info-row-val">Gas transfer factor — reduced in emphysema, ILD, PE, pulmonary hypertension</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">HL7 OBX segments, proprietary XML (nSpire, CareFusion), PDF reports</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-head">
+        <span class="card-icon">🎙️</span>
+        <div class="card-badges"><span class="badge blue">Audio</span><span class="badge green">Auscultation</span></div>
+      </div>
+      <div class="card-title">Digital Auscultation & Lung Sounds</div>
+      <div class="card-subtitle">DIGITAL STETHOSCOPE · CRACKLES · WHEEZE · RHONCHI</div>
+      <div class="card-desc">
+        Lung and heart sounds from digital stethoscopes (Littmann CORE, Eko DUO, Thinklabs). 
+        AI classifies crackles (fine/coarse), wheezes, stridor, pleural rub. 
+        ICBHI 2017 challenge established benchmark for respiratory sound classification.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">File format</span>
+          <span class="info-row-val">WAV/AIFF at 8–44kHz, spectrogram images (MEL), PCG signals</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">AI tasks</span>
+          <span class="info-row-val">Normal vs wheeze vs crackle vs both (ICBHI 4-class); wheeze duration/pitch</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Severity map</span>
+          <span class="info-row-val">Crackles in ARDS = 80; bilateral wheeze = 60; stridor = 85</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">inderpreet-singh/respiratory-sound-classification (ICBHI 2017)</span>
+        </div>
+      </div>
+      <a class="hf-tag" href="#">inderpreet-singh/respiratory-sound-classification</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- 13. DENTAL                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="dental">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--warn-dim);">
+      <span>🦷</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--warn)">Dentistry · Oral Maxillofacial</span>
+      <h2 class="section-title">Dental Imaging & Oral Diagnostics</h2>
+      <p class="section-desc">
+        Periapical X-rays, panoramic OPG, CBCT, intraoral cameras, and clinical photos. 
+        AI detects caries, periapical lesions, bone loss, impacted teeth, 
+        and supports treatment planning.
+      </p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card amber">
+      <div class="card-head">
+        <span class="card-icon">📸</span>
+        <div class="card-badges"><span class="badge amber">OPG</span><span class="badge muted">CBCT</span></div>
+      </div>
+      <div class="card-title">Dental Radiography</div>
+      <div class="card-subtitle">PERIAPICAL · OPG · BITEWING · CBCT</div>
+      <div class="card-desc">
+        Panoramic OPG for full-mouth survey, periapical for root pathology, 
+        bitewing for interproximal caries, CBCT for 3D implant planning. 
+        AI achieves near-radiologist accuracy for caries detection, bone loss staging.
+      </div>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-row-label">Caries AI</span>
+          <span class="info-row-val">D1 (enamel) to D4 (pulp involvement); sensitivity 89% vs radiologist 82%</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">Bone loss</span>
+          <span class="info-row-val">CEJ-to-crest distance (mm); Stage I–IV periodontitis (2018 classification)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">CBCT</span>
+          <span class="info-row-val">DICOM volume; tooth auto-segmentation; nerve canal tracing</span>
+        </div>
+        <div class="info-row">
+          <span class="info-row-label">HF Model</span>
+          <span class="info-row-val">BiomedCLIP + dental-specific fine-tune on Tufts Dental Database</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- COMPARISON TABLE                                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section" id="compare">
+  <div class="section-header">
+    <div class="section-icon-wrap" style="background: var(--accent-dim);">
+      <span>📊</span>
+    </div>
+    <div class="section-title-group">
+      <span class="section-tag" style="color: var(--accent)">Summary · Decision Guide</span>
+      <h2 class="section-title">Data Source Comparison Matrix</h2>
+      <p class="section-desc">
+        Quick-reference for choosing data sources and models based on implementation effort, 
+        AI maturity, and integration complexity.
+      </p>
+    </div>
+  </div>
+
+  <div style="overflow-x: auto;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Data Source</th>
+          <th>Modality Type</th>
+          <th>File Format</th>
+          <th>HF Model Ready</th>
+          <th>Severity 0–100</th>
+          <th>Open Dataset</th>
+          <th>Integration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lab Results (CBC/CMP)</td>
+          <td>Tabular structured</td>
+          <td>CSV / FHIR JSON</td>
+          <td><span class="check">✓ XGBoost</span></td>
+          <td><span class="check">✓ Direct</span></td>
+          <td><span class="check">✓ MIMIC-IV</span></td>
+          <td><span class="check">✓ Implemented</span></td>
+        </tr>
+        <tr>
+          <td>Chest X-Ray</td>
+          <td>2D Image</td>
+          <td>DICOM / PNG</td>
+          <td><span class="check">✓ CheXNet ViT</span></td>
+          <td><span class="check">✓ Mapped</span></td>
+          <td><span class="check">✓ CheXpert 224k</span></td>
+          <td><span class="check">✓ imaging_extension.py</span></td>
+        </tr>
+        <tr>
+          <td>ECG (12-Lead)</td>
+          <td>Time-series waveform</td>
+          <td>EDF / WFDB / XML</td>
+          <td><span class="check">✓ PTB-XL models</span></td>
+          <td><span class="check">✓ Via rhythm class</span></td>
+          <td><span class="check">✓ PTB-XL 21k</span></td>
+          <td><span class="partial">~ Needs ECGModule</span></td>
+        </tr>
+        <tr>
+          <td>Echocardiography</td>
+          <td>Video (cineloop)</td>
+          <td>DICOM multiframe</td>
+          <td><span class="check">✓ EchoNet-Dynamic</span></td>
+          <td><span class="check">✓ EF → severity</span></td>
+          <td><span class="check">✓ EchoNet 10k</span></td>
+          <td><span class="partial">~ Needs EchoModule</span></td>
+        </tr>
+        <tr>
+          <td>Abdominal US</td>
+          <td>Image / Video</td>
+          <td>DICOM / MP4</td>
+          <td><span class="check">✓ BiomedCLIP</span></td>
+          <td><span class="partial">~ Via grading</span></td>
+          <td><span class="partial">~ Limited public</span></td>
+          <td><span class="partial">~ ImageRouter</span></td>
+        </tr>
+        <tr>
+          <td>Brain MRI</td>
+          <td>3D Volume</td>
+          <td>NIfTI / DICOM</td>
+          <td><span class="check">✓ Brain Tumor model</span></td>
+          <td><span class="check">✓ Mapped</span></td>
+          <td><span class="check">✓ BraTS / IXI</span></td>
+          <td><span class="check">✓ imaging_extension.py</span></td>
+        </tr>
+        <tr>
+          <td>EEG</td>
+          <td>Multichannel time-series</td>
+          <td>EDF+</td>
+          <td><span class="check">✓ Sleep staging</span></td>
+          <td><span class="partial">~ Seizure burden</span></td>
+          <td><span class="check">✓ PhysioNet CHB-MIT</span></td>
+          <td><span class="cross">✗ Needs EEGModule</span></td>
+        </tr>
+        <tr>
+          <td>Colonoscopy video</td>
+          <td>Real-time video</td>
+          <td>MP4 / JPEG frames</td>
+          <td><span class="check">✓ PolypPVT</span></td>
+          <td><span class="check">✓ Paris/NICE class</span></td>
+          <td><span class="check">✓ Kvasir-SEG 1k</span></td>
+          <td><span class="partial">~ EndoscopyModule</span></td>
+        </tr>
+        <tr>
+          <td>Pathology WSI</td>
+          <td>Gigapixel image</td>
+          <td>SVS / NDPI</td>
+          <td><span class="check">✓ UNI / CONCH</span></td>
+          <td><span class="check">✓ Gleason/grade</span></td>
+          <td><span class="check">✓ TCGA / CAMELYON</span></td>
+          <td><span class="partial">~ WSIModule (CLAM)</span></td>
+        </tr>
+        <tr>
+          <td>Clinical NLP/EHR</td>
+          <td>Unstructured text</td>
+          <td>HL7 / FHIR / TXT</td>
+          <td><span class="check">✓ BioBERT / BioGPT</span></td>
+          <td><span class="check">✓ Via NER extract</span></td>
+          <td><span class="check">✓ MIMIC-III notes</span></td>
+          <td><span class="check">✓ ClinicalNERProcessor</span></td>
+        </tr>
+        <tr>
+          <td>Genomics VCF</td>
+          <td>Variant calls</td>
+          <td>VCF / FASTQ</td>
+          <td><span class="check">✓ NucleotideTransformer</span></td>
+          <td><span class="partial">~ Via ACMG class</span></td>
+          <td><span class="check">✓ gnomAD / ClinVar</span></td>
+          <td><span class="cross">✗ Needs GenomicsModule</span></td>
+        </tr>
+        <tr>
+          <td>Wearables / PPG</td>
+          <td>Continuous time-series</td>
+          <td>CSV / FIT / HealthKit</td>
+          <td><span class="partial">~ Limited HF models</span></td>
+          <td><span class="check">✓ Via SpO2/HR thresholds</span></td>
+          <td><span class="check">✓ MIMIC-IV Waveform</span></td>
+          <td><span class="partial">~ VitalsModule</span></td>
+        </tr>
+        <tr>
+          <td>Spirometry (PFT)</td>
+          <td>Flow-volume curve</td>
+          <td>XML / HL7 OBX</td>
+          <td><span class="partial">~ Requires parsing</span></td>
+          <td><span class="check">✓ GOLD staging</span></td>
+          <td><span class="partial">~ NHANES public</span></td>
+          <td><span class="cross">✗ Needs PFTModule</span></td>
+        </tr>
+        <tr>
+          <td>Lung sounds (audio)</td>
+          <td>Audio waveform</td>
+          <td>WAV / AIFF</td>
+          <td><span class="check">✓ ICBHI classifier</span></td>
+          <td><span class="check">✓ Sound class map</span></td>
+          <td><span class="check">✓ ICBHI 2017 920 files</span></td>
+          <td><span class="cross">✗ Needs AudioModule</span></td>
+        </tr>
+        <tr>
+          <td>PET/SPECT Nuclear</td>
+          <td>Functional 3D image</td>
+          <td>DICOM / ECAT7</td>
+          <td><span class="partial">~ Few public models</span></td>
+          <td><span class="check">✓ SUVmax mapping</span></td>
+          <td><span class="partial">~ OpenNeuro PET</span></td>
+          <td><span class="cross">✗ Needs NuclearModule</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top: 12px; display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">
+    <span><span class="check">✓</span> Implemented / Ready</span>
+    <span><span class="partial">~</span> Partial / Needs work</span>
+    <span><span class="cross">✗</span> Module not yet built</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <div class="footer-text">
+    Medical AI Severity System &nbsp;·&nbsp; Data Source Reference v2.0 &nbsp;·&nbsp; 
+    All HuggingFace models are open-source &nbsp;·&nbsp; No training required for inference
+  </div>
+  <span class="footer-badge">⚕️  Research Use Only</span>
+</footer>
+
+</div><!-- /page-wrapper -->
+
+<script>
+// Smooth scroll + active nav highlight
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// Animate severity bars on scroll
+const bars = document.querySelectorAll('.severity-bar-fill');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { e.target.style.width = e.target.style.width; }
+  });
+}, {threshold: 0.1});
+bars.forEach(b => obs.observe(b));
+</script>
+</body>
+</html>
