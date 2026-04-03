@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "policy": {
+    "min_models_per_domain": 2,
+    "max_models_per_domain": 3,
+    "disagreement_threshold": 0.35,
+    "default_fusion": "weighted_mean"
+  },
+  "domains": {
+    "imaging_xray_pneumonia": {
+      "type": "imaging",
+      "description": "Chest X-Ray pneumonia screening (inference-only).",
+      "models": [
+        {
+          "key": "xray_pneumonia",
+          "provider": "huggingface",
+          "hf_id": "nickmuchi/vit-finetuned-chest-xray-pneumonia",
+          "weight": 0.6
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.4
+        }
+      ]
+    },
+    "imaging_mri_brain_tumor": {
+      "type": "imaging",
+      "description": "Brain MRI tumor screening (inference-only).",
+      "models": [
+        {
+          "key": "mri_brain_tumor",
+          "provider": "huggingface",
+          "hf_id": "Devarshi/Brain_Tumor_Classification",
+          "weight": 0.7
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.3
+        }
+      ]
+    }
+  }
+}
+
