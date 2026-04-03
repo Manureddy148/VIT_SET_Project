@@ -1,2 +1,2 @@
-__all__ = ["registry", "schemas", "fusion", "rag", "safety", "synthesis"]
+__all__ = ["registry", "schemas", "fusion", "rag", "safety", "synthesis", "hybrid"]
 

@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from .fusion import weighted_mean_fusion
 from .schemas import AnalyzeRequest, DomainSpec, EnsembleResult, ModelRunResult, ModelSpec
+from .hybrid import hf_zero_shot_v1, rules_diabetes_v1, rules_heart_v1
 
 
 @dataclass(frozen=True)
@@ -69,6 +70,14 @@ class ModelRegistry:
 
         q = (req.query_text or "").lower()
 
+        # Minimal heuristic routing for hybrid tabular/text
+        if any(k in q for k in ["glucose", "hba1c", "blood sugar", "diabetes", "insulin"]):
+            if "hybrid_diabetes_risk" in self.domains:
+                return "hybrid_diabetes_risk"
+        if any(k in q for k in ["chest pain", "heart", "cardiac", "bp", "blood pressure", "cholesterol", "ecg"]):
+            if "hybrid_heart_risk" in self.domains:
+                return "hybrid_heart_risk"
+
         # Minimal heuristic routing for imaging
         if any(k in q for k in ["x-ray", "xray", "chest x", "cxr"]):
             if "imaging_xray_pneumonia" in self.domains:
@@ -89,6 +98,8 @@ class ModelRegistry:
 
         if domain.type == "imaging":
             runs, weights = self._run_imaging_domain(domain, req)
+        elif domain.type in ("tabular", "text"):
+            runs, weights = self._run_hybrid_domain(domain, req)
         else:
             raise NotImplementedError(f"Domain type not implemented yet: {domain.type}")
 
@@ -135,6 +146,75 @@ class ModelRegistry:
                 )
             )
             weights.append(float(model.weight))
+
+        if len(runs) < self.policy.min_models_per_domain:
+            raise ValueError(
+                f"Domain '{domain.key}' must run at least {self.policy.min_models_per_domain} models; "
+                f"configured={len(domain.models)}, ran={len(runs)}"
+            )
+
+        return runs, weights
+
+    def _run_hybrid_domain(self, domain: DomainSpec, req: AnalyzeRequest) -> tuple[list[ModelRunResult], list[float]]:
+        q = req.query_text or ""
+        structured = req.structured_input or {}
+
+        runs: list[ModelRunResult] = []
+        weights: list[float] = []
+
+        for model in domain.models[: self.policy.max_models_per_domain]:
+            if model.provider == "rules":
+                if model.key == "rules_diabetes_v1":
+                    rr = rules_diabetes_v1(q, structured)
+                elif model.key == "rules_heart_v1":
+                    rr = rules_heart_v1(q, structured)
+                else:
+                    raise ValueError(f"Unknown rules model key: {model.key}")
+
+                runs.append(
+                    ModelRunResult(
+                        domain=domain.key,
+                        model_key=model.key,
+                        model_id=model.key,
+                        severity_score=float(rr.severity_score),
+                        confidence=float(rr.confidence),
+                        signals={
+                            "rag_query": rr.rag_query,
+                            "signals": rr.signals,
+                        },
+                    )
+                )
+                weights.append(float(model.weight))
+                continue
+
+            if model.provider == "huggingface":
+                if domain.key == "hybrid_diabetes_risk":
+                    labels = ["high risk", "moderate risk", "low risk"]
+                    sev, conf, sig, rag_query = hf_zero_shot_v1(q, labels, hf_id=model.hf_id or "facebook/bart-large-mnli")
+                elif domain.key == "hybrid_heart_risk":
+                    labels = ["high risk", "moderate risk", "low risk"]
+                    sev, conf, sig, rag_query = hf_zero_shot_v1(q, labels, hf_id=model.hf_id or "facebook/bart-large-mnli")
+                else:
+                    labels = ["high risk", "moderate risk", "low risk"]
+                    sev, conf, sig, rag_query = hf_zero_shot_v1(q, labels, hf_id=model.hf_id or "facebook/bart-large-mnli")
+
+                runs.append(
+                    ModelRunResult(
+                        domain=domain.key,
+                        model_key=model.key,
+                        model_id=model.hf_id or model.key,
+                        severity_score=float(sev),
+                        confidence=float(conf),
+                        signals={
+                            "rag_query": rag_query,
+                            "signals": sig,
+                        },
+                    )
+                )
+                weights.append(float(model.weight))
+                continue
+
+            raise ValueError(f"Unsupported provider in hybrid domain: {model.provider}")
 
         if len(runs) < self.policy.min_models_per_domain:
             raise ValueError(

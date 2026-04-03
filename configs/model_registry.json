@@ -7,6 +7,40 @@
     "default_fusion": "weighted_mean"
   },
   "domains": {
+    "hybrid_diabetes_risk": {
+      "type": "tabular",
+      "description": "Hybrid diabetes risk (rules + HF text model). Inference-only; no custom training.",
+      "models": [
+        {
+          "key": "rules_diabetes_v1",
+          "provider": "rules",
+          "weight": 0.6
+        },
+        {
+          "key": "hf_zero_shot_diabetes_v1",
+          "provider": "huggingface",
+          "hf_id": "facebook/bart-large-mnli",
+          "weight": 0.4
+        }
+      ]
+    },
+    "hybrid_heart_risk": {
+      "type": "tabular",
+      "description": "Hybrid heart/cardiac risk (rules + HF text model). Inference-only; no custom training.",
+      "models": [
+        {
+          "key": "rules_heart_v1",
+          "provider": "rules",
+          "weight": 0.6
+        },
+        {
+          "key": "hf_zero_shot_heart_v1",
+          "provider": "huggingface",
+          "hf_id": "facebook/bart-large-mnli",
+          "weight": 0.4
+        }
+      ]
+    },
     "imaging_xray_pneumonia": {
       "type": "imaging",
       "description": "Chest X-Ray pneumonia screening (inference-only).",

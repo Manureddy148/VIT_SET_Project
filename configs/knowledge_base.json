@@ -21,6 +21,20 @@
       "title": "Brain tumor overview",
       "domain_tags": ["imaging_mri_brain_tumor", "mri", "brain_tumor"],
       "text": "Brain tumors can present with headaches, seizures, focal neurologic deficits, or cognitive changes. MRI findings vary by tumor type. Any suspicion requires urgent specialist review; imaging AI is assistive, not diagnostic."
+    },
+    {
+      "id": "diabetes_thresholds_01",
+      "source": "Clinical primer (curated)",
+      "title": "Diabetes screening thresholds",
+      "domain_tags": ["hybrid_diabetes_risk", "diabetes"],
+      "text": "Common screening metrics include fasting plasma glucose and HbA1c. Elevated glucose or HbA1c can indicate increased diabetes risk. Interpretation depends on test type, repeat testing, symptoms, and clinical context."
+    },
+    {
+      "id": "heart_redflags_01",
+      "source": "Emergency primer (curated)",
+      "title": "Chest pain red flags",
+      "domain_tags": ["hybrid_heart_risk", "heart", "cardiac"],
+      "text": "Chest pain with shortness of breath, sweating, radiation to arm/jaw, syncope, or severe persistent symptoms can represent a medical emergency. Seek urgent evaluation for concerning symptoms."
     }
   ]
 }
