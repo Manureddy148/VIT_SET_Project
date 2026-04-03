@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical AI Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+  :root {
+    --bg: #090e1a;
+    --surface: #0f1729;
+    --border: #1e2d4a;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #334155;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    padding: 40px 24px;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(6,182,212,0.3);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #f8fafc;
+    margin-bottom: 10px;
+  }
+
+  h1 span { color: var(--accent-blue); }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* FLOW */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* LAYER */
+  .layer {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0 24px;
+    align-items: start;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .layer:nth-child(1) { animation-delay: 0.1s; }
+  .layer:nth-child(2) { animation-delay: 0.2s; }
+  .layer:nth-child(3) { animation-delay: 0.3s; }
+  .layer:nth-child(4) { animation-delay: 0.4s; }
+  .layer:nth-child(5) { animation-delay: 0.5s; }
+  .layer:nth-child(6) { animation-delay: 0.6s; }
+  .layer:nth-child(7) { animation-delay: 0.7s; }
+
+  .layer-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-top: 22px;
+    padding-right: 24px;
+    position: relative;
+  }
+
+  .layer-label::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 32px;
+    bottom: -100%;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+  }
+
+  .layer-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .layer-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* CARDS ROW */
+  .cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0 24px 0;
+  }
+
+  /* ARROW */
+  .arrow-row {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 0 0 16px;
+    margin-top: -8px;
+    margin-bottom: 0px;
+  }
+
+  .arrow-line {
+    width: 2px;
+    height: 28px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+    margin-left: 50px;
+  }
+
+  .arrow-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    flex: 1;
+    min-width: 180px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .card.blue  { border-color: rgba(59,130,246,0.3); }
+  .card.cyan  { border-color: rgba(6,182,212,0.3); }
+  .card.green { border-color: rgba(16,185,129,0.3); }
+  .card.amber { border-color: rgba(245,158,11,0.3); }
+  .card.red   { border-color: rgba(239,68,68,0.3); }
+  .card.purple{ border-color: rgba(139,92,246,0.3); }
+
+  .card.blue:hover  { border-color: var(--accent-blue);  box-shadow: 0 0 24px rgba(59,130,246,0.15); }
+  .card.cyan:hover  { border-color: var(--accent-cyan);  box-shadow: 0 0 24px rgba(6,182,212,0.15); }
+  .card.green:hover { border-color: var(--accent-green); box-shadow: 0 0 24px rgba(16,185,129,0.15); }
+  .card.amber:hover { border-color: var(--accent-amber); box-shadow: 0 0 24px rgba(245,158,11,0.15); }
+  .card.red:hover   { border-color: var(--accent-red);   box-shadow: 0 0 24px rgba(239,68,68,0.15); }
+  .card.purple:hover{ border-color: var(--accent-purple);box-shadow: 0 0 24px rgba(139,92,246,0.15); }
+
+  .card-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: 14px; right: 14px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .card.blue   .card-dot { background: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
+  .card.cyan   .card-dot { background: var(--accent-cyan); box-shadow: 0 0 6px var(--accent-cyan); }
+  .card.green  .card-dot { background: var(--accent-green);box-shadow: 0 0 6px var(--accent-green);}
+  .card.amber  .card-dot { background: var(--accent-amber);box-shadow: 0 0 6px var(--accent-amber);}
+  .card.red    .card-dot { background: var(--accent-red);  box-shadow: 0 0 6px var(--accent-red);  }
+  .card.purple .card-dot { background: var(--accent-purple);box-shadow: 0 0 6px var(--accent-purple);}
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #f1f5f9;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-top: 8px;
+    margin-right: 4px;
+  }
+
+  .card.blue   .card-tag { background: rgba(59,130,246,0.12);  color: var(--accent-blue); }
+  .card.cyan   .card-tag { background: rgba(6,182,212,0.12);   color: var(--accent-cyan); }
+  .card.green  .card-tag { background: rgba(16,185,129,0.12);  color: var(--accent-green);}
+  .card.amber  .card-tag { background: rgba(245,158,11,0.12);  color: var(--accent-amber);}
+  .card.red    .card-tag { background: rgba(239,68,68,0.12);   color: var(--accent-red);  }
+  .card.purple .card-tag { background: rgba(139,92,246,0.12);  color: var(--accent-purple);}
+
+  /* SPECIAL: orchestrator highlight */
+  .card.orchestrator {
+    background: linear-gradient(135deg, #0f1c35 0%, #0d1f2d 100%);
+    border-color: rgba(59,130,246,0.5) !important;
+    box-shadow: inset 0 0 40px rgba(59,130,246,0.04);
+    flex-basis: 100%;
+  }
+
+  .card.orchestrator:hover {
+    box-shadow: 0 0 40px rgba(59,130,246,0.2), inset 0 0 40px rgba(59,130,246,0.06);
+  }
+
+  /* DATA FLOW SECTION */
+  .data-flow {
+    margin-top: 48px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    animation: fadeUp 0.5s ease 0.8s both;
+  }
+
+  .data-flow h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    max-width: 110px;
+    line-height: 1.4;
+  }
+
+  .step-arrow {
+    color: var(--text-dim);
+    font-size: 18px;
+    margin: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* TECH STACK */
+  .tech-stack {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    animation: fadeUp 0.5s ease 0.9s both;
+  }
+
+  .tech-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .tech-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .tech-info {}
+  .tech-role {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 2px;
+  }
+  .tech-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .tech-alt {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* NOVELTY BANNER */
+  .novelty {
+    margin-top: 24px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08));
+    border: 1px solid rgba(139,92,246,0.25);
+    border-radius: 8px;
+    animation: fadeUp 0.5s ease 1s both;
+  }
+
+  .novelty h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-purple);
+    margin-bottom: 12px;
+  }
+
+  .novelty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .novelty-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .novelty-item::before {
+    content: '◆';
+    color: var(--accent-purple);
+    font-size: 8px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ANIMS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* section headers between layers */
+  .section-header {
+    grid-column: 1 / -1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-top: 1px solid var(--border);
+    padding: 20px 0 8px 0;
+    margin-top: 8px;
+  }
+
+  h2.section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 32px 0 16px 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    .layer { grid-template-columns: 1fr; }
+    .layer-label { align-items: flex-start; padding: 0 0 8px 0; }
+    .layer-label::after { display: none; }
+    .layer-name { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="badge">Master's Research Project · 8 Credits</div>
+    <h1>Dynamic Medical <span>AI Diagnostic</span> System</h1>
+    <p class="subtitle">Agentic RAG + ML Ensemble · Severity Magnitude Prediction</p>
+  </header>
+
+  <div class="flow">
+
+    <!-- LAYER 1: INPUT -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 01</div>
+        <div class="layer-name" style="color:#3b82f6">User<br>Input</div>
+      </div>
+      <div class="cards-row">
+        <div class="card blue">
+          <div class="card-dot"></div>
+          <div class="card-title">Natural Language Input</div>
+          <div class="card-desc">Patient describes symptoms, vitals, history in free-form text. No structured form required.</div>
+          <span class="card-tag">Chat UI</span>
+          <span class="card-tag">Voice</span>
+        </div>
+        <div class="card blue">
+          <div class="card-dot"></div>
+          <div class="card-title">Multimodal Input (Optional)</div>
+          <div class="card-desc">Lab reports, medical images (X-ray, MRI), or structured CSV uploads for richer context.</div>
+          <span class="card-tag">PDF</span>
+          <span class="card-tag">Image</span>
+          <span class="card-tag">CSV</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ raw text / file</div></div></div>
+
+    <!-- LAYER 2: ORCHESTRATOR -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 02</div>
+        <div class="layer-name" style="color:#06b6d4">LLM<br>Orchestrator</div>
+      </div>
+      <div class="cards-row">
+        <div class="card cyan orchestrator">
+          <div class="card-dot"></div>
+          <div class="card-title">🧠 Central Agent (LLM Brain)</div>
+          <div class="card-desc">
+            The core intelligence. Performs 4 simultaneous tasks: <strong style="color:#e2e8f0">Intent Classification</strong> (which domain?), <strong style="color:#e2e8f0">Entity Extraction</strong> (parse clinical variables), <strong style="color:#e2e8f0">Missing Data Loop</strong> (ask follow-up questions), and <strong style="color:#e2e8f0">Tool Selection</strong> (route to correct model).
+          </div>
+          <span class="card-tag">Llama 3 / Mistral / GPT-4</span>
+          <span class="card-tag">LangChain / LlamaIndex</span>
+          <span class="card-tag">Zero-shot CoT</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ structured JSON payload</div></div></div>
+
+    <!-- LAYER 3: DYNAMIC ROUTER -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 03</div>
+        <div class="layer-name" style="color:#10b981">Dynamic<br>Model Router</div>
+      </div>
+      <div class="cards-row">
+        <div class="card green">
+          <div class="card-dot"></div>
+          <div class="card-title">Domain Classifier</div>
+          <div class="card-desc">Maps extracted symptoms to medical domains (Cardiology, Endocrinology, Nephrology, etc.) dynamically — not hardcoded.</div>
+          <span class="card-tag">Zero-shot</span>
+          <span class="card-tag">Dynamic</span>
+        </div>
+        <div class="card green">
+          <div class="card-dot"></div>
+          <div class="card-title">Model Registry</div>
+          <div class="card-desc">A JSON config of all available ML models, their required features, and data schemas. The router queries this at runtime to select the best fit.</div>
+          <span class="card-tag">Extensible</span>
+          <span class="card-tag">Hot-swap</span>
+        </div>
+        <div class="card green">
+          <div class="card-dot"></div>
+          <div class="card-title">Feature Validator</div>
+          <div class="card-desc">Checks extracted features against selected model's schema. Triggers missing-data follow-ups if required fields are absent.</div>
+          <span class="card-tag">Pydantic</span>
+          <span class="card-tag">Schema validation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ validated feature vector</div></div></div>
+
+    <!-- LAYER 4: ML PREDICTION -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 04</div>
+        <div class="layer-name" style="color:#f59e0b">ML Prediction<br>Engine</div>
+      </div>
+      <div class="cards-row">
+        <div class="card amber">
+          <div class="card-dot"></div>
+          <div class="card-title">Regression / Severity Models</div>
+          <div class="card-desc">XGBoost / Random Forest models trained to output continuous severity scores (0–100) and risk magnitudes — not binary yes/no outputs.</div>
+          <span class="card-tag">XGBoost</span>
+          <span class="card-tag">Severity Score</span>
+        </div>
+        <div class="card amber">
+          <div class="card-dot"></div>
+          <div class="card-title">Ensemble Layer</div>
+          <div class="card-desc">For ambiguous inputs, multiple models run in parallel. Results are aggregated via weighted voting based on confidence scores.</div>
+          <span class="card-tag">Multi-model</span>
+          <span class="card-tag">Confidence</span>
+        </div>
+        <div class="card amber">
+          <div class="card-dot"></div>
+          <div class="card-title">SHAP Explainer</div>
+          <div class="card-desc">Computes feature importances for each prediction — shows which clinical variable contributed most to the severity magnitude.</div>
+          <span class="card-tag">XAI</span>
+          <span class="card-tag">SHAP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ severity score + SHAP values</div></div></div>
+
+    <!-- LAYER 5: RAG -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 05</div>
+        <div class="layer-name" style="color:#ef4444">RAG<br>Knowledge Base</div>
+      </div>
+      <div class="cards-row">
+        <div class="card red">
+          <div class="card-dot"></div>
+          <div class="card-title">Vector Database</div>
+          <div class="card-desc">PubMed abstracts, WHO guidelines, and clinical literature chunked and embedded. Queried dynamically per domain — not pre-scoped to 3 diseases.</div>
+          <span class="card-tag">ChromaDB</span>
+          <span class="card-tag">FAISS</span>
+        </div>
+        <div class="card red">
+          <div class="card-dot"></div>
+          <div class="card-title">Semantic Retriever</div>
+          <div class="card-desc">Uses SHAP-identified top features as query terms to retrieve the most clinically relevant literature for the specific prediction.</div>
+          <span class="card-tag">Hybrid search</span>
+          <span class="card-tag">MMR</span>
+        </div>
+        <div class="card red">
+          <div class="card-dot"></div>
+          <div class="card-title">Hallucination Guard</div>
+          <div class="card-desc">Faithfulness checker (RAGAS) ensures LLM only cites retrieved documents — never fabricates medical facts.</div>
+          <span class="card-tag">RAGAS</span>
+          <span class="card-tag">Grounded</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ grounded evidence + prediction context</div></div></div>
+
+    <!-- LAYER 6: SYNTHESIS -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 06</div>
+        <div class="layer-name" style="color:#8b5cf6">Response<br>Synthesis</div>
+      </div>
+      <div class="cards-row">
+        <div class="card purple">
+          <div class="card-dot"></div>
+          <div class="card-title">Explainability Report</div>
+          <div class="card-desc">LLM generates a plain-language report: severity score, magnitude breakdown, key risk factors from SHAP, and literature-backed reasoning.</div>
+          <span class="card-tag">XAI</span>
+          <span class="card-tag">Citation</span>
+        </div>
+        <div class="card purple">
+          <div class="card-dot"></div>
+          <div class="card-title">Safety Rails</div>
+          <div class="card-desc">Hardcoded disclaimer injection. Flags high-severity predictions for urgent physician referral. Blocks dangerous or out-of-scope inputs.</div>
+          <span class="card-tag">Guardrails</span>
+          <span class="card-tag">Triage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer"><div></div><div class="arrow-row"><div class="arrow-line"></div><div class="arrow-label">↓ final structured response</div></div></div>
+
+    <!-- LAYER 7: OUTPUT -->
+    <div class="layer">
+      <div class="layer-label">
+        <div class="layer-num">LAYER 07</div>
+        <div class="layer-name" style="color:#3b82f6">Output<br>Layer</div>
+      </div>
+      <div class="cards-row">
+        <div class="card blue">
+          <div class="card-dot"></div>
+          <div class="card-title">Chat Interface (Streamlit / Gradio)</div>
+          <div class="card-desc">Conversational UI showing severity gauge, top risk factors, confidence bands, and literature citations inline.</div>
+          <span class="card-tag">Frontend</span>
+        </div>
+        <div class="card blue">
+          <div class="card-dot"></div>
+          <div class="card-title">FastAPI Backend</div>
+          <div class="card-desc">RESTful API wrapping the entire pipeline. Enables demo, testing, and potential real-world integration.</div>
+          <span class="card-tag">API</span>
+          <span class="card-tag">JSON</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DATA FLOW SUMMARY -->
+  <h2 class="section-label">End-to-End Data Flow</h2>
+  <div class="data-flow">
+    <h3>How a single patient query flows through the system</h3>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(59,130,246,0.15);color:#3b82f6">1</div>
+        <div class="step-text">User types symptoms in natural language</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(6,182,212,0.15);color:#06b6d4">2</div>
+        <div class="step-text">LLM extracts entities & identifies domain</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(16,185,129,0.15);color:#10b981">3</div>
+        <div class="step-text">Router selects best model from registry</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(245,158,11,0.15);color:#f59e0b">4</div>
+        <div class="step-text">ML model outputs severity score (0–100)</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(239,68,68,0.15);color:#ef4444">5</div>
+        <div class="step-text">SHAP values query vector DB for evidence</div>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num" style="background:rgba(139,92,246,0.15);color:#8b5cf6">6</div>
+        <div class="step-text">LLM synthesizes grounded explanation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH STACK -->
+  <h2 class="section-label">Recommended Tech Stack (Framework-Agnostic)</h2>
+  <div class="tech-stack">
+    <div class="tech-item">
+      <div class="tech-icon">🧠</div>
+      <div class="tech-info">
+        <div class="tech-role">LLM Brain</div>
+        <div class="tech-name">Llama 3 or Mistral</div>
+        <div class="tech-alt">alt: GPT-4 via API</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">⛓️</div>
+      <div class="tech-info">
+        <div class="tech-role">Orchestration</div>
+        <div class="tech-name">LangChain</div>
+        <div class="tech-alt">alt: LlamaIndex</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">📊</div>
+      <div class="tech-info">
+        <div class="tech-role">ML Models</div>
+        <div class="tech-name">XGBoost + SHAP</div>
+        <div class="tech-alt">scikit-learn, joblib</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">🗄️</div>
+      <div class="tech-info">
+        <div class="tech-role">Vector DB</div>
+        <div class="tech-name">ChromaDB</div>
+        <div class="tech-alt">alt: FAISS (offline)</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">🔍</div>
+      <div class="tech-info">
+        <div class="tech-role">Embeddings</div>
+        <div class="tech-name">all-MiniLM-L6-v2</div>
+        <div class="tech-alt">Hugging Face, free</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">✅</div>
+      <div class="tech-info">
+        <div class="tech-role">RAG Evaluation</div>
+        <div class="tech-name">RAGAS</div>
+        <div class="tech-alt">Faithfulness + Relevance</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">🔌</div>
+      <div class="tech-info">
+        <div class="tech-role">Backend API</div>
+        <div class="tech-name">FastAPI</div>
+        <div class="tech-alt">async, pydantic schemas</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">💬</div>
+      <div class="tech-info">
+        <div class="tech-role">Frontend</div>
+        <div class="tech-name">Streamlit</div>
+        <div class="tech-alt">alt: Gradio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOVELTY / RESEARCH ANGLE -->
+  <div class="novelty">
+    <h3>⬡ Academic Novelty &amp; Research Contributions</h3>
+    <div class="novelty-grid">
+      <div class="novelty-item">Dynamic domain routing at inference time — no disease hardcoding, making the system generalizable across medical domains.</div>
+      <div class="novelty-item">Severity magnitude outputs (continuous 0–100 scores) instead of binary classification — clinically more useful and academically differentiated.</div>
+      <div class="novelty-item">SHAP-guided RAG retrieval — using explainability values as semantic queries, bridging XAI and retrieval-augmented generation.</div>
+      <div class="novelty-item">RAGAS-evaluated faithfulness loop — quantifiably proving zero hallucination in medical explanations, a key safety research contribution.</div>
+      <div class="novelty-item">Missing-data dialogue agent — conversational clarification loop, relevant to real-world EHR incomplete data challenges.</div>
+      <div class="novelty-item">Modular model registry pattern — hot-swappable ML backends, enabling future expansion to imaging and genomic models.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
