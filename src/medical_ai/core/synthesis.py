@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 from .rag import EvidenceHit
 from .safety import SafetyResult
@@ -11,6 +11,7 @@ from .safety import SafetyResult
 class FinalReport:
     summary: str
     explanation: str
+    grounding_note: str
     citations: List[EvidenceHit]
     safety: SafetyResult
 
@@ -30,17 +31,27 @@ def generate_report(
         f"Confidence: {confidence}. Disagreement: {disagreement}."
     )
 
+    has_citations = bool(evidence)
+    grounding_note = (
+        "Clinical facts in the evidence section are supported by retrieved citations below. "
+        "If no citations match, do not treat model outputs as definitive medical facts—use clinician follow-up."
+        if has_citations
+        else "No matching citations were retrieved for this domain/query. "
+        "Outputs reflect model fusion scores only; do not use as diagnosis. Seek professional advice."
+    )
+
     evidence_lines = ""
     if evidence:
         evidence_lines = "\n".join(
             [f"- {e.title} ({e.source})" for e in evidence]
         )
     else:
-        evidence_lines = "- No local citations available for this query/domain."
+        evidence_lines = "- (None — retrieval returned no domain-scoped matches.)"
 
     explanation = (
         "This result was produced by running multiple open-source models for the selected domain and fusing their outputs. "
         "Evidence below is retrieved from a small curated local knowledge base (expandable).\n\n"
+        f"{grounding_note}\n\n"
         f"User query: {query_text}\n\n"
         "Evidence used:\n"
         f"{evidence_lines}\n\n"
@@ -50,6 +61,7 @@ def generate_report(
     return FinalReport(
         summary=summary,
         explanation=explanation,
+        grounding_note=grounding_note,
         citations=evidence,
         safety=safety,
     )

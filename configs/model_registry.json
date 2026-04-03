@@ -76,6 +76,24 @@
           "weight": 0.3
         }
       ]
+    },
+    "imaging_skin_lesion": {
+      "type": "imaging",
+      "description": "Skin lesion / dermoscopy (inference-only). See docs/MODEL_CATALOG.md.",
+      "models": [
+        {
+          "key": "skin_lesion",
+          "provider": "huggingface",
+          "hf_id": "dima806/skin_lesions_image_detection",
+          "weight": 0.65
+        },
+        {
+          "key": "biomedclip",
+          "provider": "huggingface",
+          "hf_id": "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+          "weight": 0.35
+        }
+      ]
     }
   }
 }

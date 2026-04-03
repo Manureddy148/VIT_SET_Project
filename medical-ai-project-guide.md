@@ -13,6 +13,8 @@ See:
 - `docs/ROADMAP.md`
 - `docs/MODEL_CATALOG.md`
 
+**Runnable stack (implemented):** `src/medical_ai/` + `configs/model_registry.json` + `run_e2e.py` + `frontend/app.py`. Prefer this over the older single-file `starter_code.py` / XGBoost training notes below.
+
 ---
 
 ## ⚡ START HERE FIRST — The Right Order

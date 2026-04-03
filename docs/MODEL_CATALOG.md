@@ -2,6 +2,19 @@
 
 This project uses **pre-trained** (open-source) models only. For each disease/domain we run **2–3 models** and fuse their outputs.
 
+## Implemented in this repo (`configs/model_registry.json`)
+
+| Domain key | Type | Models (inference-only) |
+|------------|------|-------------------------|
+| `hybrid_diabetes_risk` | Hybrid tabular | `rules_diabetes_v1` + `facebook/bart-large-mnli` (zero-shot) |
+| `hybrid_heart_risk` | Hybrid tabular | `rules_heart_v1` + `facebook/bart-large-mnli` (zero-shot) |
+| `imaging_xray_pneumonia` | Imaging | `nickmuchi/vit-finetuned-chest-xray-pneumonia` + BiomedCLIP |
+| `imaging_mri_brain_tumor` | Imaging | `Devarshi/Brain_Tumor_Classification` + BiomedCLIP |
+| `imaging_skin_lesion` | Imaging | `dima806/skin_lesions_image_detection` + BiomedCLIP |
+
+Orchestrator output shape: `configs/orchestrator_output.schema.json`.  
+Evidence store (local RAG starter): `configs/knowledge_base.json`.
+
 ## Model-pack contract (what every domain must output)
 - **domain**: string
 - **models_used**: list of model identifiers

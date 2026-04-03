@@ -35,6 +35,13 @@
       "title": "Chest pain red flags",
       "domain_tags": ["hybrid_heart_risk", "heart", "cardiac"],
       "text": "Chest pain with shortness of breath, sweating, radiation to arm/jaw, syncope, or severe persistent symptoms can represent a medical emergency. Seek urgent evaluation for concerning symptoms."
+    },
+    {
+      "id": "skin_lesion_primer_01",
+      "source": "Dermatology primer (curated)",
+      "title": "Skin lesions and urgent review",
+      "domain_tags": ["imaging_skin_lesion", "skin", "derm"],
+      "text": "Changing moles, asymmetric lesions, irregular borders, multiple colors, or rapid growth warrant timely dermatology evaluation. Imaging-based classifiers are assistive; biopsy and exam determine diagnosis."
     }
   ]
 }

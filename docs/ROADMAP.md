@@ -9,6 +9,8 @@
 ---
 
 ## Phase 0 — Repo + Baseline (Week 1)
+**Status (this branch):** Domains and registry live in `configs/model_registry.json`. Hybrid + imaging packs and `run_full_analyze` pipeline are implemented under `src/medical_ai/`.
+
 - Define a stable **domain list** (e.g., diabetes, heart disease, pneumonia, imaging-xray).
 - Create a **model-pack contract** (common I/O):
   - Input: normalized patient context (text + optional files) + extracted entities.
@@ -83,6 +85,8 @@ Deliverables
 ---
 
 ## Phase 4 — Safety + evaluation (Weeks 9–10)
+**Status (this branch):** Safety rails + citation grounding note in `src/medical_ai/core/safety.py` and `synthesis.py`. Scenario tests: `tests/test_pipeline_scenarios.py` (CI sets `MEDAI_DISABLE_HF=1`).
+
 - Add guardrails:
   - medical disclaimer injection
   - urgent escalation triggers (severity threshold + red flag symptoms)
@@ -99,6 +103,8 @@ Deliverables
 ---
 
 ## Phase 5 — Product surface (Weeks 11–12)
+**Status (this branch):** FastAPI app `src/medical_ai/api/main.py` exposes `/health`, `/domains`, `/models`, `/analyze`. Streamlit demo: `frontend/app.py`.
+
 - FastAPI endpoints:
   - `/analyze` (multi-modal request)
   - `/health`

@@ -1,6 +1,21 @@
 # Medical AI Severity System — Quick Start
 # =========================================
 
+# ── OPEN-SOURCE HYBRID PIPELINE (recommended, this repo branch) ────────────
+# Install
+#   pip install -r requirements.txt
+# CLI end-to-end:
+#   set MEDAI_DISABLE_HF=1
+#   python run_e2e.py --query "glucose 210 bmi 34 frequent urination age 52"
+# API:
+#   uvicorn src.medical_ai.api.main:app --reload
+# Streamlit:
+#   streamlit run frontend/app.py
+# Tests:
+#   set MEDAI_DISABLE_HF=1
+#   pytest -q
+# Docs: docs/ROADMAP.md, docs/MODEL_CATALOG.md, configs/orchestrator_output.schema.json
+
 # ── STEP 1: Install dependencies ──────────────────────────────────────────
 # Core pipeline
 pip install langchain langchain-community langchain-groq

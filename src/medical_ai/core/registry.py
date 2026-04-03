@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional
 from .fusion import weighted_mean_fusion
 from .schemas import AnalyzeRequest, DomainSpec, EnsembleResult, ModelRunResult, ModelSpec
 from .hybrid import hf_zero_shot_v1, rules_diabetes_v1, rules_heart_v1
+from .repo_path import ensure_repo_on_path
 
 
 @dataclass(frozen=True)
@@ -78,6 +79,12 @@ class ModelRegistry:
             if "hybrid_heart_risk" in self.domains:
                 return "hybrid_heart_risk"
 
+        if any(k in q for k in ["skin lesion", "melanoma", "mole", "dermoscopy", "skin cancer"]) or (
+            "rash" in q and "skin" in q
+        ):
+            if "imaging_skin_lesion" in self.domains:
+                return "imaging_skin_lesion"
+
         # Minimal heuristic routing for imaging
         if any(k in q for k in ["x-ray", "xray", "chest x", "cxr"]):
             if "imaging_xray_pneumonia" in self.domains:
@@ -86,11 +93,10 @@ class ModelRegistry:
             if "imaging_mri_brain_tumor" in self.domains:
                 return "imaging_mri_brain_tumor"
 
-        # Fallback: first domain (keeps demo running)
-        if self.domains:
-            return next(iter(self.domains.keys()))
-
-        raise ValueError("No domains configured in registry")
+        raise ValueError(
+            "Cannot route query to a clinical domain. Include keywords such as diabetes, heart/chest pain, "
+            "x-ray, MRI, or skin lesion—or pass domain_hint."
+        )
 
     def run(self, req: AnalyzeRequest) -> EnsembleResult:
         domain_key = self.resolve_domain(req)
@@ -114,8 +120,8 @@ class ModelRegistry:
         if not req.image_path:
             raise ValueError("image_path is required for imaging domains")
 
-        # Import locally to avoid forcing imaging deps for non-imaging use.
-        from ...imaging_extension import ImageRouter  # type: ignore
+        ensure_repo_on_path()
+        from imaging_extension import ImageRouter  # type: ignore  # noqa: E402
 
         router = ImageRouter()
 

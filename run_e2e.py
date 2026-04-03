@@ -22,47 +22,33 @@ def main() -> int:
 
     import sys
 
-    sys.path.append(str(_repo_root() / "src"))
+    root = _repo_root()
+    sys.path.insert(0, str(root / "src"))
+    sys.path.insert(0, str(root))
 
-    from medical_ai.core.registry import ModelRegistry
     from medical_ai.core.schemas import AnalyzeRequest
-    from medical_ai.core.rag import LocalKnowledgeBase
-    from medical_ai.core.safety import safety_rails
-    from medical_ai.core.synthesis import generate_report
-
-    reg = ModelRegistry(config_path=os.environ["MODEL_REGISTRY_PATH"])
-    kb = LocalKnowledgeBase.from_json(os.environ["KNOWLEDGE_BASE_PATH"])
+    from medical_ai.core.pipeline import run_full_analyze
 
     req = AnalyzeRequest(
         query_text=args.query,
         domain_hint=args.domain,
+        structured_input={},
         image_path=args.image,
         modality=args.modality,
     )
 
-    result = reg.run(req)
+    out = run_full_analyze(req)
 
-    rag_query = args.query
-    if result.runs:
-        rag_query = str((result.runs[0].signals or {}).get("rag_query") or rag_query)
-    evidence = kb.query(rag_query, domain=result.domain, k=3)
-    safety = safety_rails(result.severity_score, result.domain)
-    report = generate_report(
-        query_text=args.query,
-        domain=result.domain,
-        severity_score=result.severity_score,
-        confidence=result.confidence,
-        disagreement=result.disagreement,
-        evidence=evidence,
-        safety=safety,
-    )
+    print("\n=== ORCHESTRATOR ===\n")
+    print(out.get("orchestrator", {}))
 
     print("\n=== FINAL REPORT ===\n")
-    print(report.summary)
+    rep = out.get("report", {})
+    print(rep.get("summary", ""))
     print()
-    print(report.explanation)
+    print(rep.get("explanation", ""))
     print()
-    print("Disclaimer:", report.safety.disclaimer)
+    print("Disclaimer:", (rep.get("safety") or {}).get("disclaimer", ""))
     return 0
 
 

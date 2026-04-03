@@ -4,14 +4,13 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+import json
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from ..core.registry import ModelRegistry
+from ..core.pipeline import run_full_analyze
 from ..core.schemas import AnalyzeRequest
-from ..core.rag import LocalKnowledgeBase
-from ..core.safety import safety_rails
-from ..core.synthesis import generate_report
 
 
 class AnalyzePayload(BaseModel):
@@ -45,15 +44,22 @@ def health() -> Dict[str, str]:
 
 @app.get("/domains")
 def domains() -> Dict[str, Any]:
+    from ..core.registry import ModelRegistry
+
     reg = ModelRegistry(config_path=os.getenv("MODEL_REGISTRY_PATH", _default_registry_path()))
     return {"domains": reg.list_domains()}
+
+
+@app.get("/models")
+def models() -> Dict[str, Any]:
+    """Full registry introspection (per docs/ROADMAP Phase 5)."""
+    path = os.getenv("MODEL_REGISTRY_PATH", _default_registry_path())
+    return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
 @app.post("/analyze")
 def analyze(payload: AnalyzePayload) -> Dict[str, Any]:
     try:
-        reg = ModelRegistry(config_path=os.getenv("MODEL_REGISTRY_PATH", _default_registry_path()))
-        kb = LocalKnowledgeBase.from_json(os.getenv("KNOWLEDGE_BASE_PATH", _default_kb_path()))
         req = AnalyzeRequest(
             query_text=payload.query_text,
             domain_hint=payload.domain_hint,
@@ -62,62 +68,11 @@ def analyze(payload: AnalyzePayload) -> Dict[str, Any]:
             modality=payload.modality,
             patient_id=payload.patient_id,
         )
-        result = reg.run(req)
-
-        # Evidence query: prefer model-provided rag_query when available
-        rag_query = payload.query_text
-        if result.runs:
-            r0 = result.runs[0]
-            rag_query = str((r0.signals or {}).get("rag_query") or payload.query_text)
-        evidence = kb.query(rag_query, domain=result.domain, k=3)
-        safety = safety_rails(result.severity_score, result.domain)
-        report = generate_report(
-            query_text=payload.query_text,
-            domain=result.domain,
-            severity_score=result.severity_score,
-            confidence=result.confidence,
-            disagreement=result.disagreement,
-            evidence=evidence,
-            safety=safety,
+        return run_full_analyze(
+            req,
+            registry_path=os.getenv("MODEL_REGISTRY_PATH", _default_registry_path()),
+            knowledge_path=os.getenv("KNOWLEDGE_BASE_PATH", _default_kb_path()),
         )
-
-        return {
-            "domain": result.domain,
-            "severity_score": result.severity_score,
-            "confidence": result.confidence,
-            "disagreement": result.disagreement,
-            "models_used": result.models_used,
-            "notes": result.notes,
-            "report": {
-                "summary": report.summary,
-                "explanation": report.explanation,
-                "safety": {
-                    "disclaimer": report.safety.disclaimer,
-                    "flags": report.safety.flags,
-                    "recommended_action": report.safety.recommended_action,
-                },
-                "citations": [
-                    {
-                        "doc_id": c.doc_id,
-                        "source": c.source,
-                        "title": c.title,
-                        "score": c.score,
-                        "snippet": c.snippet,
-                    }
-                    for c in report.citations
-                ],
-            },
-            "runs": [
-                {
-                    "model_key": r.model_key,
-                    "model_id": r.model_id,
-                    "severity_score": r.severity_score,
-                    "confidence": r.confidence,
-                    "signals": r.signals,
-                }
-                for r in result.runs
-            ],
-        }
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
 
