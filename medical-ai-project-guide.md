@@ -3,6 +3,18 @@
 
 ---
 
+## IMPORTANT — This repo’s current direction
+
+This project is now aligned to **open-source inference only**:
+- **No custom training** of models in this repo.
+- Use **Hugging Face / open-source checkpoints** and run **2–3 models per disease/domain** (ensemble + disagreement handling).
+
+See:
+- `docs/ROADMAP.md`
+- `docs/MODEL_CATALOG.md`
+
+---
+
 ## ⚡ START HERE FIRST — The Right Order
 
 Before writing a single line of model code, get your foundation right. This is the order that will save you months of pain.
