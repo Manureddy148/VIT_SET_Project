@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical AI — Team Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:     #00b894;
+  --teal-d:   #007a66;
+  --teal-bg:  #f0faf8;
+  --navy:     #0a1628;
+  --slate:    #1e3050;
+  --blue:     #3b82f6;
+  --blue-bg:  #eff6ff;
+  --purple:   #8b5cf6;
+  --purple-bg:#f5f3ff;
+  --amber:    #f59e0b;
+  --amber-bg: #fffbeb;
+  --sky:      #0ea5e9;
+  --sky-bg:   #f0f9ff;
+  --green:    #10b981;
+  --green-bg: #f0fdf4;
+  --pink:     #ec4899;
+  --pink-bg:  #fdf2f8;
+  --red:      #ef4444;
+  --grey:     #64748b;
+  --light:    #f8fafc;
+  --border:   #e2e8f0;
+  --text:     #1e293b;
+  --text2:    #475569;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--text); line-height: 1.65; }
+a { color: var(--teal-d); }
+
+/* NAV */
+nav {
+  background: var(--navy);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  min-height: 52px;
+}
+.nav-brand { color: var(--teal); font-weight: 700; font-size: 15px; white-space: nowrap; padding: 12px 0; }
+.nav-links { display: flex; gap: 4px; flex-wrap: wrap; padding: 6px 0; }
+.nav-links a {
+  color: #94a3b8; font-size: 12px; text-decoration: none; padding: 5px 11px;
+  border-radius: 20px; transition: all 0.2s; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--teal); background: rgba(0,184,148,0.1); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #142540 100%);
+  color: white;
+  padding: 64px 32px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(0,184,148,0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 50%);
+}
+.hero-inner { position: relative; max-width: 760px; margin: 0 auto; }
+.hero-badge {
+  display: inline-block; background: rgba(0,184,148,0.15); border: 1px solid rgba(0,184,148,0.3);
+  color: var(--teal); font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 20px;
+}
+.hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+.hero h1 span { color: var(--teal); }
+.hero p { font-size: 16px; color: #94a3b8; max-width: 560px; margin: 0 auto 32px; }
+.hero-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-num { font-size: 32px; font-weight: 700; color: var(--teal); line-height: 1; }
+.stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+/* MAIN */
+main { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* SECTIONS */
+section { margin-bottom: 64px; scroll-margin-top: 70px; }
+h2 { font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.section-line { height: 3px; background: linear-gradient(90deg, var(--teal), transparent); border-radius: 2px; margin-bottom: 24px; }
+h3 { font-size: 16px; font-weight: 600; color: var(--slate); margin: 20px 0 10px; }
+p, li { font-size: 15px; color: var(--text2); }
+
+/* CALLOUT */
+.callout {
+  background: var(--teal-bg); border: 1.5px solid var(--teal); border-radius: 10px;
+  padding: 20px 24px; margin: 20px 0;
+}
+.callout-icon { font-size: 22px; margin-bottom: 8px; }
+.callout strong { color: var(--teal-d); }
+.callout p { color: var(--text); }
+
+/* SIMPLE FLOW */
+.flow-simple { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+.flow-row { display: flex; align-items: stretch; gap: 0; }
+.flow-badge {
+  width: 36px; min-width: 36px; border-radius: 8px 0 0 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: white;
+}
+.flow-body {
+  flex: 1; padding: 13px 16px; background: white; border: 1px solid var(--border);
+  border-left: none; border-radius: 0 8px 8px 0;
+}
+.flow-body strong { font-size: 13px; color: var(--navy); display: block; margin-bottom: 2px; }
+.flow-body span { font-size: 13px; color: var(--grey); }
+.flow-arrow { text-align: center; color: var(--border); font-size: 18px; line-height: 1.2; padding: 2px 0; }
+
+/* LAYERS */
+.layer-card { border-radius: 12px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.layer-header {
+  padding: 14px 20px; display: flex; align-items: center; gap: 14px;
+}
+.layer-num {
+  width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.layer-title { font-size: 15px; font-weight: 700; color: white; }
+.layer-subtitle { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 1px; }
+.layer-body { background: white; padding: 16px 20px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; }
+.layer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 0; }
+.layer-item label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); display: block; margin-bottom: 4px; }
+.layer-item p { font-size: 13px; color: var(--text); line-height: 1.5; margin: 0; }
+@media(max-width:600px) { .layer-grid { grid-template-columns: 1fr; } }
+
+/* TABLES */
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 600; }
+td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:nth-child(even) td { background: #f8fafc; }
+tr:hover td { background: var(--teal-bg); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-amber { background: var(--amber-bg); color: #b45309; }
+.badge-red   { background: #fef2f2; color: var(--red); }
+
+/* TEAM CARDS */
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media(max-width:600px) { .team-grid { grid-template-columns: 1fr; } }
+.team-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+.team-header { padding: 14px 18px; color: white; display: flex; align-items: center; gap: 10px; }
+.team-icon { font-size: 22px; }
+.team-name { font-weight: 700; font-size: 14px; }
+.team-layers { font-size: 11px; opacity: 0.8; }
+.team-body { padding: 14px 18px; background: white; }
+.team-body ul { padding-left: 18px; }
+.team-body li { font-size: 13px; color: var(--text2); margin-bottom: 5px; }
+
+/* CHECKLIST */
+.checklist-phase { margin-bottom: 20px; }
+.phase-header { padding: 10px 16px; border-radius: 8px 8px 0 0; color: white; font-weight: 600; font-size: 14px; }
+.checklist { background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; }
+.check-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--border); }
+.check-item:last-child { border-bottom: none; }
+.check-item input { width: 16px; height: 16px; accent-color: var(--teal); flex-shrink: 0; cursor: pointer; }
+.check-item label { font-size: 13px; color: var(--text); cursor: pointer; }
+.check-item:hover { background: var(--teal-bg); }
+
+/* GLOSSARY */
+.glossary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media(max-width:600px) { .glossary-grid { grid-template-columns: 1fr; } }
+.gloss-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+.gloss-term { font-weight: 700; font-size: 13px; color: var(--teal-d); margin-bottom: 5px; }
+.gloss-def { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+
+/* WEEK1 */
+.week1-list { display: flex; flex-direction: column; gap: 0; }
+.week1-item { display: flex; gap: 0; }
+.week1-day {
+  width: 70px; min-width: 70px; padding: 14px 10px;
+  background: var(--teal-bg); border: 1px solid #c8e8e0;
+  font-size: 11px; font-weight: 700; color: var(--teal-d);
+  text-align: center; display: flex; align-items: center; justify-content: center;
+  border-bottom-color: transparent;
+}
+.week1-item:last-child .week1-day { border-bottom-color: #c8e8e0; }
+.week1-content {
+  flex: 1; padding: 14px 18px; background: white; border: 1px solid var(--border);
+  border-left: none;
+}
+.week1-item:not(:first-child) .week1-day { margin-top: -1px; }
+.week1-item:not(:first-child) .week1-content { margin-top: -1px; }
+.week1-title { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+.week1-detail { font-size: 13px; color: var(--grey); }
+
+/* EXAMPLE BOX */
+.example-box { background: var(--navy); border-radius: 12px; padding: 24px 28px; margin: 20px 0; }
+.example-box h3 { color: var(--teal); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+.example-step { display: flex; gap: 14px; margin-bottom: 10px; align-items: flex-start; }
+.example-num { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--navy); }
+.example-text { font-size: 13px; color: #cbd5e1; line-height: 1.6; padding-top: 3px; }
+.example-text strong { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">⚕️ Medical AI Severity System</div>
+  <div class="nav-links">
+    <a href="#what">What We Build</a>
+    <a href="#flow">Simple Flow</a>
+    <a href="#layers">7 Layers</a>
+    <a href="#inputs">Inputs & Outputs</a>
+    <a href="#team">Team Roles</a>
+    <a href="#week1">Week 1</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#checklist">Checklist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Team Onboarding Guide · For Beginners</div>
+    <h1>Medical AI<br><span>Severity System</span></h1>
+    <p>A clear guide for every team member — what we are building, how it works, what you need to do.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">7</div><div class="stat-label">Pipeline Layers</div></div>
+      <div class="stat"><div class="stat-num">14</div><div class="stat-label">Data Types</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Diseases (Phase 1)</div></div>
+      <div class="stat"><div class="stat-num">0–100</div><div class="stat-label">Severity Score</div></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- ═══ SECTION 1: WHAT ═══════════════════════════════════════════════════ -->
+<section id="what">
+  <h2>What Are We Building?</h2>
+  <div class="section-line"></div>
+
+  <div class="callout">
+    <div class="callout-icon">💡</div>
+    <p><strong>Simple version:</strong> We are building a tool that a doctor or nurse types a patient's symptoms into, and gets back a clear answer — <strong>how sick is this patient, and why?</strong> The system gives a score from 0 to 100 and explains the reasoning using real medical journal articles.</p>
+  </div>
+
+  <h3>The Simple Analogy</h3>
+  <p>Think of it like a very experienced doctor's assistant. You describe the patient — <em>"high blood sugar, 52 years old, BMI 34"</em> — and it replies:</p>
+  <br>
+  <div style="background:#f0fdf4; border:1.5px solid #10b981; border-radius:10px; padding:18px 22px;">
+    <strong style="color:#059669; font-size:14px;">Severity Score: 74/100 — HIGH RISK (Diabetes)</strong><br><br>
+    <span style="font-size:13px; color:#374151;">Primary risk driver: elevated glucose (210 mg/dL). Supporting evidence from ADA Standards of Care 2024: "Fasting glucose above 126 mg/dL is diagnostic of diabetes..." Recommend physician review. ⚠️ Medical disclaimer applies.</span>
+  </div>
+  <br>
+
+  <h3>The Three Diseases We Start With (Phase 1)</h3>
+  <table>
+    <tr><th>Disease</th><th>What It Is</th><th>Key Inputs</th></tr>
+    <tr><td>🩺 <strong>Diabetes</strong></td><td>High blood sugar over time. Very common, often detected late.</td><td>Glucose, HbA1c, BMI, age, insulin</td></tr>
+    <tr><td>❤️ <strong>Heart Disease</strong></td><td>Problems with heart and arteries. Leading cause of death globally.</td><td>Cholesterol, blood pressure, ECG, chest pain</td></tr>
+    <tr><td>🫁 <strong>Pneumonia</strong></td><td>Lung infection causing breathing problems. Needs fast treatment.</td><td>Oxygen (SpO2), temperature, respiratory rate, CRP</td></tr>
+  </table>
+
+  <h3>What Does the Score Mean?</h3>
+  <table>
+    <tr><th>Score</th><th>Label</th><th>What It Means</th><th>Action</th></tr>
+    <tr><td><span style="color:#10b981;font-weight:700;">0 – 24</span></td><td><span class="badge badge-green">Low</span></td><td>Minimal risk signs</td><td>Monitor only</td></tr>
+    <tr><td><span style="color:#f59e0b;font-weight:700;">25 – 49</span></td><td><span class="badge badge-amber">Moderate</span></td><td>Some concerning indicators</td><td>Schedule follow-up</td></tr>
+    <tr><td><span style="color:#f97316;font-weight:700;">50 – 74</span></td><td><span class="badge" style="background:#fff7ed;color:#c2410c;">High</span></td><td>Multiple risk factors</td><td>Doctor review needed</td></tr>
+    <tr><td><span style="color:#ef4444;font-weight:700;">75 – 100</span></td><td><span class="badge badge-red">Critical 🚨</span></td><td>Urgent clinical signs</td><td>Immediate physician referral</td></tr>
+  </table>
+</section>
+
+<!-- ═══ SECTION 2: SIMPLE FLOW ════════════════════════════════════════════ -->
+<section id="flow">
+  <h2>How It Works — Simple Flow</h2>
+  <div class="section-line"></div>
+  <p>The system has <strong>7 steps (layers)</strong>. Patient information goes in at Step 1 and a finished medical report comes out at Step 7. Each step does one job.</p>
+
+  <div class="flow-simple" style="margin-top:24px;">
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#00b894;">01</div>
+      <div class="flow-body"><strong>INPUT — Doctor types symptoms or uploads files</strong><span>Accepts: typed text, lab results CSV, medical images, ECG files</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#3b82f6;">02</div>
+      <div class="flow-body"><strong>READ — System reads and understands the medical words</strong><span>Extracts: glucose=210, bmi=34, age=52, domain=diabetes</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#8b5cf6;">03</div>
+      <div class="flow-body"><strong>ROUTE — Picks the right disease model</strong><span>Diabetes? → use DiabetesModel. Heart? → use HeartModel. It chooses automatically.</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#f59e0b;">04</div>
+      <div class="flow-body"><strong>PREDICT — AI calculates severity score 0–100</strong><span>Score=74 (High). Also says: "glucose drove the score up most (+32 points)"</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#0ea5e9;">05</div>
+      <div class="flow-body"><strong>RESEARCH — Finds matching medical journal papers</strong><span>Searches smart library: finds 3 papers about high glucose + diabetes risk</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#10b981;">06</div>
+      <div class="flow-body"><strong>EXPLAIN — AI writes a plain-English report</strong><span>Uses score + risk factors + papers to write a grounded explanation</span></div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-row">
+      <div class="flow-badge" style="background:#ec4899;">07</div>
+      <div class="flow-body"><strong>DELIVER — Shows on screen, sends via API</strong><span>Severity gauge, SHAP chart, citations, full report → doctor's screen</span></div>
+    </div>
+  </div>
+
+  <h3>Real Example — One Patient, Step by Step</h3>
+  <div class="example-box">
+    <h3>🔬 TRACE: Patient with possible diabetes</h3>
+    <div class="example-step"><div class="example-num" style="background:#00b894;">1</div><div class="example-text">Nurse types: <strong>"Patient is 52, glucose 210 mg/dL, BMI 34, frequent urination"</strong></div></div>
+    <div class="example-step"><div class="example-num" style="background:#3b82f6;">2</div><div class="example-text">System reads: <strong>glucose=210, age=52, bmi=34, domain=DIABETES</strong>, missing: insulin (will use average)</div></div>
+    <div class="example-step"><div class="example-num" style="background:#8b5cf6;">3</div><div class="example-text">Routes to <strong>DiabetesModel</strong> (XGBoost trained on 768 patient records)</div></div>
+    <div class="example-step"><div class="example-num" style="background:#f59e0b;">4</div><div class="example-text">Model outputs: <strong>Severity = 74/100 (High)</strong>. SHAP shows: glucose+32, bmi+18, age+12</div></div>
+    <div class="example-step"><div class="example-num" style="background:#0ea5e9;">5</div><div class="example-text">Searches papers for <strong>"diabetes elevated glucose high BMI"</strong> → finds ADA 2024, Lancet 2023</div></div>
+    <div class="example-step"><div class="example-num" style="background:#10b981;">6</div><div class="example-text">Llama 3 writes: <strong>"Patient shows High severity (74/100). Primary driver: glucose 210 mg/dL (ADA threshold is 126). Per ADA Standards 2024..."</strong></div></div>
+    <div class="example-step"><div class="example-num" style="background:#ec4899;">7</div><div class="example-text">Doctor sees: severity gauge, bar chart of risk factors, 2 citations, full report, safety disclaimer</div></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 3: 7 LAYERS ════════════════════════════════════════════════ -->
+<section id="layers">
+  <h2>The 7 Layers — What Each One Does</h2>
+  <div class="section-line"></div>
+  <p>Every layer is independently testable and built by a different team member. Here is exactly what each one does, what goes in, and what comes out.</p>
+  <br>
+
+  <!-- L1 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#00b894;">
+      <div class="layer-num">01</div>
+      <div><div class="layer-title">Multimodal Input Router</div><div class="layer-subtitle">Layer 1 · Input Intelligence</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The front door. Accepts anything — typed text, CSV files, medical scan images, ECG files, audio, even DNA files. Checks if the data is valid and hands it to the right processor. If something important is missing, it asks the user to provide it.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>Free text, CSV, DICOM images, ECG files, WAV audio, VCF genomic files</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>A clean, typed "payload" — structured data ready for Layer 2</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>Python file readers, DICOM library, missing-data dialogue agent</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L2 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#3b82f6;">
+      <div class="layer-num">02</div>
+      <div><div class="layer-title">Clinical Entity Extraction (NER)</div><div class="layer-subtitle">Layer 2 · Understanding</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The reader. Takes the input and pulls out the important medical facts — disease names, lab values, medications, body parts. Also detects negation ("no chest pain" = chest pain is absent). For images, normalises brightness. For ECG, detects heartbeat peaks.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>"glucose 210, BMI 34, frequent urination, age 52"</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>{domain: "diabetes", glucose: 210, bmi: 34, age: 52, missing: ["insulin"]}</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>BioBERT (medical AI), NegEx algorithm, NeuroKit2 for ECG processing</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L3 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#8b5cf6;">
+      <div class="layer-num">03</div>
+      <div><div class="layer-title">Model Registry & Router</div><div class="layer-subtitle">Layer 3 · Decision</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The switchboard. Looks at the domain (diabetes? heart? pneumonia?) and picks the correct AI model. Think of it like dialing the right specialist. Adding a new disease later doesn't require changing this layer — just register a new model.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>Domain name from Layer 2: "diabetes"</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>The correct XGBoost model, loaded and ready to run</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>Python class registry, joblib model loader, domain keyword matcher</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L4 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#f59e0b;">
+      <div class="layer-num">04</div>
+      <div><div class="layer-title">Severity Inference + SHAP Explainer</div><div class="layer-subtitle">Layer 4 · Prediction</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The calculator + receipt. The ML model runs the patient's numbers and outputs a severity score 0–100. SHAP then produces a "receipt" showing exactly which features caused the score — like: glucose drove it up 32 points, BMI drove it up 18 points, age added 12. This is why doctors can trust it.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>Feature array: [210, 34, 52, 72 ...] (all the patient's numbers)</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>severity_score=74, label="High", shap={glucose:+0.42, bmi:+0.28, age:+0.15}</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>XGBoost (trained model), SHAP library, severity calibration formula</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L5 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#0ea5e9;">
+      <div class="layer-num">05</div>
+      <div><div class="layer-title">RAG Knowledge Base</div><div class="layer-subtitle">Layer 5 · Evidence</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The smart library. RAG = Retrieval-Augmented Generation. We pre-loaded 500+ real medical journal abstracts into a searchable database. When SHAP says "glucose was the top risk factor", this layer searches the library for papers about high glucose + diabetes. A faithfulness checker makes sure the AI only cites what it actually found — no made-up references.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>SHAP-generated query: "diabetes elevated glucose high BMI clinical risk"</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>Top 3–5 real paper excerpts + their source names</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>ChromaDB (vector database), sentence-transformers, RAGAS faithfulness checker</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L6 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#10b981;">
+      <div class="layer-num">06</div>
+      <div><div class="layer-title">LLM Report Generator + Safety Rails</div><div class="layer-subtitle">Layer 6 · Writing</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The writer with rules. Llama 3 (a free AI like ChatGPT) writes the final report using the score, SHAP explanation, and retrieved papers. Hardcoded safety rules: never suggest drug doses, always say "consult a doctor", automatically flag Critical scores as urgent. It can only reference the papers that were actually retrieved — not anything made up.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>Score=74, top features, 3 paper excerpts, original patient query</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>A full written explanation: summary, risk factors, evidence, safety disclaimer</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>Llama-3-8B via Groq API (free), LangChain prompt template, safety filters</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- L7 -->
+  <div class="layer-card">
+    <div class="layer-header" style="background:#ec4899;">
+      <div class="layer-num">07</div>
+      <div><div class="layer-title">FastAPI Backend + Streamlit UI</div><div class="layer-subtitle">Layer 7 · Delivery</div></div>
+    </div>
+    <div class="layer-body">
+      <p style="font-size:14px;margin-bottom:14px;"><strong>Plain English:</strong> The delivery window. FastAPI creates a web address (/predict) that any app can call to get a prediction. Streamlit creates the visual screen doctors see — severity gauge, bar chart of what caused the score, clickable paper citations, and the full report. Docker makes it easy to deploy anywhere.</p>
+      <div class="layer-grid">
+        <div class="layer-item"><label>Goes IN</label><p>The final structured report + score from Layer 6</p></div>
+        <div class="layer-item"><label>Comes OUT</label><p>JSON API response for developers / visual dashboard for doctors</p></div>
+        <div class="layer-item"><label>Tools Used</label><p>FastAPI, Streamlit, Docker, GCP Cloud Run (deployment)</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 4: INPUTS & OUTPUTS ══════════════════════════════════════ -->
+<section id="inputs">
+  <h2>Inputs &amp; Outputs — Complete Reference</h2>
+  <div class="section-line"></div>
+
+  <h3>What Can You Feed Into the System?</h3>
+  <table>
+    <tr><th>Input Type</th><th>Example</th><th>Format</th><th>Phase</th></tr>
+    <tr><td><strong>Typed symptoms</strong></td><td>"Patient has high blood sugar, 52 years old"</td><td>Plain text</td><td><span class="badge badge-green">✅ Phase 1</span></td></tr>
+    <tr><td><strong>Lab results</strong></td><td>Glucose=210, HbA1c=8.2, BMI=34</td><td>CSV or typed</td><td><span class="badge badge-green">✅ Phase 1</span></td></tr>
+    <tr><td><strong>Chest X-ray</strong></td><td>Image of patient's chest</td><td>DICOM / PNG</td><td><span class="badge badge-green">✅ Phase 1</span></td></tr>
+    <tr><td><strong>ECG (heart trace)</strong></td><td>12-lead heart rhythm recording</td><td>EDF / XML</td><td><span class="badge badge-amber">⏳ Phase 2</span></td></tr>
+    <tr><td><strong>Brain MRI scan</strong></td><td>3D brain volume scan</td><td>NIfTI / DICOM</td><td><span class="badge badge-amber">⏳ Phase 2</span></td></tr>
+    <tr><td><strong>Lung sounds (audio)</strong></td><td>Recorded stethoscope audio</td><td>WAV file</td><td><span class="badge badge-amber">⏳ Phase 3</span></td></tr>
+    <tr><td><strong>Genomics</strong></td><td>Patient DNA variant file</td><td>VCF / FASTQ</td><td><span class="badge badge-amber">⏳ Phase 3</span></td></tr>
+  </table>
+
+  <h3>What Does the System Give Back?</h3>
+  <table>
+    <tr><th>Output Field</th><th>Example Value</th><th>Who Uses It</th></tr>
+    <tr><td><strong>severity_score</strong></td><td>74.0 (a number 0–100)</td><td>Doctors, nurses, triage teams</td></tr>
+    <tr><td><strong>severity_label</strong></td><td>"High" (Low / Moderate / High / Critical)</td><td>Quick visual indicator</td></tr>
+    <tr><td><strong>confidence</strong></td><td>88% (how sure the model is)</td><td>Doctors evaluating trustworthiness</td></tr>
+    <tr><td><strong>top_risk_factors</strong></td><td>["glucose", "bmi", "age"]</td><td>Shows WHAT is causing the risk</td></tr>
+    <tr><td><strong>explanation</strong></td><td>Full paragraph citing medical papers</td><td>Doctors reading the reasoning</td></tr>
+    <tr><td><strong>citations</strong></td><td>["ADA Standards of Care 2024", ...]</td><td>Verify sources, academic integrity</td></tr>
+    <tr><td><strong>disclaimer</strong></td><td>Standard medical safety warning</td><td>Legal and ethical compliance</td></tr>
+  </table>
+</section>
+
+<!-- ═══ SECTION 5: TEAM ROLES ═════════════════════════════════════════════ -->
+<section id="team">
+  <h2>Team Roles — Who Builds What</h2>
+  <div class="section-line"></div>
+  <p>Divide into 4 roles. Each person owns specific layers and can work independently.</p>
+  <br>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-header" style="background:#00b894;">
+        <div class="team-icon">🧠</div>
+        <div><div class="team-name">ML Engineer</div><div class="team-layers">Owns: Layers 3 & 4</div></div>
+      </div>
+      <div class="team-body"><ul>
+        <li>Download Kaggle datasets (diabetes, heart, pneumonia)</li>
+        <li>Train XGBoost models in Kaggle Notebooks (free GPU)</li>
+        <li>Implement SHAP explainer for all 3 models</li>
+        <li>Save trained models as .joblib → GitHub</li>
+        <li>Target: AUC &gt; 0.85 for each disease</li>
+      </ul></div>
+    </div>
+    <div class="team-card">
+      <div class="team-header" style="background:#3b82f6;">
+        <div class="team-icon">🔗</div>
+        <div><div class="team-name">Backend Engineer</div><div class="team-layers">Owns: Layers 1, 2 & 7</div></div>
+      </div>
+      <div class="team-body"><ul>
+        <li>Build input router (text, CSV, images)</li>
+        <li>Build ClinicalNER processor</li>
+        <li>Build FastAPI /predict endpoint</li>
+        <li>Write unit tests for each tool</li>
+        <li>Set up Docker container</li>
+      </ul></div>
+    </div>
+    <div class="team-card">
+      <div class="team-header" style="background:#8b5cf6;">
+        <div class="team-icon">📚</div>
+        <div><div class="team-name">RAG / Knowledge Engineer</div><div class="team-layers">Owns: Layer 5</div></div>
+      </div>
+      <div class="team-body"><ul>
+        <li>Download 500+ PubMed abstracts per disease</li>
+        <li>Set up ChromaDB vector database</li>
+        <li>Build semantic retriever with MMR</li>
+        <li>Implement RAGAS hallucination checker</li>
+        <li>Target: faithfulness score &gt; 0.8</li>
+      </ul></div>
+    </div>
+    <div class="team-card">
+      <div class="team-header" style="background:#ec4899;">
+        <div class="team-icon">🎨</div>
+        <div><div class="team-name">Frontend / Integration</div><div class="team-layers">Owns: Layers 6 & 7</div></div>
+      </div>
+      <div class="team-body"><ul>
+        <li>Build Streamlit UI (severity gauge, SHAP chart)</li>
+        <li>Connect Groq Llama 3 for report generation</li>
+        <li>Implement safety rails and disclaimers</li>
+        <li>Deploy to Streamlit Community Cloud (free)</li>
+        <li>Record demo video</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 6: WEEK 1 ═════════════════════════════════════════════════ -->
+<section id="week1">
+  <h2>Week 1 — What To Do First</h2>
+  <div class="section-line"></div>
+  <p>Do these steps in order. <strong>Do not skip ahead.</strong> Each step builds on the one before it.</p>
+  <br>
+  <div class="week1-list">
+    <div class="week1-item">
+      <div class="week1-day">Day 1</div>
+      <div class="week1-content">
+        <div class="week1-title">Create the GitHub repository</div>
+        <div class="week1-detail">Go to github.com → New Repository → name it <code>medical-ai-severity</code> → clone to everyone's laptop. This is where ALL code lives. Everyone pushes here daily.</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Day 1</div>
+      <div class="week1-content">
+        <div class="week1-title">Create the folder structure</div>
+        <div class="week1-detail">Create: <code>src/</code>, <code>data/</code>, <code>notebooks/</code>, <code>models/</code>, <code>tests/</code>. Add a <code>.gitignore</code> so large data files don't get committed. Add the <code>requirements.txt</code>.</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Day 2</div>
+      <div class="week1-content">
+        <div class="week1-title">Install Python packages</div>
+        <div class="week1-detail"><code>pip install xgboost shap chromadb sentence-transformers fastapi uvicorn langchain langchain-groq streamlit</code> — Run this on every team member's machine.</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Day 2</div>
+      <div class="week1-content">
+        <div class="week1-title">Run the smoke test</div>
+        <div class="week1-detail">Download <code>medical_ai_e2e.py</code> from the repo. Run: <code>python medical_ai_e2e.py</code>. You should see ✅ PASS for all tests. This proves your setup works.</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Days 3–4</div>
+      <div class="week1-content">
+        <div class="week1-title">Download the Kaggle datasets</div>
+        <div class="week1-detail">Go to kaggle.com. Download: <strong>Pima Indians Diabetes</strong>, <strong>Heart Disease UCI</strong>, <strong>Chest X-Ray Pneumonia</strong>. Put them in <code>data/raw/</code>. Do not commit them to GitHub (they're in .gitignore).</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Days 4–5</div>
+      <div class="week1-content">
+        <div class="week1-title">Open your first Jupyter notebook</div>
+        <div class="week1-detail">Open <code>notebooks/01_eda_diabetes.ipynb</code>. Load the CSV. Run <code>df.head()</code>, <code>df.describe()</code>, check for missing values, plot the glucose histogram. This is EDA — getting to know your data.</div>
+      </div>
+    </div>
+    <div class="week1-item">
+      <div class="week1-day">Day 5</div>
+      <div class="week1-content">
+        <div class="week1-title">Get your free Groq API key</div>
+        <div class="week1-detail">Go to <a href="https://console.groq.com" target="_blank">console.groq.com</a> → Sign up → Create API key. Create a <code>.env</code> file: <code>GROQ_API_KEY=your_key_here</code>. This gives you free Llama 3 (14,400 requests/day).</div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <h3>Quick Tool Reference</h3>
+  <table>
+    <tr><th>Tool</th><th>What it is</th><th>Why we use it</th><th>Cost</th></tr>
+    <tr><td><strong>XGBoost</strong></td><td>ML model</td><td>Predicts disease severity from patient numbers</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>SHAP</strong></td><td>Explainability library</td><td>Shows WHICH features caused the prediction</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>ChromaDB</strong></td><td>Vector database</td><td>Smart search through 500+ medical papers</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>LangChain</strong></td><td>AI orchestration</td><td>Connects all the AI pieces together</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>Groq + Llama 3</strong></td><td>Free AI language model</td><td>Writes the final report in plain English</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>FastAPI</strong></td><td>Web API framework</td><td>Creates the /predict endpoint apps can call</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>Streamlit</strong></td><td>UI framework</td><td>Builds the visual dashboard in Python</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+    <tr><td><strong>Kaggle</strong></td><td>Data + GPU platform</td><td>Download datasets, train models for free</td><td style="color:#10b981;font-weight:700;">Free</td></tr>
+  </table>
+</section>
+
+<!-- ═══ SECTION 7: GLOSSARY ════════════════════════════════════════════════ -->
+<section id="glossary">
+  <h2>Glossary — Technical Words in Plain English</h2>
+  <div class="section-line"></div>
+  <div class="glossary-grid">
+    <div class="gloss-item"><div class="gloss-term">Pipeline</div><div class="gloss-def">The full sequence of steps from input to output. Like an assembly line in a factory.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Layer</div><div class="gloss-def">One step in the pipeline. Each layer does one specific job and passes its output to the next.</div></div>
+    <div class="gloss-item"><div class="gloss-term">XGBoost</div><div class="gloss-def">A machine learning model that works great with numbers in tables (like patient lab values). It learned patterns from thousands of patient records.</div></div>
+    <div class="gloss-item"><div class="gloss-term">SHAP</div><div class="gloss-def">Shows WHY the model gave a certain score. Like a receipt: "glucose caused +32 points, BMI caused +18 points..."</div></div>
+    <div class="gloss-item"><div class="gloss-term">RAG</div><div class="gloss-def">Retrieval-Augmented Generation. The system looks up real medical papers BEFORE writing the report, so it doesn't make facts up.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Vector Database</div><div class="gloss-def">A database that stores text as numbers so you can search by meaning, not just exact words. "Heart attack" finds papers about "cardiac arrest" too.</div></div>
+    <div class="gloss-item"><div class="gloss-term">ChromaDB</div><div class="gloss-def">The specific vector database we use. Stores all our medical paper embeddings and lets us search them fast.</div></div>
+    <div class="gloss-item"><div class="gloss-term">LLM</div><div class="gloss-def">Large Language Model. The AI that reads and writes text — like GPT-4 or Llama 3. We use it to write the final clinical report.</div></div>
+    <div class="gloss-item"><div class="gloss-term">LangChain</div><div class="gloss-def">A Python library that helps connect LLMs to tools, databases, and other code. It's the "glue" of our pipeline.</div></div>
+    <div class="gloss-item"><div class="gloss-term">FastAPI</div><div class="gloss-def">A Python library for creating web APIs. It lets other programs call our AI at a URL like /predict and get a JSON answer.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Streamlit</div><div class="gloss-def">A Python library that turns Python code into a web dashboard. No HTML or CSS needed — you write Python and it makes a visual interface.</div></div>
+    <div class="gloss-item"><div class="gloss-term">DICOM</div><div class="gloss-def">The file format used by CT scanners, MRI machines, and X-ray machines. Like a JPEG but for medical images with patient metadata.</div></div>
+    <div class="gloss-item"><div class="gloss-term">EDA</div><div class="gloss-def">Exploratory Data Analysis. Opening a dataset and looking at it — checking for missing values, unusual numbers, plotting histograms. Do this before any modelling.</div></div>
+    <div class="gloss-item"><div class="gloss-term">RAGAS</div><div class="gloss-def">A library that checks if our AI report is grounded in real retrieved evidence (faithfulness score 0–1). Prevents hallucination.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Hallucination</div><div class="gloss-def">When an AI makes up a fact that sounds true but isn't. We prevent this using RAG (only cite retrieved papers) + RAGAS (verify it).</div></div>
+    <div class="gloss-item"><div class="gloss-term">Smoke Test</div><div class="gloss-def">A quick test to check everything is connected and working before doing detailed testing. Run `python medical_ai_e2e.py` to see all checks.</div></div>
+    <div class="gloss-item"><div class="gloss-term">NER</div><div class="gloss-def">Named Entity Recognition. AI reading text and labelling the important parts: drug names, lab values, disease names, body parts.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Groq</div><div class="gloss-def">A free AI API service. We use it to run Llama 3 for free (14,400 requests/day). Sign up at console.groq.com.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Severity Score</div><div class="gloss-def">Our main output: a number 0–100 representing how serious a patient's condition is. 0=healthy, 100=critical. More useful than just "yes/no".</div></div>
+    <div class="gloss-item"><div class="gloss-term">Docker</div><div class="gloss-def">A tool that packages your code and all its dependencies into a "container" that runs the same on any computer or server.</div></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 8: CHECKLIST ══════════════════════════════════════════════ -->
+<section id="checklist">
+  <h2>Project Checklist — Track Your Progress</h2>
+  <div class="section-line"></div>
+  <p>Use this as a team. Tick off items as you complete them. You cannot start Phase 2 until Phase 1 is done.</p>
+  <br>
+
+  <div class="checklist-phase">
+    <div class="phase-header" style="background:#00b894;">Phase 1 — Foundation (Weeks 1–4)</div>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c1"><label for="c1">GitHub repo created with correct folder structure</label></div>
+      <div class="check-item"><input type="checkbox" id="c2"><label for="c2">All team members can clone and push to repo</label></div>
+      <div class="check-item"><input type="checkbox" id="c3"><label for="c3">Python environment set up, all packages installed</label></div>
+      <div class="check-item"><input type="checkbox" id="c4"><label for="c4">Smoke test runs and passes: python medical_ai_e2e.py</label></div>
+      <div class="check-item"><input type="checkbox" id="c5"><label for="c5">3 Kaggle datasets downloaded to data/raw/</label></div>
+      <div class="check-item"><input type="checkbox" id="c6"><label for="c6">EDA notebooks completed for all 3 diseases</label></div>
+      <div class="check-item"><input type="checkbox" id="c7"><label for="c7">Groq API key obtained and tested</label></div>
+    </div>
+  </div>
+
+  <div class="checklist-phase">
+    <div class="phase-header" style="background:#3b82f6;">Phase 2 — ML Models (Weeks 5–10)</div>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c8"><label for="c8">DiabetesModel trained on Kaggle (AUC &gt; 0.85)</label></div>
+      <div class="check-item"><input type="checkbox" id="c9"><label for="c9">HeartDiseaseModel trained on Kaggle (AUC &gt; 0.85)</label></div>
+      <div class="check-item"><input type="checkbox" id="c10"><label for="c10">PneumoniaModel trained on Kaggle (AUC &gt; 0.85)</label></div>
+      <div class="check-item"><input type="checkbox" id="c11"><label for="c11">SHAP explainer working for all 3 models</label></div>
+      <div class="check-item"><input type="checkbox" id="c12"><label for="c12">Model registry routing correctly to right disease model</label></div>
+      <div class="check-item"><input type="checkbox" id="c13"><label for="c13">All .joblib model files saved and pushed to GitHub</label></div>
+    </div>
+  </div>
+
+  <div class="checklist-phase">
+    <div class="phase-header" style="background:#8b5cf6;">Phase 3 — RAG Pipeline (Weeks 11–16)</div>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c14"><label for="c14">ingest_pubmed.py script downloading abstracts correctly</label></div>
+      <div class="check-item"><input type="checkbox" id="c15"><label for="c15">500+ abstracts per disease ingested into ChromaDB</label></div>
+      <div class="check-item"><input type="checkbox" id="c16"><label for="c16">Semantic retrieval returning relevant papers for test queries</label></div>
+      <div class="check-item"><input type="checkbox" id="c17"><label for="c17">SHAP → RAG query bridge working end-to-end</label></div>
+      <div class="check-item"><input type="checkbox" id="c18"><label for="c18">RAGAS faithfulness score &gt; 0.8</label></div>
+    </div>
+  </div>
+
+  <div class="checklist-phase">
+    <div class="phase-header" style="background:#ec4899;">Phase 4 — API & UI (Weeks 17–20)</div>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c19"><label for="c19">FastAPI /predict endpoint returning correct JSON</label></div>
+      <div class="check-item"><input type="checkbox" id="c20"><label for="c20">Streamlit UI showing severity gauge and SHAP chart</label></div>
+      <div class="check-item"><input type="checkbox" id="c21"><label for="c21">Citations visible in UI with source names</label></div>
+      <div class="check-item"><input type="checkbox" id="c22"><label for="c22">Safety disclaimer present on all outputs</label></div>
+      <div class="check-item"><input type="checkbox" id="c23"><label for="c23">Full end-to-end test passing for all 3 diseases</label></div>
+    </div>
+  </div>
+
+  <div class="checklist-phase">
+    <div class="phase-header" style="background:#10b981;">Phase 5 — Deployment (Weeks 21+)</div>
+    <div class="checklist">
+      <div class="check-item"><input type="checkbox" id="c24"><label for="c24">Docker container builds without errors</label></div>
+      <div class="check-item"><input type="checkbox" id="c25"><label for="c25">Deployed to Streamlit Community Cloud (free)</label></div>
+      <div class="check-item"><input type="checkbox" id="c26"><label for="c26">API deployed to Render.com (free tier)</label></div>
+      <div class="check-item"><input type="checkbox" id="c27"><label for="c27">Demo video recorded for portfolio/research</label></div>
+      <div class="check-item"><input type="checkbox" id="c28"><label for="c28">README.md complete with setup instructions for new team members</label></div>
+      <div class="check-item"><input type="checkbox" id="c29"><label for="c29">Research paper outline started (6 novelty contributions documented)</label></div>
+    </div>
+  </div>
+
+  <br>
+  <div class="callout" style="border-color:#00b894; background:#f0faf8;">
+    <div class="callout-icon">🎯</div>
+    <p><strong>Remember:</strong> This is a 1-year project. Phase 1 is what matters most right now. Build it layer by layer, test at every step, and commit to GitHub every day. Every team member should be able to explain what each layer does in plain English before writing any code for it.</p>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:var(--navy);color:#475569;text-align:center;padding:28px;font-size:12px;">
+  Medical AI Severity System · Team Onboarding Guide · ⚕️ Research Use Only · All tools are open-source and free
+</footer>
+
+<script>
+// Save checkbox state to localStorage
+document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+  const key = 'medical_ai_' + cb.id;
+  cb.checked = localStorage.getItem(key) === 'true';
+  cb.addEventListener('change', () => localStorage.setItem(key, cb.checked));
+});
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
