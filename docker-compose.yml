@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      MEDICAL_AI_SKIP_RAG: "1"
+      MODEL_REGISTRY_DIR: /app/models

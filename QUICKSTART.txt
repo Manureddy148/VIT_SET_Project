@@ -1,81 +1,37 @@
 # Medical AI Severity System — Quick Start
 # =========================================
+# Layout matches medical-ai-project-guide.md (src/, tests/, frontend/, scripts/).
 
 # ── STEP 1: Install dependencies ──────────────────────────────────────────
-# Core pipeline
-pip install langchain langchain-community langchain-groq
-pip install xgboost shap scikit-learn joblib numpy pandas
-pip install chromadb sentence-transformers
-pip install fastapi uvicorn httpx python-dotenv pydantic
+pip install -r requirements.txt
+# Optional Chroma + embeddings (Layer 5). Omit if using MEDICAL_AI_SKIP_RAG=1:
+pip install -r requirements-rag.txt
 
-# ── STEP 2: Run smoke test (no API key needed) ─────────────────────────────
-python medical_ai_e2e.py
+# ── STEP 2: Run tests ─────────────────────────────────────────────────────
+# conftest sets MEDICAL_AI_SKIP_RAG=1 so CI stays light.
+pytest
 
-# Expected output:
-#   [Pipeline] Initializing components...
-#   [RAG] Initialized with 12 documents
-#   ✅ PASS  Domain correct (diabetes)
-#   ✅ PASS  Severity score ≥ 60.0
-#   ...
-#   🎉 All tests passed!
+# ── STEP 3: Train and save real .joblib bundles (optional) ────────────────
+python scripts/train_models.py
 
-# ── STEP 3: Add real LLM (free Groq API) ──────────────────────────────────
-# 1. Get free key at: console.groq.com  (Llama 3 — 14,400 requests/day free)
-# 2. Create .env file:
-echo "GROQ_API_KEY=your_key_here" > .env
+# ── STEP 4: Start the API (Layer 7) ───────────────────────────────────────
+# From repo root (PYTHONPATH=. is default when using pytest; for uvicorn use below)
+uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
 
-# 3. Run with real LLM synthesis:
-python medical_ai_e2e.py --real
+# API docs: http://127.0.0.1:8000/docs
 
-# ── STEP 4: Start the API server ──────────────────────────────────────────
-python medical_ai_e2e.py --serve
-# or
-uvicorn medical_ai_e2e:app --reload
+# ── STEP 5: Streamlit UI ─────────────────────────────────────────────────
+# Terminal 1: API as above. Terminal 2:
+streamlit run frontend/app.py
 
-# API docs: http://localhost:8000/docs
+# ── STEP 6: Sample /predict body ───────────────────────────────────────────
+# POST http://127.0.0.1:8000/predict
+# {
+#   "query_text": "Patient with glucose 210, BMI 34, frequent urination, age 52",
+#   "clinical_data": {"glucose": 210, "bmi": 34, "age": 52},
+#   "patient_id": "demo_001"
+# }
 
-# ── STEP 5: Test the API manually ─────────────────────────────────────────
-curl -X POST http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query_text": "Patient with glucose 210, BMI 34, frequent urination, age 52",
-    "structured_input": {"glucose": 210, "bmi": 34, "age": 52},
-    "patient_id": "demo_001"
-  }'
-
-# ── ARCHITECTURE (what medical_ai_e2e.py contains) ────────────────────────
-# Section 1   Data schemas (ClinicalEntities, SeverityResult, FinalResponse)
-# Section 2   Mock ML models (swap for real XGBoost when trained)
-# Section 3   Feature schemas for all 3 diseases
-# Section 4   ClinicalNERProcessor (Layer 2)
-# Section 5   SeverityEngine (Layer 3+4)
-# Section 6   MedicalRAG with ChromaDB (Layer 5)
-# Section 7   ReportSynthesizer + safety rails (Layer 6)
-# Section 8   LangChain Tools (5 tools, composable)
-# Section 9   MedicalAIPipeline orchestrator
-# Section 10  FastAPI app with /predict endpoint (Layer 7)
-# Section 11  Full smoke test suite (30+ assertions)
-
-# ── TRAINING REAL MODELS (Kaggle) ─────────────────────────────────────────
-# 1. Download Pima Diabetes dataset from Kaggle
-# 2. In Kaggle Notebook (free GPU):
-#
-#    import pandas as pd
-#    from xgboost import XGBClassifier
-#    from sklearn.preprocessing import StandardScaler
-#    import joblib
-#
-#    df = pd.read_csv("diabetes.csv")
-#    X = df.drop("Outcome", axis=1)
-#    y = df["Outcome"]
-#
-#    scaler = StandardScaler()
-#    X_scaled = scaler.fit_transform(X)
-#
-#    model = XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.05)
-#    model.fit(X_scaled, y)
-#
-#    joblib.dump({"model": model, "scaler": scaler}, "diabetes_v1.joblib")
-#    # Download the .joblib file, put in models/ folder
-#
-# 3. The SeverityEngine._load_real_models() will auto-load it on --real flag
+# ── Reference ─────────────────────────────────────────────────────────────
+# starter_code.py = original monolith; implemented package lives under src/.
+# See medical-ai-project-guide.md and Create Roadmap/Medical_AI_Team_Guide.html
