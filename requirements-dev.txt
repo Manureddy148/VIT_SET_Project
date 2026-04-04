@@ -1,0 +1,2 @@
+# Optional: generate teammate Word handout
+python-docx>=1.1.0

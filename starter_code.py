@@ -513,7 +513,7 @@ class MedicalVectorStore:
 # =============================================================================
 
 if __name__ == "__main__":
-    print("=== Medical AI Architecture — Smoke Test ===\n")
+    print("=== Medical AI Architecture - Smoke Test ===\n")
 
     # 1. Test BaseMedicalModel contract
     print("1. Testing PredictionResult dataclass...")
@@ -526,12 +526,12 @@ if __name__ == "__main__":
         top_features=["glucose", "bmi", "age"],
         missing_features=["insulin"],
     )
-    print(f"   ✓ PredictionResult: {result.disease_domain} → score {result.severity_score} ({result.severity_label})")
+    print(f"   [OK] PredictionResult: {result.disease_domain} -> score {result.severity_score} ({result.severity_label})")
 
     # 2. Test ModelRegistry routing
     print("\n2. Testing ModelRegistry domain classification...")
     registry = ModelRegistry()
-    # Register with keywords
+
     class MockDiabetesModel(BaseMedicalModel):
         @property
         def domain(self): return "diabetes"
@@ -540,10 +540,6 @@ if __name__ == "__main__":
         def preprocess(self, raw): return np.array([[raw.get("glucose", 117), raw.get("bmi", 32)]])
         def predict(self, features): return result
 
-    registry.register(MockDiabetesModel(), keywords=["glucose", "blood sugar", "diabetes", "insulin", "hba1c"])
-    registry.register(MockDiabetesModel(), keywords=["chest pain", "heart", "cardiac", "ecg", "troponin"])
-
-    # Patch the second registration to be heart_disease domain
     class MockHeartModel(BaseMedicalModel):
         @property
         def domain(self): return "heart_disease"
@@ -552,15 +548,22 @@ if __name__ == "__main__":
         def preprocess(self, raw): return np.array([[raw.get("cholesterol", 200), raw.get("blood_pressure", 120)]])
         def predict(self, features): return result
 
-    registry.register(MockHeartModel(), keywords=["chest pain", "heart", "cardiac", "ecg", "troponin"])
+    registry.register(
+        MockDiabetesModel(),
+        keywords=["glucose", "blood sugar", "diabetes", "insulin", "hba1c", "urination"],
+    )
+    registry.register(
+        MockHeartModel(),
+        keywords=["chest pain", "heart", "cardiac", "ecg", "troponin"],
+    )
 
     test_query = "patient reports high blood sugar and frequent urination, HbA1c is elevated"
     domain = registry.classify_domain(test_query)
     print(f"   Query: '{test_query[:60]}...'")
-    print(f"   ✓ Classified domain: '{domain}' (expected: diabetes)")
+    print(f"   [OK] Classified domain: '{domain}' (expected: diabetes)")
 
-    # 3. Test SHAP → RAG query bridge
-    print("\n3. Testing SHAP → RAG query conversion...")
+    # 3. Test SHAP -> RAG query bridge
+    print("\n3. Testing SHAP -> RAG query conversion...")
     shap_vals = {"glucose": 0.52, "bmi": 0.31, "age": 0.12, "blood_pressure": -0.08, "insulin": 0.04}
     # Mock explainer
     class MockExplainer:
@@ -572,9 +575,9 @@ if __name__ == "__main__":
     mock_exp = MockExplainer()
     rag_query = mock_exp.features_to_rag_query(shap_vals, "diabetes")
     print(f"   SHAP values: glucose=0.52, bmi=0.31, age=0.12")
-    print(f"   ✓ RAG query: '{rag_query}'")
+    print(f"   [OK] RAG query: '{rag_query}'")
 
-    print("\n=== All smoke tests passed ✓ ===")
+    print("\n=== All smoke tests passed [OK] ===")
     print("\nNext steps:")
     print("  1. Download Kaggle diabetes dataset")
     print("  2. Run DiabetesModel.train() in a Kaggle notebook")

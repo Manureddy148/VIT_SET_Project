@@ -15,14 +15,22 @@ pytest
 python scripts/train_models.py
 
 # ── STEP 4: Start the API (Layer 7) ───────────────────────────────────────
-# From repo root (PYTHONPATH=. is default when using pytest; for uvicorn use below)
-uvicorn src.api.main:app --reload --host 127.0.0.1 --port 8000
+# EASIEST (opens browser, binds 0.0.0.0:8000 — keep window open!):
+#   cd path\to\VIT_SET_Project
+#   python launch_api.py
+# Other options:
+#   scripts\run_api.bat
+#   .\scripts\run_api.ps1
+# Diagnose: scripts\check_env.bat
 
 # API docs: http://127.0.0.1:8000/docs
 
 # ── STEP 5: Streamlit UI ─────────────────────────────────────────────────
 # Terminal 1: API as above. Terminal 2:
 streamlit run frontend/app.py
+#
+# Teammate doc: docs/Medical_AI_Project_README_v1.docx  (regen: pip install -r requirements-dev.txt && python scripts/build_teammate_docx.py)
+# Full guide: README.md
 
 # ── STEP 6: Sample /predict body ───────────────────────────────────────────
 # POST http://127.0.0.1:8000/predict
