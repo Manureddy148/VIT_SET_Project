@@ -32,3 +32,43 @@ def test_predict_diabetes(client):
 def test_predict_422_unknown_domain(client):
     r = client.post("/predict", json={"query_text": "random words only xyz", "clinical_data": {}})
     assert r.status_code == 422
+
+
+def test_predict_heart(client):
+    r = client.post(
+        "/predict",
+        json={
+            "query_text": "Patient with chest pain and high cholesterol",
+            "clinical_data": {"cholesterol": 280, "resting_bp": 150, "age": 62},
+        },
+    )
+    assert r.status_code == 200
+    assert r.json()["disease_domain"] == "heart_disease"
+
+
+def test_predict_pneumonia(client):
+    r = client.post(
+        "/predict",
+        json={
+            "query_text": "Suspected pneumonia with cough and fever",
+            "clinical_data": {
+                "spo2": 89,
+                "temperature_c": 38.5,
+                "respiratory_rate": 24,
+                "crp": 80,
+                "age": 55,
+            },
+        },
+    )
+    assert r.status_code == 200
+    assert r.json()["disease_domain"] == "pneumonia"
+
+
+def test_predict_infer_domain_from_clinical_only(client):
+    """Layer 2 fallback: empty narrative but structured labs imply diabetes."""
+    r = client.post(
+        "/predict",
+        json={"query_text": "", "clinical_data": {"glucose": 200, "bmi": 33}},
+    )
+    assert r.status_code == 200
+    assert r.json()["disease_domain"] == "diabetes"
