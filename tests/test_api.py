@@ -16,6 +16,18 @@ def test_health(client):
     assert r.json()["status"] == "ok"
 
 
+def test_pipeline_status(client):
+    r = client.get("/pipeline/status")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["pipeline_layers"] == 7
+    assert "implemented" in body
+    assert "planned_next" in body
+    assert "layer6_synthesis" in body["implemented"]
+    assert "fastapi_audio_api" in body["implemented"]["layer7_delivery"]
+    assert "fastapi_genomics_api" in body["implemented"]["layer7_delivery"]
+
+
 def test_predict_diabetes(client):
     payload = {
         "query_text": "Type 2 concern: glucose 210, BMI 34, age 52, frequent urination",
@@ -27,6 +39,9 @@ def test_predict_diabetes(client):
     assert body["disease_domain"] == "diabetes"
     assert 0 <= body["severity_score"] <= 100
     assert body["disclaimer"]
+    assert "faithfulness_passed" in body
+    assert "recommended_actions" in body
+    assert "audit_log_id" in body
 
 
 def test_predict_422_unknown_domain(client):
@@ -72,3 +87,65 @@ def test_predict_infer_domain_from_clinical_only(client):
     )
     assert r.status_code == 200
     assert r.json()["disease_domain"] == "diabetes"
+
+
+def test_predict_image_upload(client):
+    r = client.post(
+        "/predict/image",
+        data={"query_text": "Portable chest xray for pneumonia triage", "clinical_json": '{"age": 71}'},
+        files={"file": ("chest_xray.png", b"\x89PNG\r\n\x1a\n" + bytes(range(64)), "image/png")},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["disease_domain"] == "pneumonia"
+    assert 0 <= body["severity_score"] <= 100
+    assert isinstance(body["safety_flags"], list)
+
+
+def test_predict_ecg_upload(client):
+    payload = "0.1,0.4,1.2,0.2,-0.1,0.7,1.5,0.3\n" * 20
+    r = client.post(
+        "/predict/ecg",
+        data={"query_text": "ECG upload for cardiac review", "clinical_json": '{"age": 62}'},
+        files={"file": ("ecg_signal.csv", payload.encode("utf-8"), "text/csv")},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["disease_domain"] == "heart_disease"
+    assert 0 <= body["severity_score"] <= 100
+
+
+def test_predict_stream(client):
+    r = client.post(
+        "/predict/stream",
+        json={"query_text": "glucose 190 bmi 31 age 47", "clinical_data": {}},
+    )
+    assert r.status_code == 200
+    assert "event: summary" in r.text
+    assert "event: report" in r.text
+
+
+def test_predict_audio_upload(client):
+    audio_bytes = bytes([10, 20, 40, 120, 200, 90, 30, 15]) * 200
+    r = client.post(
+        "/predict/audio",
+        data={"query_text": "lung audio review", "clinical_json": '{"age": 59}'},
+        files={"file": ("lungs.wav", audio_bytes, "audio/wav")},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["disease_domain"] == "pneumonia"
+    assert 0 <= body["severity_score"] <= 100
+
+
+def test_predict_genomics_upload(client):
+    genomic_text = "#CHROM POS ID REF ALT QUAL FILTER INFO\n1 123 rs1 A G . . pathogenic risk CYP2D6"
+    r = client.post(
+        "/predict/genomics",
+        data={"query_text": "genomic risk triage", "clinical_json": '{"age": 48}'},
+        files={"file": ("sample.vcf", genomic_text.encode("utf-8"), "text/plain")},
+    )
+    assert r.status_code == 200
+    body = r.json()
+    assert body["disease_domain"] == "diabetes"
+    assert 0 <= body["severity_score"] <= 100

@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 
@@ -90,6 +91,23 @@ def seed_vector_store_if_empty(store) -> None:
             return
     except Exception:
         return
+    
+    # Try loading real PubMed documents first
+    pubmed_docs_path = Path("data/processed/pubmed_docs.json")
+    if pubmed_docs_path.exists():
+        try:
+            with open(pubmed_docs_path, "r", encoding="utf-8") as f:
+                pubmed_docs = json.load(f)
+            if pubmed_docs:
+                try:
+                    store.ingest_documents(pubmed_docs)
+                    return
+                except Exception:
+                    pass
+        except Exception:
+            pass
+    
+    # Fallback to synthetic seed documents
     docs = [
         {
             "id": "seed_diabetes_1",

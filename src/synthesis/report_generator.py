@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 
 from src.models.base_model import PredictionResult
+from src.synthesis.llm_reporter import generate_llm_clinical_report
 from src.synthesis.safety_rails import MEDICAL_DISCLAIMER
 
 
@@ -9,6 +10,10 @@ def build_clinical_report(
     query_text: str,
     citations: List[Dict[str, Any]],
 ) -> str:
+    llm_report = generate_llm_clinical_report(prediction, query_text, citations)
+    if llm_report:
+        return f"{llm_report}\n\n{MEDICAL_DISCLAIMER}"
+
     tops = ", ".join(prediction.top_features[:5]) or "n/a"
     cite_lines = []
     for i, c in enumerate(citations[:5], 1):
