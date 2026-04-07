@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical AI Team Reference - Built Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06080c;
+  --bg2: #0f1622;
+  --card: #111b29;
+  --line: rgba(255,255,255,0.10);
+  --text: #e7edf6;
+  --muted: #9eb0c7;
+  --teal: #00e5c0;
+  --blue: #5cb0ff;
+  --amber: #ffbf63;
+  --green: #53db8a;
+  --pink: #f06cab;
+  --purple: #b791ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Syne", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1000px 500px at 0% 0%, rgba(0,229,192,0.06), transparent),
+    radial-gradient(900px 500px at 100% 100%, rgba(92,176,255,0.06), transparent),
+    var(--bg);
+  line-height: 1.6;
+}
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px 80px; }
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  background: rgba(6,8,12,0.85);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.brand { color: var(--teal); font-weight: 800; letter-spacing: 0.04em; }
+.nav-inner a {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+.nav-inner a:hover { color: var(--teal); }
+header.hero {
+  padding: 56px 0 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 40px;
+}
+.pill {
+  display: inline-block;
+  border: 1px solid rgba(0,229,192,0.35);
+  color: var(--teal);
+  background: rgba(0,229,192,0.08);
+  border-radius: 999px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  padding: 6px 12px;
+  margin-bottom: 16px;
+}
+h1 {
+  font-size: clamp(34px, 6vw, 64px);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+h1 em { color: var(--teal); font-style: normal; }
+.sub {
+  margin-top: 16px;
+  max-width: 900px;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.tag {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--muted);
+  background: var(--bg2);
+}
+section { margin: 28px 0 42px; }
+.section-title { font-size: 30px; margin-bottom: 8px; }
+.section-desc {
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+.card h3 { font-size: 20px; margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: 14px; }
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.12);
+}
+.status-item:last-child { border-bottom: 0; }
+.badge {
+  font-size: 11px;
+  font-family: "JetBrains Mono", monospace;
+  border-radius: 999px;
+  padding: 4px 9px;
+  border: 1px solid;
+}
+.ok { color: var(--green); border-color: rgba(83,219,138,0.45); background: rgba(83,219,138,0.08); }
+.partial { color: var(--amber); border-color: rgba(255,191,99,0.45); background: rgba(255,191,99,0.08); }
+.todo { color: var(--blue); border-color: rgba(92,176,255,0.45); background: rgba(92,176,255,0.08); }
+.layer {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+.layer-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.num {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  background: rgba(255,255,255,0.12);
+}
+.layer small {
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+}
+.layer p { color: var(--muted); font-size: 14px; margin-top: 8px; }
+.table-wrap {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+table { width: 100%; border-collapse: collapse; min-width: 760px; }
+th, td { text-align: left; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+th { font-size: 12px; font-family: "JetBrains Mono", monospace; color: var(--teal); }
+td { font-size: 14px; color: var(--muted); }
+.team-card h4 { margin-bottom: 6px; }
+ul.clean { padding-left: 18px; }
+ul.clean li { margin-bottom: 6px; color: var(--muted); font-size: 14px; }
+.callout {
+  border: 1px solid rgba(0,229,192,0.35);
+  background: rgba(0,229,192,0.08);
+  color: var(--text);
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+footer {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+}
+@media (max-width: 980px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="brand">MEDICAL AI TEAM REFERENCE</div>
+    <a href="#built">Built So Far</a>
+    <a href="#pipeline">7-Layer Pipeline</a>
+    <a href="#io">Inputs and Outputs</a>
+    <a href="#models">Model Registry</a>
+    <a href="#team">Team Guide</a>
+    <a href="#ops">Operations</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="pill">Unified Team Reference | Pipeline + Team Guide + Current Build</div>
+    <h1>Medical AI <em>Severity System</em><br>Implementation Reference</h1>
+    <p class="sub">
+      This page combines the structure and visual format of pipeline documentation with team-guide content,
+      and captures what has been implemented so far in this repository for Phase 2 to Phase 6.
+    </p>
+    <div class="tags">
+      <span class="tag">XGBoost + SHAP</span>
+      <span class="tag">FastAPI + Streamlit</span>
+      <span class="tag">ChromaDB + PubMed</span>
+      <span class="tag">LangChain + Groq</span>
+      <span class="tag">PDF Export</span>
+      <span class="tag">E2E Smoke Tests</span>
+    </div>
+  </header>
+
+  <section id="built">
+    <div class="section-title">What We Built So Far</div>
+    <div class="section-desc">Repository status aligned to your execution history and recent implementation.</div>
+    <div class="card">
+      <div class="status-item"><span>Phase 2: LiverDisease model + SMOTE integration across models</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 2: Liver model registration in bootstrap</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 3: Imaging extension connected into multimodal router</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 4: PubMed ingest expanded to multi-domain configuration</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 4: LangChain + Groq report generator with safety structure</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 5: Streamlit dashboard + PDF export endpoint and download</span><span class="badge ok">DONE</span></div>
+      <div class="status-item"><span>Phase 6: E2E smoke tests (multi-domain synthetic coverage)</span><span class="badge partial">IN PLACE</span></div>
+      <div class="status-item"><span>Phase 6: RAGAS evaluation script (faithfulness + answer relevancy path)</span><span class="badge partial">IMPLEMENTED</span></div>
+      <div class="status-item"><span>Test verification</span><span class="badge ok">PASSING</span></div>
+    </div>
+  </section>
+
+  <section id="pipeline">
+    <div class="section-title">7-Layer Pipeline (Merged from Pipeline Documentation)</div>
+    <div class="section-desc">Each layer is independently testable and owned by clear team responsibilities.</div>
+    <div class="grid-2">
+      <div class="layer">
+        <div class="layer-head"><div class="num">01</div><h3>Input Router</h3></div>
+        <small>Layer 1 | Input Intelligence</small>
+        <p>Accepts text, structured clinical JSON, image files, ECG uploads, audio uploads, and genomics files. Validates and routes to modality processors.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">02</div><h3>Preprocessing and NER</h3></div>
+        <small>Layer 2 | Clinical Understanding</small>
+        <p>Extracts labs from text, normalizes numeric features, infers disease domain, and prepares feature vectors with missing feature prompts.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">03</div><h3>Model Registry and Router</h3></div>
+        <small>Layer 3 | Domain Model Dispatch</small>
+        <p>Registry routes prediction calls to disease models. Supports adding new disease classes and keyword registration without redesigning the pipeline.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">04</div><h3>Inference and Explainability</h3></div>
+        <small>Layer 4 | Scoring and SHAP</small>
+        <p>XGBoost-style tabular inference outputs severity score (0-100), label, confidence, and SHAP top risk features used in downstream retrieval.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">05</div><h3>RAG Retrieval</h3></div>
+        <small>Layer 5 | Evidence Grounding</small>
+        <p>SHAP-driven query retrieves citations from ChromaDB/PubMed corpus with domain-aware filtering and faithfulness checks.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">06</div><h3>LLM Synthesis and Safety</h3></div>
+        <small>Layer 6 | Report Generation</small>
+        <p>Optional LangChain plus Groq generates structured clinical narrative with explicit safety rails and mandatory disclaimer behavior.</p>
+      </div>
+      <div class="layer">
+        <div class="layer-head"><div class="num">07</div><h3>Delivery Layer</h3></div>
+        <small>Layer 7 | API, UI, Audit</small>
+        <p>FastAPI endpoints and Streamlit dashboard deliver severity gauge, SHAP explanations, citations, streaming output, and PDF export.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="io">
+    <div class="section-title">Inputs and Outputs (Team Guide Content Adapted)</div>
+    <div class="section-desc">Use this as the operational data contract for testing and integration.</div>
+    <div class="grid-2">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Input Type</th><th>Format</th><th>Current Endpoint</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Clinical text narrative</td><td>Plain text</td><td>POST /predict</td></tr>
+            <tr><td>Structured labs/features</td><td>JSON object (numeric)</td><td>POST /predict</td></tr>
+            <tr><td>Medical image</td><td>png, jpg, jpeg, dcm</td><td>POST /predict/image</td></tr>
+            <tr><td>ECG waveform upload</td><td>csv, txt, xml, edf</td><td>POST /predict/ecg</td></tr>
+            <tr><td>Audio (respiratory proxy)</td><td>wav, mp3</td><td>POST /predict/audio</td></tr>
+            <tr><td>Genomics file</td><td>vcf, fastq, fq, txt</td><td>POST /predict/genomics</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Output Field</th><th>Meaning</th><th>Used By</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>severity_score</td><td>Risk scale 0 to 100</td><td>Clinical triage</td></tr>
+            <tr><td>severity_label</td><td>Low, Moderate, High, Critical</td><td>Quick decision UI</td></tr>
+            <tr><td>confidence</td><td>Model certainty</td><td>Safety review</td></tr>
+            <tr><td>top_risk_factors</td><td>SHAP-ranked features</td><td>Interpretability</td></tr>
+            <tr><td>literature_citations</td><td>Evidence grounding</td><td>Clinical verification</td></tr>
+            <tr><td>explanation</td><td>Structured report narrative</td><td>Doctor-facing summary</td></tr>
+            <tr><td>disclaimer</td><td>Safety/legal footer</td><td>Compliance</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="models">
+    <div class="section-title">Current Domain Models (Reference Table)</div>
+    <div class="section-desc">Disease models currently implemented in code and routed through registry.</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Domain</th><th>Model Type</th><th>Core Feature Families</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>diabetes</td><td>XGBoost + SHAP + SMOTE</td><td>glucose, BMI, age, insulin profile</td><td><span class="badge ok">ACTIVE</span></td></tr>
+          <tr><td>heart_disease</td><td>XGBoost + SHAP + SMOTE</td><td>BP, cholesterol, max_hr, ST depression</td><td><span class="badge ok">ACTIVE</span></td></tr>
+          <tr><td>pneumonia</td><td>XGBoost + SHAP + amplifiers</td><td>SpO2, CRP, respiratory rate, temperature</td><td><span class="badge ok">ACTIVE</span></td></tr>
+          <tr><td>ckd</td><td>XGBoost + SHAP + SMOTE</td><td>creatinine, urea, electrolytes, hemoglobin</td><td><span class="badge ok">ACTIVE</span></td></tr>
+          <tr><td>sepsis</td><td>XGBoost + qSOFA/SOFA boosts</td><td>lactate, GCS, SBP, RR, organ markers</td><td><span class="badge ok">ACTIVE</span></td></tr>
+          <tr><td>liver_disease</td><td>XGBoost + ILPD feature set + SMOTE</td><td>bilirubin, ALT/AST, albumin, proteins</td><td><span class="badge ok">ACTIVE</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      For adding new disease domains, use the minimum safe checklist and register feature contracts so structured fallback inference can route correctly.
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="section-title">Team Guide (Merged Role Ownership)</div>
+    <div class="section-desc">Team role structure adapted from Team Guide and aligned to current repository work.</div>
+    <div class="grid-2">
+      <div class="card team-card">
+        <h4 style="color:var(--teal)">ML Engineer (Layers 3 and 4)</h4>
+        <ul class="clean">
+          <li>Train and calibrate disease models.</li>
+          <li>Maintain SHAP explanations and feature ranking quality.</li>
+          <li>Version exported model artifacts and thresholds.</li>
+        </ul>
+      </div>
+      <div class="card team-card">
+        <h4 style="color:var(--blue)">Backend Engineer (Layers 1, 2, 7)</h4>
+        <ul class="clean">
+          <li>Maintain API contracts and modality endpoints.</li>
+          <li>Build robust preprocessing and normalization paths.</li>
+          <li>Own audit logs, endpoint reliability, and schema evolution.</li>
+        </ul>
+      </div>
+      <div class="card team-card">
+        <h4 style="color:var(--purple)">RAG and Knowledge Engineer (Layer 5)</h4>
+        <ul class="clean">
+          <li>Run PubMed ingestion and keep vector store healthy.</li>
+          <li>Tune retrieval quality and domain filtering behavior.</li>
+          <li>Track hallucination faithfulness and RAGAS metrics.</li>
+        </ul>
+      </div>
+      <div class="card team-card">
+        <h4 style="color:var(--pink)">Frontend and Integration (Layers 6 and 7)</h4>
+        <ul class="clean">
+          <li>Maintain Streamlit UX and explanation readability.</li>
+          <li>Integrate report generation and PDF export workflows.</li>
+          <li>Run end-to-end smoke verification before demos.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="ops">
+    <div class="section-title">Operational Playbook for Team Reference</div>
+    <div class="section-desc">Weekly execution format inspired by Team Guide onboarding flow.</div>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Week Start</h3>
+        <p>Review open model issues, ingestion status, and test baseline. Confirm required env variables and dependency health.</p>
+      </div>
+      <div class="card">
+        <h3>Mid-Week</h3>
+        <p>Implement scoped changes by layer owner. Keep APIs stable and update domain keywords or feature contracts if adding disease support.</p>
+      </div>
+      <div class="card">
+        <h3>Week End</h3>
+        <p>Run smoke tests and full test suite. Publish audit note, update this reference page, and lock release candidate for demo.</p>
+      </div>
+    </div>
+    <div class="callout">
+      Recommended command baseline for validation: <code>pytest tests/ -q</code>
+    </div>
+  </section>
+
+  <footer>
+    Generated team reference page combining: pipeline template style, current implementation status, and team guide content.
+  </footer>
+</div>
+</body>
+</html>

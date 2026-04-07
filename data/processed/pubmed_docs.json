@@ -1,0 +1,724 @@
+[
+  {
+    "id": "sample_diabetes_1",
+    "text": "Elevated glucose and obesity are strongly associated with type 2 diabetes severity and long-term complications.",
+    "metadata": {
+      "source": "Synthetic sample abstract",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "sample_diabetes_2",
+    "text": "Glycemic control and weight management remain central to reducing diabetes-related morbidity.",
+    "metadata": {
+      "source": "Synthetic sample abstract",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_35146976",
+    "text": "Nephrogenic diabetes insipidus: a comprehensive overview.. Nephrogenic diabetes insipidus (NDI) is characterized by the inability to concentrate urine that results in polyuria and polydipsia, despite having normal or elevated plasma concentrations of arginine vasopressin (AVP). In this study, we review the clinical aspects and diagnosis of NDI, the various etiologies, current treatment options and potential future developments. NDI has different clinical manifestations and approaches according to the etiology. Hereditary forms of NDI are mainly caused by mutations in the genes that encode key proteins in the AVP signaling pathway, while acquired causes are normally associated with specific drug exposure, especially lithium, and hydroelectrolytic disorders. Clinical manifestations of the disease vary according to the degree of dehydration and hyperosmolality, being worse when renal water losses cannot be properly compensated by fluid intake. Regarding the diagnosis of NDI, it is important to consider the symptoms of the patient and the diagnostic tests, including the water deprivation test and the baseline plasma copeptin measurement, a stable surrogate biomarker of AVP release. Without proper treatment, patients may developcomplications leading to high morbidity and mortality, such as severe dehydration and hypernatremia. In that sense, the treatment of NDI consists in decreasing the urine output, while allowing appropriate fluid balance, normonatremia, and ensuring an acceptable quality of life. Therefore, therapeutic options include nonpharmacological interventions, including sufficient water intake and a low-sodium diet, and pharmacological treatment. The main medications used for NDI are thiazide diuretics, nonsteroidal anti-inflammatory drugs (NSAIDs), and amiloride, used isolated or in combination.",
+    "metadata": {
+      "source": "PubMed:35146976",
+      "pmid": "35146976",
+      "title": "Nephrogenic diabetes insipidus: a comprehensive overview.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_26742931",
+    "text": "Wolfram Syndrome: Diagnosis, Management, and Treatment.. Wolfram syndrome is a rare genetic disorder characterized by juvenile-onset diabetes mellitus, diabetes insipidus, optic nerve atrophy, hearing loss, and neurodegeneration. Although there are currently no effective treatments that can delay or reverse the progression of Wolfram syndrome, the use of careful clinical monitoring and supportive care can help relieve the suffering of patients and improve their quality of life. The prognosis of this syndrome is currently poor, and many patients die prematurely with severe neurological disabilities, raising the urgency for developing novel treatments for Wolfram syndrome. In this article, we describe natural history and etiology, provide recommendations for diagnosis and clinical management, and introduce new treatments for Wolfram syndrome.",
+    "metadata": {
+      "source": "PubMed:26742931",
+      "pmid": "26742931",
+      "title": "Wolfram Syndrome: Diagnosis, Management, and Treatment.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_28432734",
+    "text": "Monogenic diabetes syndromes: Locus-specific databases for Alstr\u00f6m, Wolfram, and Thiamine-responsive megaloblastic anemia.. We developed a variant database for diabetes syndrome genes, using the Leiden Open Variation Database platform, containing observed phenotypes matched to the genetic variations. We populated it with 628 published disease-associated variants (December 2016) for: WFS1 (n\u00a0=\u00a0309), CISD2 (n\u00a0=\u00a03), ALMS1 (n\u00a0=\u00a0268), and SLC19A2 (n\u00a0=\u00a048) for Wolfram type 1, Wolfram type 2, Alstr\u00f6m, and Thiamine-responsive megaloblastic anemia syndromes, respectively; and included 23 previously unpublished novel germline variants in WFS1 and 17 variants in ALMS1. We then investigated genotype-phenotype relations for the WFS1 gene. The presence of biallelic loss-of-function variants predicted Wolfram syndrome defined by insulin-dependent diabetes and optic atrophy, with a sensitivity of 79% (95% CI 75%-83%) and specificity of 92% (83%-97%). The presence of minor loss-of-function variants in WFS1 predicted isolated diabetes, isolated deafness, or isolated congenital cataracts without development of the full syndrome (sensitivity 100% [93%-100%]; specificity 78% [73%-82%]). The ability to provide a prognostic prediction based on genotype will lead to improvements in patient care and counseling. The development of the database as a repository for monogenic diabetes gene variants will allow prognostic predictions for other diabetes syndromes as next-generation sequencing expands the repertoire of genotypes and phenotypes. The database is publicly available online at https://lovd.euro-wabb.org.",
+    "metadata": {
+      "source": "PubMed:28432734",
+      "pmid": "28432734",
+      "title": "Monogenic diabetes syndromes: Locus-specific databases for Alstr\u00f6m, Wolfram, and Thiamine-responsive megaloblastic anemia.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_34898594",
+    "text": "Adipsic Diabetes Insipidus in Children: A Case Report and Practical Guide.. BACKGROUND Diabetes insipidus (DI) is a clinical syndrome characterized by polyuria and polydipsia that result from a deficiency of antidiuretic hormone (ADH), central DI, or resistance to ADH, nephrogenic DI. In otherwise healthy patients with DI, normal thirst mechanism, and free access to water, the thirst system can maintain plasma osmolality in the near-normal range. However, in cases where DI presents with adipsia, cognitive impairment, or restricted access to water, true hypernatremia may occur, leading to severe morbidity and mortality. CASE REPORT We report a case of a 2-year-old boy who had global developmental delay and post-brain debulking surgery involving the hypothalamic region, which resulted in central DI and thirst center dysfunction. We describe the clinical presentation, the current understanding of adipsic DI, and a new practical approach for management. The main guidelines of treatment include (1) fixed desmopressin dosing that allows minimal urinary breakthroughs in-between the doses; (2) timely diaper weight-based replacement of water; (3) bodyweight-based fluid correction 2 times a day, and (4) providing the nutritional and water requirements in a way similar to any healthy child but at fixed time intervals. CONCLUSIONS This plan of management showed good effectiveness in controlling plasma sodium level and volume status of a child with adipsic DI without interfering with his average growth. This home treatment method is practical and readily available, provided that the family remains very adherent.",
+    "metadata": {
+      "source": "PubMed:34898594",
+      "pmid": "34898594",
+      "title": "Adipsic Diabetes Insipidus in Children: A Case Report and Practical Guide.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_37277527",
+    "text": "The genetic and clinical characteristics of WFS1 related diabetes in Chinese early onset type 2 diabetes.. Diabetes is one of the most common phenotypes of Wolfram syndrome owing to the presence of the variants of the WFS1 gene and is often misdiagnosed as other types of diabetes. We aimed to explore the prevalence of WFS1-related diabetes (WFS1-DM) and its clinical characteristics in a Chinese population with early-onset type 2 diabetes (EOD). We sequenced all exons of the WFS1 gene in 690 patients with EOD (age at diagnosis\u2009\u2264\u200940\u00a0years) for rare variants. Pathogenicity was defined according to the standards and guidelines of the American College of Medical Genetics and Genomics. We identified 33 rare variants predicted to be deleterious in 39 patients. The fasting [1.57(1.06-2.22) ng/ml] and postprandial C-peptide levels [2.8(1.75-4.46) ng/ml] of the patients with such WFS1 variations were lower than those of the patients without WFS1 variation [2.09(1.43-3.05) and 4.29(2.76-6.07) respectively, ng/ml]. Six (0.9%) patients carried pathogenic or likely pathogenic variants; they met the diagnostic criteria for WFS1-DM according to the latest guidelines, but typical phenotypes of Wolfram syndrome were seldom observed. They were diagnosed at an earlier age and usually presented with an absence of obesity, impaired beta cell function, and the need for insulin treatment. WFS1-DM is usually mistakenly diagnosed as type 2 diabetes, and genetic testing is helpful for individualized treatment.",
+    "metadata": {
+      "source": "PubMed:37277527",
+      "pmid": "37277527",
+      "title": "The genetic and clinical characteristics of WFS1 related diabetes in Chinese early onset type 2 diabetes.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_15627633",
+    "text": "Feline endocrinopathies.. Feline endocrinopathies (excluding diabetes mellitus) include hyperthyroidism, hypothyroidism, acromegaly, hyposomatotropism, diabetes insipidus, hyperadrenocorticism, primary sex hormone-secreting adrenal tumors, primary hyperaldosteronism, pheochromocytoma, hypoadrenocorticism, hyperparathyroidism, and hypoparathyroidism. Each of these conditions will be discussed including their prevalence, cause, clinical signs, diagnosis, treatment options, and prognosis.",
+    "metadata": {
+      "source": "PubMed:15627633",
+      "pmid": "15627633",
+      "title": "Feline endocrinopathies.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_24356291",
+    "text": "[Hormonal dysnatremia].. Because of antidiuretic hormone (ADH) disorder on production or function we can observe dysnatremia. In the absence of production by posterior pituitary, central diabetes insipidus (DI) occurs with hypernatremia. There are hereditary autosomal dominant, autosomal recessive or X- linked forms. When ADH is secreted but there is an alteration on his receptor AVPR2, it is a nephrogenic diabetes insipidus in acquired or hereditary form. We can make difference on AVP levels and/or on desmopressine response which is negative in nephrogenic forms. Hyponatremia occurs when there is an excess of ADH production: it is a euvolemic hypoosmolar hyponatremia. The most frequent etiology is SIADH (syndrome of inappropriate secretion of ADH), a diagnostic of exclusion which is made after eliminating corticotropin deficiency and hypothyroidism. In case of brain injury the differential diagnosis of cerebral salt wasting (CSW) syndrome has to be discussed, because its treatment is perfusion of isotonic saline whereas in SIADH, the treatment consists in administration of hypertonic saline if hyponatremia is acute and/or severe. If not, fluid restriction demeclocycline or vaptans (antagonists of V2 receptors) can be used in some European countries. Four types of SIADH exist; 10 % of cases represent not SIADH but SIAD (syndrome of inappropriate antidiuresis) due to a constitutive activation of vasopressin receptor that produces water excess. c 2013 Published by Elsevier Masson SAS.",
+    "metadata": {
+      "source": "PubMed:24356291",
+      "pmid": "24356291",
+      "title": "[Hormonal dysnatremia].",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_10435672",
+    "text": "Nephrogenic diabetes insipidus.. In spite of its rare incidence, the inherited renal tubular disorder nephrogenic diabetes insipidus (NDI) has in the past 10 years attracted the attention of a varied group of medical doctors and basic scientists. With the identification of the two genes involved in NDI, namely the vasopressin type-2 receptor (V2R) and the aquaporin-2 water channel (AQP2) genes, the identification of a large number of different mutations in these genes, and the subsequent functional characterization of mutant V2Rs and AQP2s, our insight into the renal cellular mechanisms involved in diuresis and antidiuresis has increased considerably. We are now entering an exciting new period in the development of new therapeutic strategies for disorders of water balance.",
+    "metadata": {
+      "source": "PubMed:10435672",
+      "pmid": "10435672",
+      "title": "Nephrogenic diabetes insipidus.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_35270448",
+    "text": "Metabolic Treatment of Wolfram Syndrome.. Wolfram Syndrome (WS) is a very rare genetic disorder characterized by several symptoms that occur from childhood to adulthood. Usually, the first clinical sign is non-autoimmune diabetes even if other clinical features (optic subatrophy, neurosensorial deafness, diabetes insipidus) may be present in an early state and may be diagnosed after diabetes' onset. Prognosis is poor, and the death occurs at the median age of 39 years as a consequence of progressive respiratory impairment, secondary to brain atrophy and neurological failure. The aim of this paper is the description of the metabolic treatment of the WS. We reported the experience of long treatment in patients with this syndrome diagnosed in pediatric age and followed also in adult age. It is known that there is a correlation between metabolic control of diabetes, the onset of other associated symptoms, and the progression of the neurodegenerative alterations. Therefore, a multidisciplinary approach is necessary in order to prevent, treat and carefully monitor all the comorbidities that may occur. An extensive understanding of WS from pathophysiology to novel possible therapy is fundamental and further studies are needed to better manage this devastating disease and to guarantee to patients a better quality of life and a longer life expectancy.",
+    "metadata": {
+      "source": "PubMed:35270448",
+      "pmid": "35270448",
+      "title": "Metabolic Treatment of Wolfram Syndrome.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_31375124",
+    "text": "Sleep disturbances in Wolfram syndrome.. Wolfram syndrome is a rare disorder associated with diabetes mellitus, diabetes insipidus, optic nerve atrophy, hearing and vision loss, and neurodegeneration. Sleep complaints are common but have not been studied with objective measures. Our goal was to assess rates of sleep apnea and objective and self-reported measures of sleep quality, and to determine the relationship of sleep pathology to other clinical variables in Wolfram syndrome patients.",
+    "metadata": {
+      "source": "PubMed:31375124",
+      "pmid": "31375124",
+      "title": "Sleep disturbances in Wolfram syndrome.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_37251686",
+    "text": "Clinical characteristics and primary outcomes of patients with ANCA-associated vasculitis and central diabetes insipidus.. Anti-neutrophil cytoplasmic antibody (ANCA)-associated vasculitis (AAV) is characterized by systemic small-vessel vasculitis and may rarely present as central diabetes insipidus (CDI). In this study, we aimed to determine the clinical characteristics and prognosis of patients with AAV-associated CDI.",
+    "metadata": {
+      "source": "PubMed:37251686",
+      "pmid": "37251686",
+      "title": "Clinical characteristics and primary outcomes of patients with ANCA-associated vasculitis and central diabetes insipidus.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_31656992",
+    "text": "Vasopressin and Copeptin in health and disease.. Arginine Vasopressin (AVP) and copeptin derive from the same precursor molecule. Due to the equimolar secretion, copeptin responds as rapidly as AVP to osmotic, hemodynamic and unspecific stress-related stimuli and both peptides show a very strong correlation. The physiological functions of AVP are homeostasis of fluid balance, vascular tonus and regulation of the endocrine stress response. In contrast, the exact function of copeptin remains unknown. Since copeptin, in contrast to AVP, can easily be measured with a sandwich immunoassay, its main function so far that it indirectly indicates the amount of AVP in the circulation. Copeptin has emerged as a useful measure in different diseases. On one hand, through its characteristics as a marker of stress, it provides a unique measure of the individual stress burden. As such, it is a prognostic marker in different acute diseases such as ischemic stroke or myocardial infarction. On the other side, it has emerged as a promising marker in the diagnosis of AVP-dependent fluid disorders. Copeptin reliably differentiates various entities of the polyuria polydipsia syndrome; baseline levels >20\u00a0pmol/L without prior fluid deprivation identify patients with nephrogenic diabetes insipidus, whereas levels measured upon osmotic stimulation with hypertonic saline or upon non-osmotic stimulation with arginine differentiate primary polydipsia from central diabetes insipidus. In patients with hyponatremia, low levels of copeptin together with low urine osmolality identify patients with primary polydipsia, but copeptin levels overlap in all other causes of hyponatremia, limiting its diagnostic use in hyponatremia. Copeptin has also been put forward as predictive marker for autosomal dominant polycystic kidney disease and for diabetes mellitus, but more studies are needed to confirm these findings.",
+    "metadata": {
+      "source": "PubMed:31656992",
+      "pmid": "31656992",
+      "title": "Vasopressin and Copeptin in health and disease.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_33814302",
+    "text": "The role of reoperation after recurrence of Cushing's disease.. Surgical failure or recurrence of Cushing's disease can be treated with medical therapy, radiotherapy, adrenalectomy, and/or repeat transsphenoidal surgery, all of which have their respective benefits and drawbacks. Redo transsphenoidal surgery has been shown to achieve at least short-term remission in about 40-80% of patients and is associated with low rates of morbidity and near-zero mortality, albeit higher rates of postoperative hypopituitarism, diabetes insipidus, and cerebrospinal fluid leak than initial resection. Despite this, recurrence may ensue in 50% of patients. When selecting patient candidates for reoperation, many predictors of postoperative outcomes have been proposed including imaging characteristics, histopathological staining, intraoperative tumor visualization, and tumor size, however no single predictor consistently predicts outcomes. Redo transsphenoidal surgery should be performed by an experienced pituitary surgeon and patients should be followed at a tertiary care center by a multidisciplinary team consisting of an experienced endocrinologist and neurosurgeon to monitor closely for remission and recurrence.",
+    "metadata": {
+      "source": "PubMed:33814302",
+      "pmid": "33814302",
+      "title": "The role of reoperation after recurrence of Cushing's disease.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_32246157",
+    "text": "Prediction models for development of retinopathy in people with type 2 diabetes: systematic review and external validation in a Dutch primary care setting.. The aims of this study were to identify all published prognostic models predicting retinopathy risk applicable to people with type 2 diabetes, to assess their quality and accuracy, and to validate their predictive accuracy in a head-to-head comparison using an independent type 2 diabetes cohort.",
+    "metadata": {
+      "source": "PubMed:32246157",
+      "pmid": "32246157",
+      "title": "Prediction models for development of retinopathy in people with type 2 diabetes: systematic review and external validation in a Dutch primary care setting.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_40260282",
+    "text": "Evaluating the triglyceride glucose index as a predictive biomarker for osteoporosis in patients with type 2 diabetes.. Osteoporosis is a common condition among individuals with type 2 diabetes; however, the relationship between insulin resistance, as measured by the Triglyceride Glucose Index (TyG), and osteoporosis has not been sufficiently explored. This study seeks to address this research gap by investigating the diagnostic value of TyG in identifying osteoporosis in patients with type 2 diabetes.",
+    "metadata": {
+      "source": "PubMed:40260282",
+      "pmid": "40260282",
+      "title": "Evaluating the triglyceride glucose index as a predictive biomarker for osteoporosis in patients with type 2 diabetes.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_36030781",
+    "text": "[Update on the diagnosis and management of SIADH and\u00a0Diabetes\u00a0insipidus].. Dysnatremia is a common occurrence in patients with COVID-19 and is associated with higher mortality and risk for septic conditions. The pathomechanisms are probably multifaceted, but severe hyponatremia may also occur as a result of underlying SIADH or hypocortisolism. Patients with preexisting AVP dysfunction, like SIADH or diabetes insipidus, are at high risk for severe electrolyte imbalances in the event of a COVID-19 infection.The recently growing use of immune checkpoint inhibitors in oncology is associated with a spectrum of endocrine immune-related adverse events (endocrine irAEs). These AEs usually occur unpredictably and may even manifest after discontinuation of the anticancer therapy. Hyponatremia is a common factor of several endocrine irAEs and may serve as a red flag biomarker for possibly underlying endocrine irAEs such as hypophysitis or adrenalitis. New-onset hyponatremia should always prompt a comprehensive diagnostic workup and exclusion of endocrine irAEs before the diagnosis of SIADH is made.Hyponatremia with severe symptoms should be treated with hypertonic (3\u200a%) saline solution to resolve the cerebral edema and prevent from detrimental neurological sequelae. Both rapid intermittent bolus (RIB) therapy and continuous infusion therapy have now been reported to be safe and equally effective. The RIB therapy limits the risk of overcorrection and requires less often re-lowering treatment than continuous infusion therapy.Fluid restriction has long been considered as first-line treatment of chronic hyponatremia due to SIADH. Additional treatment with Furosemid and/or oral NaCl tablets does not improve efficacy but reduces tolerance to therapy.Copeptin-based dynamic tests show higher diagnostic accuracy in the differential diagnosis of patients with hypotonic polyuria polydipsia syndrome than the indirect water deprivation test.",
+    "metadata": {
+      "source": "PubMed:36030781",
+      "pmid": "36030781",
+      "title": "[Update on the diagnosis and management of SIADH and\u00a0Diabetes\u00a0insipidus].",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_16344402",
+    "text": "Prediction of type 2 diabetes mellitus with alternative definitions of the metabolic syndrome: the Insulin Resistance Atherosclerosis Study.. In addition to predicting cardiovascular disease (CVD) morbidity and mortality, the metabolic syndrome is strongly associated with the development of type 2 diabetes mellitus (DM), itself an important risk factor for CVD. Our objective was to compare the ability of various metabolic syndrome criteria (including those recently proposed by the International Diabetes Federation), markers of insulin resistance (IR) and inflammation, and impaired glucose tolerance (IGT) in the prediction of DM and to determine whether various proposed modifications to the National Cholesterol Education program (NCEP) metabolic syndrome definition improved predictive ability.",
+    "metadata": {
+      "source": "PubMed:16344402",
+      "pmid": "16344402",
+      "title": "Prediction of type 2 diabetes mellitus with alternative definitions of the metabolic syndrome: the Insulin Resistance Atherosclerosis Study.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_40264121",
+    "text": "SGLT2 inhibitor in a type 2 diabetes mellitus patient coexisted with central diabetes insipidus following hyperosmolar hyperglycemic state.. Central diabetes insipidus (CDI) is a rare complication following a hyperglycemic hyperosmolar state (HHS) in patients with type 2 diabetes mellitus (T2DM). The coexistence of T2DM and CDI can lead to diagnostic challenges, particularly when the patients present with persistent hypernatremia without a sense of thirst.",
+    "metadata": {
+      "source": "PubMed:40264121",
+      "pmid": "40264121",
+      "title": "SGLT2 inhibitor in a type 2 diabetes mellitus patient coexisted with central diabetes insipidus following hyperosmolar hyperglycemic state.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_33946243",
+    "text": "Clinical Spectrum Associated with Wolfram Syndrome Type 1 and Type 2: A Review on Genotype-Phenotype Correlations.. Wolfram syndrome is a rare neurodegenerative disorder that is typically characterized by diabetes mellitus and optic atrophy. Other common features are diabetes insipidus and hearing loss, but additional less-frequent findings may also be present. The phenotype spectrum is quite wide, and penetrance may be incomplete. The syndrome is progressive, and thus, the clinical picture may change during follow-up. Currently, two different subtypes of this syndrome have been described, and they are associated with two different disease-genes,",
+    "metadata": {
+      "source": "PubMed:33946243",
+      "pmid": "33946243",
+      "title": "Clinical Spectrum Associated with Wolfram Syndrome Type 1 and Type 2: A Review on Genotype-Phenotype Correlations.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "pubmed_35328914",
+    "text": "Wolfram Syndrome 1: From Genetics to Therapy.. Wolfram syndrome 1 (WS1) is a rare neurodegenerative disease transmitted in an autosomal recessive mode. It is characterized by diabetes insipidus (DI), diabetes mellitus (DM), optic atrophy (OA), and sensorineural hearing loss (D) (DIDMOAD). The clinical picture may be complicated by other symptoms, such as urinary tract, endocrinological, psychiatric, and neurological abnormalities. WS1 is caused by mutations in the",
+    "metadata": {
+      "source": "PubMed:35328914",
+      "pmid": "35328914",
+      "title": "Wolfram Syndrome 1: From Genetics to Therapy.",
+      "domain": "diabetes"
+    }
+  },
+  {
+    "id": "sample_heart_1",
+    "text": "Hypertension, dyslipidemia, and ischemic symptoms remain strong predictors of adverse cardiac outcomes.",
+    "metadata": {
+      "source": "Synthetic sample abstract",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_24291276",
+    "text": "Left atrial size and function: role in prognosis.. The author examines the ability of left atrial size and function to predict cardiovascular outcomes. Data are sufficient to recommend evaluation of left atrial volume in certain populations, and although analysis of atrial reservoir, conduit, and booster pump function trails in that regard, the gap is rapidly closing. In this state-of-the-art paper, the author reviews the methods used to assess left atrial size and function and discusses their role in predicting cardiovascular events in general and referral populations and in patients with atrial fibrillation, cardiomyopathy, ischemic heart disease, and valvular heart disease.",
+    "metadata": {
+      "source": "PubMed:24291276",
+      "pmid": "24291276",
+      "title": "Left atrial size and function: role in prognosis.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_23470072",
+    "text": "NTproBNP: an important biomarker in cardiac diseases.. Natriuretic neuropeptides (ANP, BNP, CNP) are produced primarily in the cardiac atria under normal conditions. The main stimulus for ANP and BNP peptide synthesis and secretion is cardiac wall stress. Cardiac ventricular myocytes constitute the major source of BNP-related peptides. Ventricular NT-proBNP production is upregulated in cardiac failure and locally in the area surrounding a myocardial infarct. NT-proBNP is cleared passively by organs with high rate of blood flow (muscle, liver, kidney). It has a longer half life than BNP and higher plasma concentration. BNP and NTproBNP tend to be higher in women and lower in obese individuals. They are also higher in elderly, in left ventricular tachycardia, right ventricular overload, myocardial ischemia, hypoxaemia, renal dysfunction, liver cirrhosis, sepsis and infection. NT-proBNP is useful both in the diagnosis and prognosis of heart failure and is considered to be a gold standard biomarker in heart failure similar to BNP. A cut-off point 300 pg/ml has 99% sensitivity, 60%specificity and NPV 98%for exclusion of acute heart failure. NT proBNP has also a strong prognostic value of death in acute and chronic heart failure and also predicts short and long term mortality in patient with suspected or confirmed unstable CVD. Natriuretic peptides are also prognostic markers for the RV (Right Ventricular) Dysfunction. Their release is due to myocardial stretch from right ventricular pressure overload.Finally, there are data supporting that NT-proBNP might be useful to put a time frame on atrial fibrillation of unknown onset.",
+    "metadata": {
+      "source": "PubMed:23470072",
+      "pmid": "23470072",
+      "title": "NTproBNP: an important biomarker in cardiac diseases.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_40036490",
+    "text": "Advanced prediction of heart failure risk in elderly diabetic and hypertensive patients using nine machine learning models and novel composite indices: insights from NHANES 2003-2016.. As the global population ages, cardiovascular diseases, particularly heart failure (HF), have become leading causes of mortality and disability among elderly patients. Diabetes and hypertension are major risk factors for cardiovascular diseases, making this group especially vulnerable to HF. Current clinical tools for predicting HF risk are often complex, requiring extensive clinical parameters and laboratory tests, which limit their practical application. Therefore, a need exists for a predictive model that is both simple and effective in assessing HF risk in elderly patients with diabetes and hypertension.",
+    "metadata": {
+      "source": "PubMed:40036490",
+      "pmid": "40036490",
+      "title": "Advanced prediction of heart failure risk in elderly diabetic and hypertensive patients using nine machine learning models and novel composite indices: insights from NHANES 2003-2016.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_21896144",
+    "text": "\u03b2-Adrenergic blockers.. KEY POINTS AND PRACTICAL RECOMMENDATIONS: \u2022 \u2002\u03b2-Blockers are appropriate treatment for patients with hypertension and those who have concomitant ischemic heart disease, heart failure, obstructive cardiomyopathy, or certain arrhythmias. \u2022 \u2002\u03b2-Blockers can be used in combination with other antihypertensive drugs to achieve maximal blood pressure control. Labetalol can be used in hypertensive emergencies and urgencies. \u2022 \u2002\u03b2-Blockers may be useful in patients having hyperkinetic circulation (palpitations, tachycardia, hypertension, and anxiety), migraine headache, and essential tremor. \u2022 \u2002\u03b2-Blockers are highly heterogeneous with respect to various pharmacologic effects: degree of intrinsic sympathomimetic activity, membrane-stabilizing activity, \u03b2(1) selectivity, \u03b1(1) -adrenergic-blocking effect, tissue solubility, routes of systemic elimination, potencies and duration of action, and specific effects may be important in the selection of a drug for clinical use. \u2022 \u2002\u03b2-Blocker usage to reduce perioperative ischemia and cardiovascular complications may not benefit as many patients as was once hoped and may actually cause harm in some individuals. Currently the best evidence supports \u03b2-blocker use in two patient groups: patients undergoing vascular surgery with known ischemic heart disease or multiple risk factors for it and for patients already receiving \u03b2-blockers for known cardiovascular conditions.",
+    "metadata": {
+      "source": "PubMed:21896144",
+      "pmid": "21896144",
+      "title": "\u03b2-Adrenergic blockers.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_40222714",
+    "text": "Echocardiographic Parameters and Risk Prediction in Pulmonary Arterial Hypertension: Insights From the Redefining Pulmonary Hypertension Through Pulmonary Vascular Disease Phenomics Network.. Echocardiographic metrics of right ventricular (RV) chamber size and function enhance prognostication, risk stratification, and measurement of therapeutic response in patients with pulmonary arterial hypertension (PAH), though the most effective metrics remain unclear.",
+    "metadata": {
+      "source": "PubMed:40222714",
+      "pmid": "40222714",
+      "title": "Echocardiographic Parameters and Risk Prediction in Pulmonary Arterial Hypertension: Insights From the Redefining Pulmonary Hypertension Through Pulmonary Vascular Disease Phenomics Network.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_18344067",
+    "text": "[Monogenic heart disease].. The pathogenesis of most cardiovascular disorders is multifactorial and incompletely understood. Besides genetic influences that often arise from multiple genetic loci, the specific nutritional and environmental influences do contribute to the dysfunctional development. Nevertheless, a rather small number of cardiovascular diseases exhibits Mendelian traits, since they are caused by a single gene defect. Examples are familial cardiomyopathies, primary arrhythmias and connective tissues disorders of vessels. More detailed investigations reveal that even these entities are usually not purely monogenic, as they do not appear with the same intensity in all mutation carriers. Hence, there must be further modifying factors that influence the penetrance of the disease. Despite this limitation monogenic diseases allow the identification of the underlying genetic defects and thereby a deeper insight into the pathophysiology. Predictive genetic diagnostics, on the other hand, permit a better adaptation of medical care to the individual risk of offspring that are not yet affected.",
+    "metadata": {
+      "source": "PubMed:18344067",
+      "pmid": "18344067",
+      "title": "[Monogenic heart disease].",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_15860963",
+    "text": "Hypertensive heart disease.. Hypertensive heart disease encompasses anatomical changes and altered physiology of heart muscle, coronary arteries, and great vessels. Left ventricular hypertrophy is not only a target organ response to increased afterload, but is also the most potent cardiovascular risk factor. Regression of hypertrophy reduces morbidity and mortality. Heart failure may be present in the absence of a reduction of myocardial contractility. Ischemic heart disease occurs in the absence of epicardial coronary disease. Left atrial size and atrial fibrillation are associated. Potentially lethal ventricular arrhythmias and sudden cardiac death are more common in hypertensive patients. The relationship of aortic root size to blood pressure is weaker than expected; however, the relationship to aortic dissection is stronger. Careful attention and treatment of left ventricular hypertrophy, heart failure, ischemic heart disease, and atrial fibrillation will improve survival.",
+    "metadata": {
+      "source": "PubMed:15860963",
+      "pmid": "15860963",
+      "title": "Hypertensive heart disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_28740581",
+    "text": "The Parathyroid Gland and Heart Disease.. The parathyroid glands are critical to maintaining calcium homeostasis through actions of parathyroid hormone (PTH). Recent clinical and molecular research has shown that direct and indirect actions of PTH also affect the heart and vasculature through downstream actions of G protein-coupled receptors in the myocardium and endothelial cells. Patients with disorders of the parathyroid gland have higher incidences of hypertension, arrhythmias, left ventricular hypertrophy, heart failure, and calcific disease which translate into increased cardiac morbidity and mortality. Importantly, clinical research also suggests that early treatment of parathyroid disorders through medical or surgical management may reverse cardiovascular remodeling and mitigate cardiac risk factors.",
+    "metadata": {
+      "source": "PubMed:28740581",
+      "pmid": "28740581",
+      "title": "The Parathyroid Gland and Heart Disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_15013960",
+    "text": "Hypertension, hypertensive heart disease and perioperative cardiac risk.. The evidence for an association between hypertensive disease, elevated admission arterial pressure, and perioperative cardiac outcome is reviewed. A systematic review and meta-analysis of 30 observational studies demonstrated an odds ratio for the association between hypertensive disease and perioperative cardiac outcomes of 1.35 (1.17-1.56). This association is statistically but not clinically significant. There is little evidence for an association between admission arterial pressures of less than 180 mm Hg systolic or 110 mm Hg diastolic and perioperative complications. The position is less clear in patients with admission arterial pressures above this level. Such patients are more prone to perioperative ischaemia, arrhythmias, and cardiovascular lability, but there is no clear evidence that deferring anaesthesia and surgery in such patients reduces perioperative risk. We recommend that anaesthesia and surgery should not be cancelled on the grounds of elevated preoperative arterial pressure. The intraoperative arterial pressure should be maintained within 20% of the best estimate of preoperative arterial pressure, especially in patients with markedly elevated preoperative pressures. As a result, attention should be paid to the presence of target organ damage, such as coronary artery disease, and this should be taken into account in preoperative risk evaluation. The anaesthetist should be aware of the potential errors in arterial pressure measurements and the impact of white coat hypertension on them. A number of measurements of arterial pressure, obtained by competent staff (ideally nursing staff), may be required to obtain an estimate of the \"true\" preoperative arterial pressure.",
+    "metadata": {
+      "source": "PubMed:15013960",
+      "pmid": "15013960",
+      "title": "Hypertension, hypertensive heart disease and perioperative cardiac risk.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_24804791",
+    "text": "Myocardial remodeling in hypertension.. Left ventricular (LV) hypertrophy and remodeling are frequently seen in hypertensive subjects and result from a complex interaction of several hemodynamic and non-hemodynamic variables. Although increased blood pressure is considered the major determinant of LV structural alterations, ethnicity, gender, environmental factors, such as salt intake, obesity and diabetes mellitus, as well as neurohumoral and genetic factors might influence LV mass and geometry. The conventional concept of hypertensive LV remodeling has been that hypertension leads to concentric hypertrophy, as an adaptive response to normalize wall stress, which is then followed by chamber dilation and heart failure. However, several lines of evidence have challenged this dogma. Concentric hypertrophy is not the most frequent geometric pattern and is less usually seen than eccentric hypertrophy in hypertensive subjects. In addition, data from recent studies suggested that transition from LV concentric hypertrophy to dilation and systolic dysfunction is not a common finding, especially in the absence of coronary heart disease. LV hypertrophy is also consistently associated with increased cardiovascular morbidity and mortality, raising doubts whether this phenotype is an adaptive response. Experimental evidence exists that a blunting of load-induced cardiomyocyte hypertrophy does not necessarily result in LV dysfunction or failure. Furthermore, the hypertrophic myocardium shows fibrosis, alterations in the coronary circulation and cardiomyocyte apoptosis, which may result in heart failure, myocardial ischemia and arrhythmias. Overall, this body of evidence suggests that LV hypertrophy is a complex phenotype that predicts adverse cardiovascular outcomes and may not be necessarily considered as an adaptive response to systemic hypertension.",
+    "metadata": {
+      "source": "PubMed:24804791",
+      "pmid": "24804791",
+      "title": "Myocardial remodeling in hypertension.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_29701349",
+    "text": "Pulmonary Hypertension in Valvular Heart Disease Surgery: Risk and Prognosis.. Left heart disease is the most common cause of pulmonary hypertension (PH), and when present is associated with higher surgical risk.",
+    "metadata": {
+      "source": "PubMed:29701349",
+      "pmid": "29701349",
+      "title": "Pulmonary Hypertension in Valvular Heart Disease Surgery: Risk and Prognosis.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_11062603",
+    "text": "Hypertension and the heart.. Sustained increase in arterial pressure causes left ventricular hypertrophy and adversely affects all myocardial compartments: myocytes, interstitium, and coronary vasculature. Ventricular hypertrophy significantly increases the risk for cardiovascular morbidity and mortality in hypertensive disease. Impairments in coronary circulation and ventricular fibrosis, which are an essential part of hypertensive disease, contribute to that increased risk. This report discusses the mechanisms of hypertension-induced myocardial collagen accumulation and impairments in coronary hemodynamics. Particular attention is given to the interaction of hypertension and aging because aging aggravates hypertensive changes and the incidence of hypertension increases with aging. The effect of therapy on hypertension-induced ventricular fibrosis and impairment in coronary hemodynamics and the risk associated with these changes are also discussed.",
+    "metadata": {
+      "source": "PubMed:11062603",
+      "pmid": "11062603",
+      "title": "Hypertension and the heart.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_28901848",
+    "text": "Pulmonary Hypertension secondary to Left Heart Disease.. Pulmonary Hypertension (PH) related to Left Heart Disease (LHD) is the most common form of PH, accounting for more than two third of all PH cases. The hemodynamic abnormalities seen in PHLHD are complex, and there are currently minimal evidence-based recommendations for the management of PH-LHD. While it is accepted that PH in the context of left heart disease is a marker of worse prognosis, it remains unclear whether its primary treatment is beneficial or harmful. In this article, we discuss the prevalence and significance of PH in patients with Heart Failure (HF) with Reduced Ejection Fraction (HFrEF) as well as HF with Preserved Ejection Fraction (HFpEF), and those with valvular heart disease and provide insights into the complex pathophysiology of cardiopulmonary interrelationship in individuals with PH due to left heart disease. Furthermore, we provide a framework for diagnostic testing and an approach to optimal management of these complex patients based on current European Society of Cardiology (ESC) guidelines.",
+    "metadata": {
+      "source": "PubMed:28901848",
+      "pmid": "28901848",
+      "title": "Pulmonary Hypertension secondary to Left Heart Disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_29658439",
+    "text": "Hypertension and Aortic Stenosis: A Review.. Aortic stenosis is a common form of valvular heart disease which often coexists with hypertension. These diseases represent two distinct forms of left ventricular systolic overload and in combination may be associated with disadvantageous left ventricular remodeling, increased mortality and heart failure. The treatment of hypertension in aortic stenosis remains a challenging problem with limited data to guide clinical practice.",
+    "metadata": {
+      "source": "PubMed:29658439",
+      "pmid": "29658439",
+      "title": "Hypertension and Aortic Stenosis: A Review.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_20924360",
+    "text": "Pulmonary hypertension with left-sided heart disease.. Pulmonary hypertension (PH) with left-sided heart disease is defined, according to the latest Venice classification, as a Group 2 PH, which includes left-sided ventricular or atrial disease, and left-sided valvular diseases. These conditions are all associated with increased left ventricular filling pressure. Although PH with left-sided heart disease is a common entity, and long-term follow-up trials have provided firm recognition that development of left-sided PH carries a poor outcome, available data on incidence, pathophysiology, and therapy are sparse. Mitral stenosis was reported as the most frequent cause of PH several decades ago, but PH with left-sided heart disease is now usually caused by systemic hypertension and ischemic heart disease. In patients with these conditions, PH develops as a consequence of impaired left ventricular relaxation and distensibility. Chronic sustained elevation of cardiogenic blood pressure in pulmonary capillaries leads to a cascade of untoward retrograde anatomical and functional effects that represent specific targets for therapeutic intervention. The pathophysiological and clinical importance of the hemodynamic consequences of left-sided heart disease, starting with lung capillary injury and leading to right ventricular overload and failure, are discussed in this Review, focusing on PH as an evolving contributor to heart failure that may be amenable to novel interventions.",
+    "metadata": {
+      "source": "PubMed:20924360",
+      "pmid": "20924360",
+      "title": "Pulmonary hypertension with left-sided heart disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_27815926",
+    "text": "Hypertension Is a Risk Factor for Several Types of Heart Disease: Review of Prospective Studies.. Many prospective cohort studies have demonstrated that hypertension is a strong risk factor for total mortality and cardiovascular disease (CVD). Heart disease includes coronary heart disease (CHD), heart failure, atrial fibrillation, valvular disease, sudden cardiac death (SCD), sick sinus syndrome (SSS), cardiomyopathy, and aortic aneurysms. Most of the epidemiologic prospective studies of heart disease focused on coronary/ischemic heart disease. Here we comprehensively reviewed the association between hypertension and the above-mentioned heart diseases. We found that CHD, heart failure, atrial fibrillation, aortic valvular disease, SCD, SSS, left ventricular hypertrophy, and abdominal aortic aneurysms were all associated with hypertension. Those relations tended to be stronger in men. The prevention of hypertension and lowering one's blood pressure may help reduce the risk of developing heart disease.",
+    "metadata": {
+      "source": "PubMed:27815926",
+      "pmid": "27815926",
+      "title": "Hypertension Is a Risk Factor for Several Types of Heart Disease: Review of Prospective Studies.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_39691460",
+    "text": "Defining Echocardiographic Degrees of Right Heart Size and Function in Pulmonary Vascular Disease from the PVDOMICS Study.. Defining qualitative grades of echocardiographic metrics of right heart chamber size and function is critical for screening, clinical assessment, and measurement of therapeutic response in individuals with pulmonary vascular disease (PVD). In a population enriched for PVD, we sought to establish qualitative grades and prognostic value of right heart chamber size and function.",
+    "metadata": {
+      "source": "PubMed:39691460",
+      "pmid": "39691460",
+      "title": "Defining Echocardiographic Degrees of Right Heart Size and Function in Pulmonary Vascular Disease from the PVDOMICS Study.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_28379281",
+    "text": "Regression of Established Cardiac Fibrosis in Hypertensive Heart Disease.. Established cardiac fibrosis (ECF) with symptomatic heart failure preserved ejection fraction represents an ever-increasing segment of the hypertensive population. The regression of ECF with attendant improvement in myocardial stiffness and symptomatic failure represents an unmet health care need. Is the regression of ECF in hypertensive heart disease feasible and will stiffness and symptomatic failure be improved? What is the cellular/molecular signaling involved in its regression? What incremental knowledge is needed to proceed effectively? These issues are addressed in this Review.",
+    "metadata": {
+      "source": "PubMed:28379281",
+      "pmid": "28379281",
+      "title": "Regression of Established Cardiac Fibrosis in Hypertensive Heart Disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_26886381",
+    "text": "Evolving Concepts of Pulmonary Hypertension Secondary to Left Heart Disease.. Pulmonary hypertension associated with left heart disease is the most common form of pulmonary hypertension. Although its pathophysiology remains incompletely understood, it is now well recognized that the presence of pulmonary hypertension is associated with a worse prognosis. Right ventricular failure has independent and additive prognostic value over pulmonary hypertension for adverse outcomes in left heart disease. Recently, several new terminologies have been introduced to better define and characterize the nature and severity of pulmonary hypertension. Several new treatment options including the use of pulmonary arterial hypertension specific therapies are being considered, but there is lack of evidence. Here, we review the recent advances in this field and summarize the diagnostic and therapeutic modalities of use in the management of pulmonary hypertension associated with left heart disease.",
+    "metadata": {
+      "source": "PubMed:26886381",
+      "pmid": "26886381",
+      "title": "Evolving Concepts of Pulmonary Hypertension Secondary to Left Heart Disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_21453216",
+    "text": "Imaging in hypertensive heart disease.. Hypertensive heart disease is the target organ response to arterial hypertension. Left ventricular hypertrophy represents an important predictor for cardiovascular events. Myocardial fibrosis, a common end point in hypertensive heart disease, has been linked to the development of left ventricular hypertrophy and diastolic dysfunction. Echocardiography is clinically useful in the detection of left ventricular hypertrophy and the assessment of diastolic function. Although echocardiography is more widely available, cardiac magnetic resonance has been demonstrated to be more reproducible for the estimation of left ventricular mass. Future developments in cardiac magnetic resonance techniques may facilitate the quantification of diffuse fibrosis that occurs in hypertensive heart disease. Thus, advances in cardiac imaging provide comprehensive, noninvasive tools for imaging left ventricular hypertrophy, diastolic dysfunction, myocardial fibrosis and ischemia observed in hypertensive heart disease. The objective of this article is to summarize the state-of-the-art and the future of multimodality imaging of hypertensive heart disease.",
+    "metadata": {
+      "source": "PubMed:21453216",
+      "pmid": "21453216",
+      "title": "Imaging in hypertensive heart disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_29966640",
+    "text": "The Right Heart-Pulmonary Circulation Unit and Left Heart Valve Disease.. Valvular heart disease (VHD) is frequently accompanied by pulmonary hypertension (PH). In asymptomatic patients, PH is rare, although the exact prevalence is unknown and mainly stems from the severity of the VHD and the presence of diastolic dysfunction. PH can also be depicted during exercise echocardiography. PH either at rest or during exercise is also a powerful determinant of outcome and is independently associated with reduced survival, regardless of the severity of the underlying valvular pathology. Therefore, because PH is a marker of poor prognosis, assessment of PH in VHD is crucial for risk stratification and management of patients with VHD.",
+    "metadata": {
+      "source": "PubMed:29966640",
+      "pmid": "29966640",
+      "title": "The Right Heart-Pulmonary Circulation Unit and Left Heart Valve Disease.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_37335406",
+    "text": "Serum markers in systemic sclerosis with cardiac involvement.. Cardiac involvement in systemic sclerosis is a common clinical entity that may range from subclinical to life-threatening complications. The classification of cardiac involvement may be expressed as either primary or secondary involvement. Primary systemic sclerosis heart involvement (SSc-pHI) refers to cardiac pathologies primarily ascribed to systemic sclerosis rather than concomitant conditions like ischemic heart disease and pulmonary hypertension. The timely recognition of cardiac involvement holds significant clinical relevance. Therefore, numerous screening or diagnostic tools have been evaluated to forecast the likelihood of cardiac involvement, particularly in the absence of clinically evident cardiac symptoms. Of these modalities, serum biomarkers are often preferred due to their expeditiousness and non-invasive nature. Hence, the crucial goal of this narrative review is to review serum biomarkers that can be a valuable or promising tool in diagnosing cardiac involvement, especially SSc-pHI, in the early stages or predicting disease prognosis.",
+    "metadata": {
+      "source": "PubMed:37335406",
+      "pmid": "37335406",
+      "title": "Serum markers in systemic sclerosis with cardiac involvement.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_29251696",
+    "text": "Arterial hypertension and atrial fibrillation: standard and advanced echocardiography from diagnosis to prognostication.. : Structural changes in left and right cardiac chambers that occur in arterial hypertension (AH) may lead to an increased risk of atrial fibrillation. Considering that AH is currently the most common cardiovascular disease in the general population, it represents a major risk factor for atrial fibrillation development. This review explores the complex relationship between atrial fibrillation and AH, starting from its pathophysiological basis. It focuses on the role of echocardiography in the management of hypertensive and atrial fibrillation patients, with emphasis on what should be evaluated about left ventricular remodeling, diastolic and systolic function, left atrial (LA) size and function and right ventricular deformation in patients with AH.",
+    "metadata": {
+      "source": "PubMed:29251696",
+      "pmid": "29251696",
+      "title": "Arterial hypertension and atrial fibrillation: standard and advanced echocardiography from diagnosis to prognostication.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "pubmed_29295699",
+    "text": "Aortic Stenosis, Aortic Regurgitation and Arterial Hypertension.. Hypertension (HT) is an important risk factor for cardiovascular disease and might precipitate pathology of the aortic valve.",
+    "metadata": {
+      "source": "PubMed:29295699",
+      "pmid": "29295699",
+      "title": "Aortic Stenosis, Aortic Regurgitation and Arterial Hypertension.",
+      "domain": "heart_disease"
+    }
+  },
+  {
+    "id": "sample_pneumonia_1",
+    "text": "Hypoxemia, tachypnea, and inflammatory markers correlate with pneumonia severity and need for escalation.",
+    "metadata": {
+      "source": "Synthetic sample abstract",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_32538594",
+    "text": "Acute Respiratory Distress Syndrome: Diagnosis and Management.. Acute respiratory distress syndrome (ARDS) is noncardiogenic pulmonary edema that manifests as rapidly progressive dyspnea, tachypnea, and hypoxemia. Diagnostic criteria include onset within one week of a known insult or new or worsening respiratory symptoms, profound hypoxemia, bilateral pulmonary opacities on radiography, and inability to explain respiratory failure by cardiac failure or fluid overload. ARDS is thought to occur when a pulmonary or extrapulmonary insult causes the release of inflammatory mediators, promoting inflammatory cell accumulation in the alveoli and microcirculation of the lung. Inflammatory cells damage the vascular endothelium and alveolar epithelium, leading to pulmonary edema, hyaline membrane formation, decreased lung compliance, and decreased gas exchange. Most cases are associated with pneumonia or sepsis. ARDS is responsible for one in 10 admissions to intensive care units and one in four mechanical ventilations. In-hospital mortality for patients with severe ARDS ranges from 46% to 60%. ARDS often must be differentiated from pneumonia and congestive heart failure, which typically has signs of fluid overload. Treatment of ARDS is supportive and includes mechanical ventilation, prophylaxis for stress ulcers and venous thromboembolism, nutritional support, and treatment of the underlying injury. Low tidal volume and high positive end-expiratory pressure improve outcomes. Prone positioning is recommended for some moderate and all severe cases. As patients with ARDS improve and the underlying illness resolves, a spontaneous breathing trial is indicated to assess eligibility for ventilator weaning. Patients who survive ARDS are at risk of diminished functional capacity, mental illness, and decreased quality of life; ongoing care by a primary care physician is beneficial for these patients.",
+    "metadata": {
+      "source": "PubMed:32538594",
+      "pmid": "32538594",
+      "title": "Acute Respiratory Distress Syndrome: Diagnosis and Management.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_39657981",
+    "text": "High-Flow Nasal Oxygen vs Noninvasive Ventilation in Patients With Acute Respiratory Failure: The RENOVATE Randomized Clinical Trial.. High-flow nasal oxygen (HFNO) and noninvasive ventilation (NIV) are commonly used respiratory support therapies for patients with acute respiratory failure (ARF).",
+    "metadata": {
+      "source": "PubMed:39657981",
+      "pmid": "39657981",
+      "title": "High-Flow Nasal Oxygen vs Noninvasive Ventilation in Patients With Acute Respiratory Failure: The RENOVATE Randomized Clinical Trial.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_38902737",
+    "text": "Novel hypoxia- and lactate metabolism-related molecular subtyping and prognostic signature for colorectal cancer.. Colorectal cancer (CRC) is a serious global health burden because of its high morbidity and mortality rates. Hypoxia and massive lactate production are hallmarks of the CRC microenvironment. However, the effects of hypoxia and lactate metabolism on CRC have not been fully elucidated. This study aimed to develop a novel molecular subtyping based on hypoxia-related genes (HRGs) and lactate metabolism-related genes (LMRGs) and construct a signature to predict the prognosis of patients with CRC and treatment efficacy.",
+    "metadata": {
+      "source": "PubMed:38902737",
+      "pmid": "38902737",
+      "title": "Novel hypoxia- and lactate metabolism-related molecular subtyping and prognostic signature for colorectal cancer.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_27812731",
+    "text": "Assessment of heart rate, acidosis, consciousness, oxygenation, and respiratory rate to predict noninvasive ventilation failure in hypoxemic patients.. To develop and validate a scale using variables easily obtained at the bedside for prediction of failure of noninvasive ventilation (NIV) in hypoxemic patients.",
+    "metadata": {
+      "source": "PubMed:27812731",
+      "pmid": "27812731",
+      "title": "Assessment of heart rate, acidosis, consciousness, oxygenation, and respiratory rate to predict noninvasive ventilation failure in hypoxemic patients.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_33764378",
+    "text": "Effect of Helmet Noninvasive Ventilation vs High-Flow Nasal Oxygen on Days Free of Respiratory Support in Patients With COVID-19 and Moderate to Severe Hypoxemic Respiratory Failure: The HENIVOT Randomized Clinical Trial.. High-flow nasal oxygen is recommended as initial treatment for acute hypoxemic respiratory failure and is widely applied in patients with COVID-19.",
+    "metadata": {
+      "source": "PubMed:33764378",
+      "pmid": "33764378",
+      "title": "Effect of Helmet Noninvasive Ventilation vs High-Flow Nasal Oxygen on Days Free of Respiratory Support in Patients With COVID-19 and Moderate to Severe Hypoxemic Respiratory Failure: The HENIVOT Randomized Clinical Trial.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_34903833",
+    "text": "Development and validation of a new scoring system for prognostic prediction of community-acquired pneumonia in older adults.. The discriminative power of CURB-65 for mortality in community-acquired pneumonia (CAP) is suspected to decrease with age. However, a useful prognostic prediction model for older patients with CAP has not been established. This study aimed to develop and validate a new scoring system for predicting mortality in older patients with CAP. We recruited two prospective cohorts including patients aged\u2009\u2265\u200965\u00a0years and hospitalized with CAP. In the derivation (n\u2009=\u2009872) and validation cohorts (n\u2009=\u20091,158), the average age was 82.0 and 80.6\u00a0years and the 30-day mortality rate was 7.6% (n\u2009=\u200966) and 7.4% (n\u2009=\u200986), respectively. A new scoring system was developed based on factors associated with 30-day mortality, identified by multivariate analysis in the derivation cohort. This scoring system named CHUBA comprised five variables: confusion, hypoxemia (SpO",
+    "metadata": {
+      "source": "PubMed:34903833",
+      "pmid": "34903833",
+      "title": "Development and validation of a new scoring system for prognostic prediction of community-acquired pneumonia in older adults.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_39625722",
+    "text": "Fostamatinib for Hospitalized Adults With COVID-19 and Hypoxemia: A Randomized Clinical Trial.. Fostamatinib, a spleen tyrosine kinase inhibitor, has been reported to improve outcomes of COVID-19.",
+    "metadata": {
+      "source": "PubMed:39625722",
+      "pmid": "39625722",
+      "title": "Fostamatinib for Hospitalized Adults With COVID-19 and Hypoxemia: A Randomized Clinical Trial.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_36527624",
+    "text": "Silent Hypoxemia in COVID-19 Pneumonia.. In patients suffering from Coronavirus Disease 2019 (COVID-19), dyspnoea is less likely to occur despite hypoxemia. Even if the patient develops severe hypoxemia, it cannot be detected from subjective symptoms. In other words, it becomes more serious without the person or the surroundings noticing it. Initially less talked about, hypoxemia without dyspnoea (silent hypoxemia or happy hypoxia: hypoxemia that does not coincide with dyspnoea) is now experienced in many institutions. Dyspnoea is defined as \"the unpleasant sensation that accompanies breathing.\" Dyspnoea occurs when afferent information is transmitted to the sensory area. Receptors involved in the development of dyspnoea include central and peripheral chemoreceptors, chest wall receptors, lung receptors, upper respiratory tract receptors and corollary discharge receptors. In the present study, we considered mechanisms mediating the silent hypoxemia through three cases experienced at our hospital as a dedicated coronavirus treatment hospital. We have treated about 600 people infected with COVID-19, of which about 10% were severe cases. In the present study, the patients' condition was retrospectively extracted and analysed. We investigated three typical cases of COVID-19 pneumonia admitted to our hospital (men and women between the ages of 58 and 86 with hypoxemia and tachypnoea). Silent hypoxemia is not entirely without dyspnoea, but hypoxemia does not cause dyspnoea commensurate with its severity. The virus may have specific effects on the respiratory control system. In our cases, respiratory rate significantly increased with hypoxemia, and hyperventilation occurred. Therefore, information about hypoxemia is transmitted from the carotid body. Since hyperventilation occurs, it is suggested that information is transmitted to effectors such as respiratory muscles. The fact that these patients did not feel the unpleasant sensation indicates that information is not accu",
+    "metadata": {
+      "source": "PubMed:36527624",
+      "pmid": "36527624",
+      "title": "Silent Hypoxemia in COVID-19 Pneumonia.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_40423378",
+    "text": "Pulmonary Manifestations of Sepsis.. Sepsis is an inflammatory response to severe infection, which can affect any organ system. This inflammatory response can lead to life-threatening end organ dysfunction. In this article, we review pulmonary complications of sepsis including hypoxemia and acute respiratory distress syndrome. We also discuss pulmonary sources of sepsis including the management of community- and hospital-acquired pneumonia and ventilator-associated pneumonia.",
+    "metadata": {
+      "source": "PubMed:40423378",
+      "pmid": "40423378",
+      "title": "Pulmonary Manifestations of Sepsis.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_35501129",
+    "text": "Respiratory Drive, Dyspnea, and Silent Hypoxemia: A Physiological Review in the Context of COVID-19.. Infection with SARS-CoV-2 in select individuals results in viral sepsis, pneumonia, and hypoxemic respiratory failure, collectively known as COVID-19. In the early months of the pandemic, the combination of novel disease presentation, enormous surges of critically ill patients, and severity of illness lent to early observations and pronouncements regarding COVID-19 that could not be scientifically validated owing to crisis circumstances. One of these was a phenomenon referred to as \"happy hypoxia.\" Widely discussed in the lay press, it was thought to represent a novel and perplexing phenomenon: severe hypoxemia coupled with the absence of respiratory distress and dyspnea. Silent hypoxemia is the preferred term describing an apparent lack of distress in the presence of hypoxemia. However, the phenomenon is well known among respiratory physiologists as hypoxic ventilatory decline. Silent hypoxemia can be explained by physiologic mechanisms governing the control of breathing, breathing perception, and cardiovascular compensation. This narrative review examines silent hypoxemia during COVID-19 as well as hypotheses that viral infection of the central and peripheral nervous system may be implicated. Moreover, the credulous embrace of happy hypoxia and the novel hypotheses proposed to explain it has exposed significant misunderstandings among clinicians regarding the physiologic mechanisms governing both the control of breathing and the modulation of breathing sensations. Therefore, a substantial focus of this paper is to provide an in-depth review of these topics.",
+    "metadata": {
+      "source": "PubMed:35501129",
+      "pmid": "35501129",
+      "title": "Respiratory Drive, Dyspnea, and Silent Hypoxemia: A Physiological Review in the Context of COVID-19.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_7661414",
+    "text": "Measles pneumonitis.. To investigate the finding of increased alveolar-arterial (A-a) gradient in adult patients with measles who have normal results on both pulmonary auscultation and chest radiography.",
+    "metadata": {
+      "source": "PubMed:7661414",
+      "pmid": "7661414",
+      "title": "Measles pneumonitis.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_27308951",
+    "text": "Tissue Oximetry and Clinical Outcomes.. A number of different technologies have been developed to measure tissue oxygenation, with the goal of identifying tissue hypoxia and guiding therapy to prevent patient harm. In specific cases, tissue oximetry may provide clear indications of decreases in tissue oxygenation such as that occurring during acute brain ischemia. However, the causation between tissue hemoglobin-oxygen desaturation in one organ (eg, brain or muscle) and global outcomes such as mortality, intensive care unit length of stay, and remote organ dysfunction remains more speculative. In this review, we describe the current state of evidence for predicting clinical outcomes from tissue oximetry and identify several issues that need to be addressed to clarify the link between tissue oxygenation and outcomes. We focus primarily on the expanding use of near-infrared spectroscopy to assess a venous-weighted mixture of venous and arterial hemoglobin-oxygen saturation deep in tissues such as brain and muscle. Our analysis finds that more work is needed in several areas: establishing threshold prediction values for tissue desaturation-related injury in specific organs, defining the types of interventions required to correct changes in tissue oxygenation, and defining the effect of interventions on outcomes. Furthermore, well-designed prospective studies that test the hypothesis that monitoring oxygenation status in one organ predicts outcomes related to other organs need to be done. Finally, we call for more work that defines regional variations in tissue oxygenation and improves technology for measuring and even imaging oxygenation status in critical organs. Such studies will contribute to establishing that monitoring and imaging of tissue oxygenation will become routine in the care of high-risk patients because the monitors will provide outputs that direct therapy to improve clinical outcomes.",
+    "metadata": {
+      "source": "PubMed:27308951",
+      "pmid": "27308951",
+      "title": "Tissue Oximetry and Clinical Outcomes.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_37085217",
+    "text": "Pathophysiology of Hypoxemia in COVID-19 Lung Disease.. As the pandemic has progressed, our understanding of hypoxemia in coronavirus disease 2019 (COVID-19) lung disease has become more nuanced, although much remains to be understood. In this article, we review ventilation-perfusion mismatching in COVID-19 and the evidence to support various biologic theories offered in explanation. In addition, the relationship between hypoxemia and other features of severe COVID-19 lung disease such as respiratory symptoms, radiographic abnormalities, and pulmonary mechanics is explored. Recognizing and understanding hypoxemia in COVID-19 lung disease remains essential for risk stratification, prognostication, and choice of appropriate treatments in severe COVID-19.",
+    "metadata": {
+      "source": "PubMed:37085217",
+      "pmid": "37085217",
+      "title": "Pathophysiology of Hypoxemia in COVID-19 Lung Disease.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_34861135",
+    "text": "High-Flow Nasal Oxygen for Severe Hypoxemia: Oxygenation Response and Outcome in Patients with COVID-19.",
+    "metadata": {
+      "source": "PubMed:34861135",
+      "pmid": "34861135",
+      "title": "High-Flow Nasal Oxygen for Severe Hypoxemia: Oxygenation Response and Outcome in Patients with COVID-19.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_32845042",
+    "text": "Predictors of COVID-19 severity: A literature review.. The coronavirus disease 2019 (COVID-19) pandemic is a rapidly evolving global emergency that continues to strain healthcare systems. Emerging research describes a plethora of patient factors-including demographic, clinical, immunologic, hematological, biochemical, and radiographic findings-that may be of utility to clinicians to predict COVID-19 severity and mortality. We present a synthesis of the current literature pertaining to factors predictive of COVID-19 clinical course and outcomes. Findings associated with increased disease severity and/or mortality include age\u2009>\u200955\u2009years, multiple pre-existing comorbidities, hypoxia, specific computed tomography findings indicative of extensive lung involvement, diverse laboratory test abnormalities, and biomarkers of end-organ dysfunction. Hypothesis-driven research is critical to identify the key evidence-based prognostic factors that will inform the design of intervention studies to improve the outcomes of patients with COVID-19 and to appropriately allocate scarce resources.",
+    "metadata": {
+      "source": "PubMed:32845042",
+      "pmid": "32845042",
+      "title": "Predictors of COVID-19 severity: A literature review.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_19417615",
+    "text": "Hypoxemia during one-lung ventilation: prediction, prevention, and treatment.. When switching from two-lung to one-lung ventilation (OLV), shunt fraction increases, oxygenation is impaired, and hypoxemia may occur. Hypoxemia during OLV may be predicted from measurements of lung function, distribution of perfusion between the lungs, whether the right or the left lung is ventilated, and whether the operation will be performed in the supine or in the lateral decubitus position. Hypoxemia during OLV may be prevented by applying a ventilation strategy that avoids alveolar collapse while minimally impairing perfusion of the dependent lung. Choice of anesthesia does not influence oxygenation during clinical OLV. Hypoxemia during OLV may be treated symptomatically by increasing inspired fraction of oxygen, by ventilating, or by using continuous positive airway pressure in the nonventilated lung. Hypoxemia during OLV may be treated causally by correcting the position of the double-lumen tube, clearing the main bronchi of the ventilated lung from secretions, and improving the ventilation strategy.",
+    "metadata": {
+      "source": "PubMed:19417615",
+      "pmid": "19417615",
+      "title": "Hypoxemia during one-lung ventilation: prediction, prevention, and treatment.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_34635632",
+    "text": "Silent Hypoxemia in Patients with COVID-19 Pneumonia: A Review.. During the coronavirus disease 2019 (COVID-19) pandemic due to severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) infection, patients presented with COVID-19 pneumonia of varying severity. The phenomenon of severe hypoxemia without signs of respiratory distress is also known as silent or hidden hypoxemia. Although silent hypoxemia is not unique to pneumonia due to SARS-CoV-2 infection, this phenomenon is now recognized to be associated with severe COVID-19 pneumonia. Proper management of critically ill patients is the key to reducing mortality. Herein, we summarize the possible and rare factors contributing to silent hypoxemia in patients with COVID-19. Microvascular thrombosis causes dead space ventilation in the lungs, and the flow of pulmonary capillaries is reduced, which leads to an imbalance in the V/Q ratio. The dissociation curve of oxyhemoglobin shifts to the left and limits the release of oxygen to the tissue. SARS-CoV-2 interferes with the synthesis of hemoglobin and reduces the ability to carry oxygen. The accumulation of endogenous carbon monoxide and carboxyhemoglobin will reduce the total oxygen carrying capacity and interfere with pulse oxygen saturation readings. There are also some non-specific factors that cause the difference between pulse oximetry and oxygen partial pressure. We propose some potentially more effective clinical alternatives and recommendations for optimizing the clinical management processes of patients with COVID-19. This review aims to describe the prevalence of silent hypoxemia in COVID-19 pneumonia, to provide an update on what is known of the pathophysiology, and to highlight the importance of diagnosing silent hypoxemia in patients with COVID-19 pneumonia.",
+    "metadata": {
+      "source": "PubMed:34635632",
+      "pmid": "34635632",
+      "title": "Silent Hypoxemia in Patients with COVID-19 Pneumonia: A Review.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_24165032",
+    "text": "CPAP: a guide for clinicians in developing countries.. Despite the provision of oxygen, antibiotics and treatment guidelines, the case fatality rate for hypoxaemic pneumonia is still high in many hospitals in developing countries. Methods of delivering continuous positive airway pressure (CPAP) are now available which are simple to use, safe and relatively inexpensive. This paper describes two methods which may be appropriate where resources are limited: (i) bubble-CPAP using oxygen concentrators with an air-oxygen mix function and low resistance nasal oxygen prongs, and (ii) high-flow nasal cannula oxygen therapy. More research is needed on the implementation, cost and effectiveness of CPAP in the management of pneumonia and in neonatal care in developing countries.",
+    "metadata": {
+      "source": "PubMed:24165032",
+      "pmid": "24165032",
+      "title": "CPAP: a guide for clinicians in developing countries.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_35149742",
+    "text": "Prognosis of COVID-19 pneumonia can be early predicted combining Age-adjusted Charlson Comorbidity Index, CRB score and baseline oxygen saturation.. In potentially severe diseases in general and COVID-19 in particular, it is vital to early identify those patients who are going to progress to severe disease. A recent living systematic review dedicated to predictive models in COVID-19, critically appraises 145 models, 8 of them focused on prediction of severe disease and 23 on mortality. Unfortunately, in all 145 models, they found a risk of bias significant enough to finally \"not recommend any for clinical use\". Authors suggest concentrating on avoiding biases in sampling and prioritising the study of already identified predictive factors, rather than the identification of new ones that are often dependent on the database. Our objective is to develop a model to predict which patients with COVID-19 pneumonia are at high risk of developing severe illness or dying, using basic and validated clinical tools. We studied a prospective cohort of consecutive patients admitted in a teaching hospital during the \"first wave\" of the COVID-19 pandemic. Follow-up to discharge from hospital. Multiple logistic regression selecting variables according to clinical and statistical criteria. 404 consecutive patients were evaluated, 392 (97%) completed follow-up. Mean age was 61\u00a0years; 59% were men. The median burden of comorbidity was 2 points in the Age-adjusted Charlson Comorbidity Index, CRB was abnormal in 18% of patients and basal oxygen saturation on admission lower than 90% in 18%. A model composed of Age-adjusted Charlson Comorbidity Index, CRB score and basal oxygen saturation can predict unfavorable evolution or death with an area under the ROC curve of 0.85 (95% CI 0.80-0.89), and 0.90 (95% CI 0.86 to 0.94), respectively. Prognosis of COVID-19 pneumonia can be predicted without laboratory tests using two classic clinical tools and a pocket pulse oximeter.",
+    "metadata": {
+      "source": "PubMed:35149742",
+      "pmid": "35149742",
+      "title": "Prognosis of COVID-19 pneumonia can be early predicted combining Age-adjusted Charlson Comorbidity Index, CRB score and baseline oxygen saturation.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_32522574",
+    "text": "Coping with hypoxemia: Could erythropoietin (EPO) be an adjuvant treatment of COVID-19?. A very recent epidemiological study provides preliminary evidence that living in habitats located at 2500\u202fm above sea level (masl) might protect from the development of severe respiratory symptoms following infection with the novel SARS-CoV-2 virus. This epidemiological finding raises the question of whether physiological mechanisms underlying the acclimatization to high altitude identifies therapeutic targets for the effective treatment of severe acute respiratory syndrome pivotal to the reduction of global mortality during the COVID-19 pandemic. This article compares the symptoms of acute mountain sickness (AMS) with those of SARS-CoV-2 infection and explores overlapping patho-physiological mechanisms of the respiratory system including impaired oxygen transport, pulmonary gas exchange and brainstem circuits controlling respiration. In this context, we also discuss the potential impact of SARS-CoV-2 infection on oxygen sensing in the carotid body. Finally, since erythropoietin (EPO) is an effective prophylactic treatment for AMS, this article reviews the potential benefits of implementing FDA-approved erythropoietin-based (EPO) drug therapies to counteract a variety of acute respiratory and non-respiratory (e.g. excessive inflammation of vascular beds) symptoms of SARS-CoV-2 infection.",
+    "metadata": {
+      "source": "PubMed:32522574",
+      "pmid": "32522574",
+      "title": "Coping with hypoxemia: Could erythropoietin (EPO) be an adjuvant treatment of COVID-19?",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_27569107",
+    "text": "Child pneumonia - focus on the Western Pacific Region.. Worldwide, pneumonia is the leading cause of death in infants and young children (aged <5 years). We provide an overview of the global pneumonia disease burden, as well as the aetiology and management practices in different parts of the world, with a specific focus on the WHO Western Pacific Region. In 2011, the Western Pacific region had an estimated 0.11 pneumonia episodes per child-year with 61,900 pneumonia-related deaths in children less than 5 years of age. The majority (>75%) of pneumonia deaths occurred in six countries; Cambodia, China, Laos, Papua New Guinea, the Philippines and Viet Nam. Historically Streptococcus pneumoniae and Haemophilus influenzae were the commonest causes of severe pneumonia and pneumonia-related deaths in young children, but this is changing with the introduction of highly effective conjugate vaccines and socio-economic development. The relative contribution of viruses and atypical bacteria appear to be increasing and traditional case management approaches may require revision to accommodate increased uptake of conjugated vaccines in the Western Pacific region. Careful consideration should be given to risk reduction strategies, enhanced vaccination coverage, improved management of hypoxaemia and antibiotic stewardship.",
+    "metadata": {
+      "source": "PubMed:27569107",
+      "pmid": "27569107",
+      "title": "Child pneumonia - focus on the Western Pacific Region.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_32972411",
+    "text": "Misconceptions of pathophysiology of happy hypoxemia and implications for management of COVID-19.. In the article \"The pathophysiology of 'happy' hypoxemia in COVID-19,\" Dhont et al. (Respir Res 21:198, 2020) discuss pathophysiological mechanisms that may be responsible for the absence of dyspnea in patients with COVID-19 who exhibit severe hypoxemia. The authors review well-known mechanisms that contribute to development of hypoxemia in patients with pneumonia, but are less clear as to why patients should be free of respiratory discomfort despite arterial oxygen levels commonly regarded as life threatening. The authors propose a number of therapeutic measures for patients with COVID-19 and happy hypoxemia; we believe readers should be alerted to problems with the authors' interpretations and recommendations.",
+    "metadata": {
+      "source": "PubMed:32972411",
+      "pmid": "32972411",
+      "title": "Misconceptions of pathophysiology of happy hypoxemia and implications for management of COVID-19.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_35180418",
+    "text": "Prevalence of hypoxaemia in children with pneumonia in low-income and middle-income countries: a systematic review and meta-analysis.. Pneumonia accounts for around 15% of all deaths of children younger than 5 years globally. Most happen in resource-constrained settings and are potentially preventable. Hypoxaemia is one of the strongest predictors of these deaths. We present an updated estimate of hypoxaemia prevalence among children with pneumonia in low-income and middle-income countries.",
+    "metadata": {
+      "source": "PubMed:35180418",
+      "pmid": "35180418",
+      "title": "Prevalence of hypoxaemia in children with pneumonia in low-income and middle-income countries: a systematic review and meta-analysis.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_34218168",
+    "text": "Respiratory care for the critical patients with 2019 novel coronavirus.. Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) is transmitted through respiratory droplets, aerosols and close contact. Cross infections occur because viruses spread rapidly among humans. Nineteen percent (19%) of the infected patients developed severe pneumonia and acute respiratory distress syndrome (ARDS). Hypoxemia usually occurs and patients may require oxygen therapy or mechanical ventilation (MV) support. In this article, recently published clinical experience and observational studies were reviewed. Corresponding respiratory therapy regarding different stages of infection is proposed. Infection control principles and respiratory strategies including oxygen therapy, non-invasive respiratory support (NIRS), intubation evaluation, equipment preparation, ventilator settings, special maneuvers comprise of the prone position (PP), recruitment maneuver (RM), extracorporeal membrane oxygenation (ECMO), weaning and extubation are summarized. Respiratory equipment and device disinfection recommendations are worked up. We expect this review article could be used as a reference by healthcare workers in patient care while minimizing the risk of environmental contamination.",
+    "metadata": {
+      "source": "PubMed:34218168",
+      "pmid": "34218168",
+      "title": "Respiratory care for the critical patients with 2019 novel coronavirus.",
+      "domain": "pneumonia"
+    }
+  },
+  {
+    "id": "pubmed_34172612",
+    "text": "Pathomechanisms Underlying Hypoxemia in Two COVID-19-Associated Acute Respiratory Distress Syndrome Phenotypes: Insights From Thrombosis and Hemostasis.. The pathomechanisms of hypoxemia and treatment strategies for type H and type L acute respiratory distress syndrome (ARDS) in severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)-induced coronavirus disease 2019 (COVID-19) have not been elucidated.",
+    "metadata": {
+      "source": "PubMed:34172612",
+      "pmid": "34172612",
+      "title": "Pathomechanisms Underlying Hypoxemia in Two COVID-19-Associated Acute Respiratory Distress Syndrome Phenotypes: Insights From Thrombosis and Hemostasis.",
+      "domain": "pneumonia"
+    }
+  }
+]
