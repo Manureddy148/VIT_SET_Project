@@ -151,7 +151,9 @@ def try_vector_store():
 
         return MedicalVectorStore()
     except Exception:
-        return None
+        from src.rag.fallback_store import FallbackMedicalVectorStore
+
+        return FallbackMedicalVectorStore()
 
 
 def seed_vector_store_if_empty(store) -> None:
@@ -203,6 +205,30 @@ def seed_vector_store_if_empty(store) -> None:
                 "oxygenation and antimicrobial therapy per clinical guidelines."
             ),
             "metadata": {"source": "Synthetic seed (replace with PubMed)", "domain": "pneumonia"},
+        },
+        {
+            "id": "seed_ckd_1",
+            "text": (
+                "CKD progression risk rises with increased serum creatinine, blood urea and reduced hemoglobin; "
+                "early nephrology follow-up slows deterioration."
+            ),
+            "metadata": {"source": "Synthetic seed (replace with PubMed)", "domain": "ckd"},
+        },
+        {
+            "id": "seed_sepsis_1",
+            "text": (
+                "Sepsis severity is associated with elevated lactate, hypotension and altered mental status; "
+                "early antibiotics and resuscitation reduce mortality."
+            ),
+            "metadata": {"source": "Synthetic seed (replace with PubMed)", "domain": "sepsis"},
+        },
+        {
+            "id": "seed_liver_1",
+            "text": (
+                "Liver disease severity correlates with high bilirubin and transaminases, and low albumin; "
+                "decompensation requires urgent specialist review."
+            ),
+            "metadata": {"source": "Synthetic seed (replace with PubMed)", "domain": "liver_disease"},
         },
     ]
     try:

@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 import json
+import os
 from typing import Any
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
@@ -21,6 +22,7 @@ from src.preprocessing.normalizer import normalize_clinical_dict
 from src.rag.hallucination_guard import evaluate_faithfulness
 from src.rag.retriever import retrieve_literature
 from src.synthesis.report_generator import build_clinical_report
+from src.synthesis.pdf_writer import build_basic_pdf
 from src.synthesis.safety_rails import (
     MEDICAL_DISCLAIMER,
     build_missing_feature_prompts,
@@ -155,6 +157,14 @@ def health() -> dict[str, str]:
 
 @app.get("/pipeline/status")
 def pipeline_status() -> dict[str, Any]:
+    llm_enabled = os.getenv("MEDICAL_AI_USE_LLM", "0").strip().lower() in ("1", "true", "yes")
+    groq_key_present = bool(os.getenv("GROQ_API_KEY", "").strip())
+    pdf_backend = "fpdf2"
+    try:
+        import fpdf  # type: ignore # noqa: F401
+    except Exception:
+        pdf_backend = "builtin_minimal"
+
     return {
         "pipeline_layers": 7,
         "implemented": {
@@ -181,6 +191,12 @@ def pipeline_status() -> dict[str, Any]:
                 "streamlit_frontend",
                 "jsonl_audit_log",
             ],
+        },
+        "optional_tools": {
+            "vector_store_available": app.state.vector_store is not None,
+            "llm_reporter_enabled": llm_enabled,
+            "groq_api_key_present": groq_key_present,
+            "pdf_backend": pdf_backend,
         },
         "planned_next": {
             "multimodal_inputs": ["dicom", "nifti"],
@@ -301,55 +317,76 @@ def report_pdf(patient: PatientInput):
     bundle = _pipeline_result(patient.query_text, patient.clinical_data)
     response = _build_response(bundle)
 
+    pdf_bytes: bytes
     try:
         from fpdf import FPDF  # type: ignore
-    except ImportError:
-        raise HTTPException(status_code=501, detail="fpdf2 not installed. Run: pip install fpdf2")
 
-    pdf = FPDF()
-    pdf.set_auto_page_break(auto=True, margin=15)
-    pdf.add_page()
-    pdf.set_font("Helvetica", "B", 16)
-    pdf.cell(0, 10, "Medical AI Severity Report", ln=True)
-    pdf.set_font("Helvetica", "", 10)
-    pdf.cell(0, 6, f"Domain: {response.disease_domain}", ln=True)
-    pdf.cell(0, 6, f"Severity: {response.severity_score:.1f}/100  ({response.severity_label})", ln=True)
-    pdf.cell(0, 6, f"Confidence: {response.confidence:.3f}", ln=True)
-    pdf.ln(4)
+        pdf = FPDF()
+        pdf.set_auto_page_break(auto=True, margin=15)
+        pdf.add_page()
+        pdf.set_font("Helvetica", "B", 16)
+        pdf.cell(0, 10, "Medical AI Severity Report", ln=True)
+        pdf.set_font("Helvetica", "", 10)
+        pdf.cell(0, 6, f"Domain: {response.disease_domain}", ln=True)
+        pdf.cell(0, 6, f"Severity: {response.severity_score:.1f}/100  ({response.severity_label})", ln=True)
+        pdf.cell(0, 6, f"Confidence: {response.confidence:.3f}", ln=True)
+        pdf.ln(4)
 
-    pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 8, "Top Risk Factors (SHAP-ranked)", ln=True)
-    pdf.set_font("Helvetica", "", 10)
-    for feat in response.top_risk_factors:
-        pdf.cell(0, 6, f"  - {feat}", ln=True)
-    pdf.ln(4)
-
-    pdf.set_font("Helvetica", "B", 12)
-    pdf.cell(0, 8, "Clinical Report", ln=True)
-    pdf.set_font("Helvetica", "", 9)
-    for line in response.explanation.split("\n"):
-        pdf.multi_cell(0, 5, line.encode("latin-1", "replace").decode("latin-1"))
-    pdf.ln(4)
-
-    if response.literature_citations:
         pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 8, "Literature Citations", ln=True)
+        pdf.cell(0, 8, "Top Risk Factors (SHAP-ranked)", ln=True)
+        pdf.set_font("Helvetica", "", 10)
+        for feat in response.top_risk_factors:
+            pdf.cell(0, 6, f"  - {feat}", ln=True)
+        pdf.ln(4)
+
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 8, "Clinical Report", ln=True)
         pdf.set_font("Helvetica", "", 9)
-        for i, cit in enumerate(response.literature_citations[:5], 1):
-            src = cit.get("source", "Unknown")
-            txt = (cit.get("text") or "")[:200].encode("latin-1", "replace").decode("latin-1")
-            pdf.multi_cell(0, 5, f"[{i}] {src}: {txt}")
-            pdf.ln(2)
+        for line in response.explanation.split("\n"):
+            pdf.multi_cell(0, 5, line.encode("latin-1", "replace").decode("latin-1"))
+        pdf.ln(4)
 
-    pdf.set_font("Helvetica", "I", 8)
-    pdf.multi_cell(
-        0, 4,
-        response.disclaimer.encode("latin-1", "replace").decode("latin-1"),
-    )
+        if response.literature_citations:
+            pdf.set_font("Helvetica", "B", 12)
+            pdf.cell(0, 8, "Literature Citations", ln=True)
+            pdf.set_font("Helvetica", "", 9)
+            for i, cit in enumerate(response.literature_citations[:5], 1):
+                src = cit.get("source", "Unknown")
+                txt = (cit.get("text") or "")[:200].encode("latin-1", "replace").decode("latin-1")
+                pdf.multi_cell(0, 5, f"[{i}] {src}: {txt}")
+                pdf.ln(2)
 
-    pdf_bytes = pdf.output(dest="S")
-    if isinstance(pdf_bytes, str):
-        pdf_bytes = pdf_bytes.encode("latin-1")
+        pdf.set_font("Helvetica", "I", 8)
+        pdf.multi_cell(
+            0, 4,
+            response.disclaimer.encode("latin-1", "replace").decode("latin-1"),
+        )
+
+        out = pdf.output(dest="S")
+        pdf_bytes = out.encode("latin-1") if isinstance(out, str) else out
+    except Exception:
+        basic_lines = [
+            "Medical AI Severity Report",
+            f"Domain: {response.disease_domain}",
+            f"Severity: {response.severity_score:.1f}/100 ({response.severity_label})",
+            f"Confidence: {response.confidence:.3f}",
+            "",
+            "Top Risk Factors:",
+            *[f"- {feat}" for feat in response.top_risk_factors[:8]],
+            "",
+            "Clinical Report:",
+            *response.explanation.split("\n"),
+            "",
+            "Citations:",
+            *[
+                f"[{i}] {cit.get('source', 'Unknown')}: {(cit.get('text') or '')[:160]}"
+                for i, cit in enumerate(response.literature_citations[:5], 1)
+            ],
+            "",
+            response.disclaimer,
+        ]
+        pdf_bytes = build_basic_pdf(basic_lines)
+
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",

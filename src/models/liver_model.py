@@ -11,6 +11,7 @@ import numpy as np
 import xgboost as xgb
 from sklearn.preprocessing import StandardScaler
 
+from src.models.attribution import compute_feature_attributions
 from src.models.base_model import BaseMedicalModel, PredictionResult
 
 
@@ -102,16 +103,13 @@ class LiverDiseaseModel(BaseMedicalModel):
     def _compute_shap(self, features: np.ndarray) -> Dict[str, float]:
         if self._model is None:
             return {}
-        try:
-            import shap
-
-            explainer = shap.TreeExplainer(self._model)
-            vals = explainer.shap_values(features)
-            if isinstance(vals, list):
-                vals = vals[1]
-            return dict(zip(self.required_features, vals[0].tolist()))
-        except Exception:
-            return {}
+        return compute_feature_attributions(
+            self._model,
+            features,
+            self.required_features,
+            self.FEATURE_MEDIANS,
+            scaler=self._scaler,
+        )
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
         """Train with SMOTE for 3:1 class imbalance in ILPD."""
