@@ -22,6 +22,6 @@ def retrieve_literature(
         return []
     q = shap_to_rag_query(prediction.shap_values, prediction.disease_domain)
     try:
-        return store.query(q, n_results=n_results, domain_filter=None)
+        return store.query(q, n_results=n_results, domain_filter=prediction.disease_domain)
     except Exception:
         return []

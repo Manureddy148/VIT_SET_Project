@@ -35,6 +35,7 @@ def test_registry_routes_diabetes():
 
 def test_pneumonia_stub():
     m = PneumoniaModel()
+    m.train_demo()
     x = m.preprocess({"spo2": 88, "temperature_c": 39, "respiratory_rate": 28, "crp": 120, "age": 70})
     r = m.predict(x)
     assert r.severity_score >= 50

@@ -88,6 +88,24 @@ def render_result(out: dict) -> None:
 
     st.caption(out["disclaimer"])
 
+    # Phase 5: PDF export
+    with st.expander("Export report as PDF"):
+        payload_pdf = {"query_text": out.get("_query_text", ""), "clinical_data": out.get("_clinical_data", {})}
+        if st.button("Download PDF report"):
+            try:
+                r = httpx.post(f"{API}/report/pdf", json=payload_pdf, timeout=120.0)
+                if r.status_code == 200:
+                    st.download_button(
+                        label="Save PDF",
+                        data=r.content,
+                        file_name="medical_ai_report.pdf",
+                        mime="application/pdf",
+                    )
+                else:
+                    st.warning(f"PDF export unavailable: {r.text[:200]}")
+            except Exception as e:
+                st.warning(f"PDF export error: {e}")
+
 
 def render_stream(query_text: str, clinical_data: dict) -> None:
     payload = {"query_text": query_text, "clinical_data": clinical_data}
@@ -125,6 +143,8 @@ with text_tab:
             r = httpx.post(f"{API}/predict", json=payload, timeout=120.0)
             r.raise_for_status()
             out = r.json()
+            out["_query_text"] = query
+            out["_clinical_data"] = data
         except Exception as e:
             st.error(f"API error: {e}")
             st.stop()

@@ -60,8 +60,9 @@ def generate_llm_clinical_report(
         [
             (
                 "system",
-                "You are a clinical AI assistant. Produce a concise, evidence-grounded summary. "
-                "Do not provide medication doses. Avoid definitive diagnosis language.",
+                "You are a clinical AI assistant producing structured evidence-grounded reports. "
+                "RULES: (1) Never suggest specific drug doses. (2) Always recommend specialist review. "
+                "(3) Use plain language. (4) If severity ≥75, prepend '⚠️ URGENT — requires emergency evaluation'.",
             ),
             (
                 "human",
@@ -69,9 +70,18 @@ def generate_llm_clinical_report(
                 "Severity score: {severity_score}/100 ({severity_label})\n"
                 "Confidence: {confidence}\n"
                 "Top SHAP risk factors: {top_features}\n"
-                "Input summary: {query_text}\n\n"
-                "Retrieved evidence:\n{citations}\n\n"
-                "Write a short report with sections: 1) Clinical summary 2) Evidence basis 3) Safety note.",
+                "Patient input summary: {query_text}\n\n"
+                "Retrieved PubMed evidence (top-5):\n{citations}\n\n"
+                "Produce a 5-section clinical report using EXACTLY these headings:\n"
+                "## SUMMARY\n"
+                "## KEY FINDINGS\n"
+                "## RISK FACTORS\n"
+                "## RECOMMENDATIONS\n"
+                "## DISCLAIMER\n"
+                "Keep each section concise (2-4 sentences). "
+                "Base KEY FINDINGS on the retrieved evidence. "
+                "List RISK FACTORS ranked by SHAP value. "
+                "RECOMMENDATIONS must never include drug doses.",
             ),
         ]
     )

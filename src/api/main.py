@@ -3,6 +3,7 @@ import json
 from typing import Any
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
 from src.api.audit import append_audit_record
@@ -43,6 +44,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# CORS — allow all origins in demo/research mode; restrict in production
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
+
 
 def _pipeline_result(query_text: str, clinical_data: dict[str, float], forced_domain: str | None = None) -> dict[str, Any]:
     registry = app.state.registry
@@ -52,7 +62,7 @@ def _pipeline_result(query_text: str, clinical_data: dict[str, float], forced_do
 
     domain = forced_domain or registry.classify_domain(query_text)
     if domain == "unknown":
-        inferred = infer_domain_from_labs(query_text, merged)
+        inferred = infer_domain_from_labs(query_text, merged, registry=registry)
         if inferred:
             domain = inferred
 
@@ -281,3 +291,67 @@ async def predict_genomics(
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e)) from e
     return _run_prediction(routed_query, routed_clinical, forced_domain=forced_domain)
+
+
+@app.post("/report/pdf")
+def report_pdf(patient: PatientInput):
+    """Phase 5: Generate a downloadable PDF report from a prediction."""
+    from fastapi.responses import Response
+
+    bundle = _pipeline_result(patient.query_text, patient.clinical_data)
+    response = _build_response(bundle)
+
+    try:
+        from fpdf import FPDF  # type: ignore
+    except ImportError:
+        raise HTTPException(status_code=501, detail="fpdf2 not installed. Run: pip install fpdf2")
+
+    pdf = FPDF()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.add_page()
+    pdf.set_font("Helvetica", "B", 16)
+    pdf.cell(0, 10, "Medical AI Severity Report", ln=True)
+    pdf.set_font("Helvetica", "", 10)
+    pdf.cell(0, 6, f"Domain: {response.disease_domain}", ln=True)
+    pdf.cell(0, 6, f"Severity: {response.severity_score:.1f}/100  ({response.severity_label})", ln=True)
+    pdf.cell(0, 6, f"Confidence: {response.confidence:.3f}", ln=True)
+    pdf.ln(4)
+
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 8, "Top Risk Factors (SHAP-ranked)", ln=True)
+    pdf.set_font("Helvetica", "", 10)
+    for feat in response.top_risk_factors:
+        pdf.cell(0, 6, f"  - {feat}", ln=True)
+    pdf.ln(4)
+
+    pdf.set_font("Helvetica", "B", 12)
+    pdf.cell(0, 8, "Clinical Report", ln=True)
+    pdf.set_font("Helvetica", "", 9)
+    for line in response.explanation.split("\n"):
+        pdf.multi_cell(0, 5, line.encode("latin-1", "replace").decode("latin-1"))
+    pdf.ln(4)
+
+    if response.literature_citations:
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 8, "Literature Citations", ln=True)
+        pdf.set_font("Helvetica", "", 9)
+        for i, cit in enumerate(response.literature_citations[:5], 1):
+            src = cit.get("source", "Unknown")
+            txt = (cit.get("text") or "")[:200].encode("latin-1", "replace").decode("latin-1")
+            pdf.multi_cell(0, 5, f"[{i}] {src}: {txt}")
+            pdf.ln(2)
+
+    pdf.set_font("Helvetica", "I", 8)
+    pdf.multi_cell(
+        0, 4,
+        response.disclaimer.encode("latin-1", "replace").decode("latin-1"),
+    )
+
+    pdf_bytes = pdf.output(dest="S")
+    if isinstance(pdf_bytes, str):
+        pdf_bytes = pdf_bytes.encode("latin-1")
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=medical_ai_report.pdf"},
+    )

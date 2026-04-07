@@ -2,10 +2,13 @@ import json
 import os
 from pathlib import Path
 
+from src.models.ckd_model import CKDModel
 from src.models.diabetes_model import DiabetesModel
 from src.models.heart_model import HeartModel
+from src.models.liver_model import LiverDiseaseModel
 from src.models.pneumonia_model import PneumoniaModel
 from src.models.registry import ModelRegistry
+from src.models.sepsis_model import SepsisModel
 
 
 def _model_dir() -> Path:
@@ -55,6 +58,11 @@ def build_registry() -> ModelRegistry:
     )
 
     pm = PneumoniaModel()
+    ppath = os.getenv("PNEUMONIA_MODEL_PATH", str(mdir / "pneumonia_v1.joblib"))
+    if Path(ppath).exists():
+        pm.load(ppath)
+    else:
+        pm.train_demo()
     reg.register(
         pm,
         keywords=[
@@ -66,6 +74,69 @@ def build_registry() -> ModelRegistry:
             "respiratory",
             "crp",
             "fever",
+        ],
+    )
+
+    ckm = CKDModel()
+    ckpath = os.getenv("CKD_MODEL_PATH", str(mdir / "ckd_v1.joblib"))
+    if Path(ckpath).exists():
+        ckm.load(ckpath)
+    else:
+        ckm.train_demo()
+    reg.register(
+        ckm,
+        keywords=[
+            "ckd",
+            "chronic kidney",
+            "kidney disease",
+            "creatinine",
+            "egfr",
+            "renal",
+            "dialysis",
+            "nephropathy",
+        ],
+    )
+
+    sm = SepsisModel()
+    spath = os.getenv("SEPSIS_MODEL_PATH", str(mdir / "sepsis_v1.joblib"))
+    if Path(spath).exists():
+        sm.load(spath)
+    else:
+        sm.train_demo()
+    reg.register(
+        sm,
+        keywords=[
+            "sepsis",
+            "septic",
+            "bacteremia",
+            "sofa",
+            "qsofa",
+            "lactate",
+            "infection shock",
+            "systemic infection",
+        ],
+    )
+
+    lm = LiverDiseaseModel()
+    lpath = os.getenv("LIVER_MODEL_PATH", str(mdir / "liver_v1.joblib"))
+    if Path(lpath).exists():
+        lm.load(lpath)
+    else:
+        lm.train_demo()
+    reg.register(
+        lm,
+        keywords=[
+            "liver",
+            "liver disease",
+            "hepatitis",
+            "cirrhosis",
+            "bilirubin",
+            "jaundice",
+            "alt",
+            "ast",
+            "alkaline phosphatase",
+            "albumin",
+            "liver function",
         ],
     )
 

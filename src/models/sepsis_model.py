@@ -1,3 +1,8 @@
+"""Layer 3 — Sepsis model.
+
+Features derived from PhysioNet 2019 Sepsis Challenge (qSOFA + SOFA components).
+Trains a synthetic demo XGBoost model; replace with joblib from real PhysioNet data.
+"""
 from pathlib import Path
 from typing import Dict, List
 
@@ -9,19 +14,32 @@ from sklearn.preprocessing import StandardScaler
 from src.models.base_model import BaseMedicalModel, PredictionResult
 
 
-class HeartModel(BaseMedicalModel):
-    """XGBoost-style model for heart disease risk (Cleveland-style features, simplified)."""
+class SepsisModel(BaseMedicalModel):
+    """XGBoost severity model for Sepsis (qSOFA/SOFA-derived features).
 
+    Severity score is amplified by qSOFA score (0–3) components as per docs.
+    """
+
+    # qSOFA + SOFA key lab components per PhysioNet 2019
     FEATURE_MEDIANS = {
-        "age": 54.0,
-        "resting_bp": 131.0,
-        "cholesterol": 246.0,
-        "max_hr": 149.0,
-        "st_depression": 1.0,
-        "major_vessels": 0.0,
+        "heart_rate": 85.0,
+        "respiratory_rate": 18.0,
+        "temperature_c": 37.0,
+        "systolic_bp": 120.0,
+        "mean_arterial_pressure": 80.0,
+        "oxygen_saturation": 97.0,
+        "glasgow_coma_scale": 15.0,
+        "lactate": 1.5,
+        "creatinine": 0.9,
+        "bilirubin": 0.8,
+        "platelet_count": 200.0,
+        "white_blood_cells": 8.0,
+        "age": 52.0,
+        "hours_in_icu": 12.0,
     }
 
     def __init__(self, model_path: str | None = None) -> None:
+        self.model_path = model_path
         self._model = None
         self._scaler: StandardScaler | None = None
         if model_path and Path(model_path).exists():
@@ -29,7 +47,7 @@ class HeartModel(BaseMedicalModel):
 
     @property
     def domain(self) -> str:
-        return "heart_disease"
+        return "sepsis"
 
     @property
     def required_features(self) -> List[str]:
@@ -39,9 +57,7 @@ class HeartModel(BaseMedicalModel):
         row = []
         for feature, median in self.FEATURE_MEDIANS.items():
             value = raw_input.get(feature)
-            if value is None or (
-                value == 0 and feature not in ("st_depression", "major_vessels")
-            ):
+            if value is None:
                 value = median
             row.append(float(value))
         features = np.array(row, dtype=np.float64).reshape(1, -1)
@@ -51,9 +67,30 @@ class HeartModel(BaseMedicalModel):
 
     def predict(self, features: np.ndarray) -> PredictionResult:
         if self._model is None:
-            raise RuntimeError("Model not loaded. Call train_demo(), train(), or load().")
+            raise RuntimeError("SepsisModel not loaded. Call train_demo() or load().")
         prob = float(self._model.predict_proba(features)[0][1])
-        severity_score = min(100.0, round(float(prob) * 100.0, 1))
+
+        # qSOFA-based boost (doc-specified: qSOFA + SOFA → score)
+        raw = (
+            self._scaler.inverse_transform(features)[0]
+            if self._scaler else features[0]
+        )
+        names = self.required_features
+        rd = dict(zip(names, raw.tolist()))
+
+        # qSOFA components (each worth ~10 pts)
+        qsofa = 0
+        if rd.get("respiratory_rate", 18) >= 22:
+            qsofa += 1
+        if rd.get("systolic_bp", 120) <= 100:
+            qsofa += 1
+        if rd.get("glasgow_coma_scale", 15) < 15:
+            qsofa += 1
+
+        # Lactate >= 2 mmol/L (lactate boost)
+        lactate_boost = 10.0 if rd.get("lactate", 1.5) >= 2.0 else 0.0
+
+        severity_score = min(100.0, round(prob * 100.0 + qsofa * 10.0 + lactate_boost, 1))
         shap_vals = self._compute_shap(features)
         top = sorted(shap_vals, key=lambda k: abs(shap_vals[k]), reverse=True)[:5]
         return PredictionResult(
@@ -88,27 +125,39 @@ class HeartModel(BaseMedicalModel):
 
             k = min(5, int(np.bincount(y_train).min()) - 1)
             if k > 0:
-                X_scaled, y_train = SMOTE(random_state=43, k_neighbors=k).fit_resample(X_scaled, y_train)
+                X_scaled, y_train = SMOTE(random_state=45, k_neighbors=k).fit_resample(X_scaled, y_train)
         except Exception:
             pass
         self._model = xgb.XGBClassifier(
-            n_estimators=180,
-            max_depth=4,
+            n_estimators=200,
+            max_depth=5,
             learning_rate=0.08,
-            random_state=43,
+            subsample=0.85,
+            colsample_bytree=0.85,
+            random_state=45,
         )
         self._model.fit(X_scaled, y_train)
 
-    def train_demo(self, n_samples: int = 800, random_state: int = 43) -> None:
+    def train_demo(self, n_samples: int = 600, random_state: int = 45) -> None:
+        """Synthetic demo model mirroring PhysioNet sepsis distributions."""
         rng = np.random.default_rng(random_state)
-        names = list(self.FEATURE_MEDIANS.keys())
+        names = self.required_features
         means = np.array([self.FEATURE_MEDIANS[k] for k in names], dtype=np.float64)
-        X = rng.normal(means, means * 0.15 + 2.0, size=(n_samples, len(names)))
+        spread = np.clip(means * 0.15 + 1.0, 0.1, None)
+        X = rng.normal(means, spread, size=(n_samples, len(names)))
         X = np.clip(X, 0.0, None)
-        chol = X[:, 2]
-        bp = X[:, 1]
-        age = X[:, 0]
-        logit = 0.015 * (chol - 246) + 0.02 * (bp - 131) + 0.03 * (age - 54)
+
+        # Synthetic labels: high HR + low BP + high RR → sepsis
+        hr = X[:, names.index("heart_rate")]
+        rr = X[:, names.index("respiratory_rate")]
+        sbp = X[:, names.index("systolic_bp")]
+        lactate = X[:, names.index("lactate")]
+        logit = (
+            0.04 * (hr - 85)
+            + 0.1 * (rr - 18)
+            - 0.03 * (sbp - 120)
+            + 0.5 * (lactate - 1.5)
+        )
         p = 1.0 / (1.0 + np.exp(-logit))
         y = (rng.random(n_samples) < p).astype(np.int32)
         self.train(X, y)

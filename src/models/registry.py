@@ -51,3 +51,7 @@ class ModelRegistry:
 
     def list_domains(self) -> List[str]:
         return list(self._models.keys())
+
+    def required_features_for_domain(self, domain: str) -> List[str]:
+        model = self._models.get(domain)
+        return list(model.required_features) if model is not None else []

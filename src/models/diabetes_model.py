@@ -84,6 +84,14 @@ class DiabetesModel(BaseMedicalModel):
     def train(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
         self._scaler = StandardScaler()
         X_scaled = self._scaler.fit_transform(X_train)
+        try:
+            from imblearn.over_sampling import SMOTE
+
+            k = min(5, int(np.bincount(y_train).min()) - 1)
+            if k > 0:
+                X_scaled, y_train = SMOTE(random_state=42, k_neighbors=k).fit_resample(X_scaled, y_train)
+        except Exception:
+            pass
         self._model = xgb.XGBClassifier(
             n_estimators=200,
             max_depth=5,

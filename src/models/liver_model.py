@@ -1,9 +1,7 @@
-"""Layer 3 — Pneumonia severity model.
+"""Layer 3 — LiverDiseaseModel: XGBoost on ILPD (Indian Liver Patient Dataset).
 
-Upgraded from rule-based stub to XGBoost trained on synthetic clinical features
-mirroring the Kaggle Chest X-Ray Pneumonia dataset's clinical correlates
-(SpO2, temperature, respiratory rate, CRP, age).
-Replace train_demo() with Kaggle-trained joblib when available.
+Features mirror the UCI ILPD dataset (583 rows, 10 features).
+SMOTE is applied during training to address the 3:1 class imbalance.
 """
 from pathlib import Path
 from typing import Dict, List
@@ -16,15 +14,20 @@ from sklearn.preprocessing import StandardScaler
 from src.models.base_model import BaseMedicalModel, PredictionResult
 
 
-class PneumoniaModel(BaseMedicalModel):
-    """XGBoost severity model for pneumonia (clinical vital signs + CRP)."""
+class LiverDiseaseModel(BaseMedicalModel):
+    """XGBoost + SMOTE model for liver disease (ILPD dataset features)."""
 
     FEATURE_MEDIANS = {
-        "spo2": 96.0,
-        "temperature_c": 37.0,
-        "respiratory_rate": 18.0,
-        "crp": 10.0,
         "age": 45.0,
+        "gender_male": 1.0,          # 1=Male, 0=Female
+        "total_bilirubin": 1.0,       # mg/dL  (normal <1.2)
+        "direct_bilirubin": 0.3,      # mg/dL  (normal <0.3)
+        "alkaline_phosphotase": 208.0, # U/L   (normal 44-147)
+        "alamine_aminotransferase": 35.0,  # ALT U/L (normal <56)
+        "aspartate_aminotransferase": 30.0, # AST U/L (normal <40)
+        "total_proteins": 6.8,         # g/dL   (normal 6.3-8.2)
+        "albumin": 3.3,                # g/dL   (normal 3.5-5.0)
+        "albumin_globulin_ratio": 1.0, # (normal 1.1-2.5)
     }
 
     def __init__(self, model_path: str | None = None) -> None:
@@ -36,7 +39,7 @@ class PneumoniaModel(BaseMedicalModel):
 
     @property
     def domain(self) -> str:
-        return "pneumonia"
+        return "liver_disease"
 
     @property
     def required_features(self) -> List[str]:
@@ -56,28 +59,32 @@ class PneumoniaModel(BaseMedicalModel):
 
     def predict(self, features: np.ndarray) -> PredictionResult:
         if self._model is None:
-            raise RuntimeError("PneumoniaModel not loaded. Call train_demo() or load().")
+            raise RuntimeError("LiverDiseaseModel not loaded. Call train_demo() or load().")
         prob = float(self._model.predict_proba(features)[0][1])
 
-        # Domain amplifiers (clinical thresholds from pneumonia severity indices)
+        # Domain amplifiers (clinical thresholds for liver enzymes)
         raw = (
             self._scaler.inverse_transform(features)[0]
             if self._scaler else features[0]
         )
         rd = dict(zip(self.required_features, raw.tolist()))
         boost = 0.0
-        if rd.get("spo2", 96) < 90:
-            boost += 15.0
-        elif rd.get("spo2", 96) < 94:
-            boost += 8.0
-        if rd.get("temperature_c", 37) > 39.5:
-            boost += 8.0
-        elif rd.get("temperature_c", 37) > 38.5:
-            boost += 4.0
-        if rd.get("respiratory_rate", 18) > 30:
-            boost += 8.0
-        if rd.get("crp", 10) > 150:
+        tbili = rd.get("total_bilirubin", 1.0)
+        alt = rd.get("alamine_aminotransferase", 35.0)
+        ast = rd.get("aspartate_aminotransferase", 30.0)
+        alb = rd.get("albumin", 3.3)
+        if tbili > 3.0:
+            boost += 12.0
+        elif tbili > 1.5:
+            boost += 6.0
+        if alt > 200 or ast > 200:
             boost += 10.0
+        elif alt > 100 or ast > 100:
+            boost += 5.0
+        if alb < 2.5:
+            boost += 8.0
+        elif alb < 3.0:
+            boost += 4.0
 
         severity_score = min(100.0, round(prob * 100.0 + boost, 1))
         shap_vals = self._compute_shap(features)
@@ -107,44 +114,52 @@ class PneumoniaModel(BaseMedicalModel):
             return {}
 
     def train(self, X_train: np.ndarray, y_train: np.ndarray) -> None:
+        """Train with SMOTE for 3:1 class imbalance in ILPD."""
         self._scaler = StandardScaler()
         X_scaled = self._scaler.fit_transform(X_train)
+        # Apply SMOTE if available
         try:
             from imblearn.over_sampling import SMOTE
 
-            k = min(5, int(np.bincount(y_train).min()) - 1)
-            if k > 0:
-                X_scaled, y_train = SMOTE(random_state=46, k_neighbors=k).fit_resample(X_scaled, y_train)
+            sm = SMOTE(random_state=42, k_neighbors=min(5, int(np.bincount(y_train).min()) - 1))
+            X_scaled, y_train = sm.fit_resample(X_scaled, y_train)
         except Exception:
-            pass
+            pass  # graceful fallback; imbalanced-learn optional
         self._model = xgb.XGBClassifier(
-            n_estimators=180,
-            max_depth=4,
+            n_estimators=200,
+            max_depth=5,
             learning_rate=0.08,
             subsample=0.85,
-            colsample_bytree=0.85,
-            random_state=46,
+            colsample_bytree=0.80,
+            scale_pos_weight=3.0,  # extra guard for imbalance
+            random_state=47,
         )
         self._model.fit(X_scaled, y_train)
 
-    def train_demo(self, n_samples: int = 800, random_state: int = 46) -> None:
-        """Synthetic demo model trained on Kaggle CXR-correlated clinical features."""
+    def train_demo(self, n_samples: int = 700, random_state: int = 47) -> None:
+        """Synthetic demo model mirroring ILPD liver patient statistics."""
         rng = np.random.default_rng(random_state)
         names = self.required_features
         means = np.array([self.FEATURE_MEDIANS[k] for k in names], dtype=np.float64)
-        spread = np.array([3.0, 0.8, 3.0, 30.0, 12.0])
+        spread = np.array([12.0, 0.5, 1.5, 0.6, 100.0, 40.0, 35.0, 0.8, 0.6, 0.4])
         X = rng.normal(means, spread, size=(n_samples, len(names)))
-        # Keep clinical ranges
-        X[:, 0] = np.clip(X[:, 0], 70.0, 100.0)   # spo2
-        X[:, 1] = np.clip(X[:, 1], 35.0, 42.0)    # temperature
-        X[:, 2] = np.clip(X[:, 2], 10.0, 50.0)    # rr
-        X[:, 3] = np.clip(X[:, 3], 0.0, 300.0)    # crp
-        X[:, 4] = np.clip(X[:, 4], 0.0, 100.0)    # age
-        # Synthetic labels: low spo2 + high temp + high CRP → pneumonia
-        spo2 = X[:, 0]
-        temp = X[:, 1]
-        crp = X[:, 3]
-        logit = -0.3 * (spo2 - 96) + 2.0 * (temp - 37) + 0.02 * (crp - 10)
+        X[:, 0] = np.clip(X[:, 0], 4.0, 90.0)     # age
+        X[:, 1] = np.round(np.clip(X[:, 1], 0.0, 1.0))  # gender binary
+        X[:, 2] = np.clip(X[:, 2], 0.1, 40.0)     # total_bilirubin
+        X[:, 3] = np.clip(X[:, 3], 0.05, 15.0)    # direct_bilirubin
+        X[:, 4] = np.clip(X[:, 4], 20.0, 2000.0)  # alkaline_phosphotase
+        X[:, 5] = np.clip(X[:, 5], 1.0, 2000.0)   # ALT
+        X[:, 6] = np.clip(X[:, 6], 1.0, 5000.0)   # AST
+        X[:, 7] = np.clip(X[:, 7], 2.0, 9.0)      # total_proteins
+        X[:, 8] = np.clip(X[:, 8], 0.5, 5.5)      # albumin
+        X[:, 9] = np.clip(X[:, 9], 0.1, 4.0)      # A/G ratio
+        # Logit: elevated enzymes and bilirubin → liver patient
+        logit = (
+            0.4 * (X[:, 2] - 1.0)          # bilirubin
+            + 0.005 * (X[:, 5] - 35)        # ALT
+            + 0.004 * (X[:, 6] - 30)        # AST
+            - 0.6 * (X[:, 8] - 3.3)         # low albumin → positive risk
+        )
         p = 1.0 / (1.0 + np.exp(-logit))
         y = (rng.random(n_samples) < p).astype(np.int32)
         self.train(X, y)
