@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "domain": "diabetes",
+    "source": "https://archive.ics.uci.edu/static/public/891/data.csv",
+    "sha256": "9f71fda9d4ae5f4878c99b9233b6a16accfa9a17c194116a6b78100540934964",
+    "rows": 253680,
+    "train_rows": 152208,
+    "calibration_rows": 50736,
+    "test_rows": 50736,
+    "subset": false,
+    "seed": 42,
+    "purpose": "research disease classification, NOT clinical severity"
+  },
+  "uncalibrated": {
+    "auc": 0.8255070202128356,
+    "average_precision": 0.4190777943961263,
+    "brier": 0.09772927130262624,
+    "ece_10_bins": 0.0068969908950175475
+  },
+  "platt_calibrated": {
+    "auc": 0.8255070202128356,
+    "average_precision": 0.4190777943961263,
+    "brier": 0.10006733881584752,
+    "ece_10_bins": 0.029775710128893254
+  },
+  "target_auc": 0.85,
+  "target_met": false
+}
