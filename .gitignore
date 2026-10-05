@@ -27,3 +27,6 @@ rad.json
 *.flf
 *.g.xlf
 TestResults.xml
+models/*.pt
+data/processed/pubmed_verified.json
+data/processed/prediction_audit.jsonl
