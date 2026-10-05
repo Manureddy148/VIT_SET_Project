@@ -17,6 +17,8 @@ class FallbackMedicalVectorStore:
                 {
                     "id": doc.get("id", f"doc_{len(self._docs)+1}"),
                     "text": text,
+                    "url": metadata.get("url", ""),
+                    "pmid": metadata.get("pmid", ""),
                     "source": metadata.get("source", "Synthetic fallback"),
                     "domain": metadata.get("domain", "general"),
                 }
@@ -51,6 +53,9 @@ class FallbackMedicalVectorStore:
         top = scored[:n_results]
         return [
             {
+                "id": d["id"],
+                "url": d.get("url", ""),
+                "pmid": d.get("pmid", ""),
                 "text": d["text"],
                 "source": d.get("source", "Synthetic fallback"),
                 "domain": d.get("domain", "general"),
