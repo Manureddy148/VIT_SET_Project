@@ -251,3 +251,39 @@ Part of Medical AI research initiative at VIT.
 ---
 
 **Latest Update**: April 2026 — PubMed integration enabled with 73 real abstracts per ingestion run.
+
+## Full-scope research milestone (2026-10-05)
+
+See [scope status](docs/SCOPE_STATUS.md) for every implemented/run, built/unrun and outstanding item. This milestone is NOT the completed full roadmap. See [dataset terms](docs/DATASETS.md) and [paper outline](docs/PAPER_OUTLINE.md).
+
+Default API now loads only real research tabular artifacts. It does not silently train synthetic models. Legacy demonstrations require `MEDICAL_AI_ALLOW_DEMO=1` and are not model evaluation. Missing real image checkpoint returns 503. ECG/audio/genomic proxy diagnoses are disabled by default.
+
+### Reproduce actual tabular results
+
+```bash
+python -m pip install -r requirements.txt
+python scripts/train_real_tabular.py --domain heart_disease
+python scripts/train_real_tabular.py --domain diabetes
+MEDICAL_AI_ALLOW_DEMO=0 uvicorn src.api.main:app
+# /models returns exact trained schema: CDC is NOT Pima.
+```
+
+Reports use fixed stratified train/calibration/test, seed 42. Heart n=303, test n=61, AUC=0.948052. CDC n=253680, test n=50736, AUC=0.825507 (target >0.85 NOT met). Platt scaling worsened ECE on both runs. These are single held-out research results, not external or clinical validation.
+
+### Real literature and image pipeline
+
+```bash
+python -m pip install -r requirements-rag.txt
+python scripts/ingest_pubmed_verified.py --limit 500
+MEDICAL_AI_EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2 python scripts/index_pubmed.py
+python -m pip install -r requirements-imaging.txt
+# Obtain permitted Kermany images and documented patient IDs; make manifest:
+# path,label,patient_id,split ; label=0/1 ; split=train/calibration/test
+python scripts/train_pneumonia_image.py --manifest data/raw/pneumonia_manifest.csv --epochs 10
+python scripts/evaluate_retrieval.py --judgments data/processed/relevance_judgments.json
+# Judgments list requires relevant_ids, shap_ranked_ids, keyword_ranked_ids per query.
+```
+
+Executed locally: 500 real abstracts each for three primary diseases; persistent Chroma count 1500; MiniLM/MMR queries return five sources per domain. This is not a precision/recall/RAGAS benchmark. Corpus and checkpoints are excluded from Git for size, terms and provenance. Image pipeline forward/leakage tests ran, real image training did not.
+
+Optional dependencies: `requirements-extensions.txt` for actual audio/volume loaders. Synthetic proxies remain only for backwards-compatible explicit demos; never enable demo mode for scientific performance or patient use. Later trained modality models, image SHAP, RAGAS, deployment, clinician validation and novelty ablations remain outstanding as listed in the scope table.
