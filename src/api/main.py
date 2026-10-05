@@ -60,7 +60,9 @@ def _pipeline_result(query_text: str, clinical_data: dict[str, float], forced_do
     registry = app.state.registry
     merged = dict(clinical_data)
     merged.update(extract_labs_from_text(query_text))
-    merged = normalize_clinical_dict(merged)
+    normalized = normalize_clinical_dict(merged)
+    # Preserve original dataset field names alongside normalized clinical aliases.
+    merged = {**merged, **normalized}
 
     domain = forced_domain or registry.classify_domain(query_text)
     if domain == "unknown":
@@ -80,14 +82,16 @@ def _pipeline_result(query_text: str, clinical_data: dict[str, float], forced_do
     try:
         result = registry.predict_for_domain(domain, merged)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+        raise HTTPException(status_code=422, detail="Model input invalid or model unavailable") from e
 
     citations = retrieve_literature(app.state.vector_store, result)
     explanation = build_clinical_report(result, query_text, citations)
     faithfulness_passed, faithfulness_method = evaluate_faithfulness(explanation, citations)
+    if not faithfulness_passed:
+        explanation = 'Evidence is unavailable or did not pass source checks. No clinical recommendations can be generated. Consult a qualified clinician.'
     missing_feature_prompts = build_missing_feature_prompts(result.missing_features)
     safety_flags = build_safety_flags(result.severity_score, result.severity_label, faithfulness_passed)
-    recommended_actions = build_recommended_actions(result.severity_score, result.severity_label)
+    recommended_actions = ['Research output only; consult a qualified clinician for assessment.']
     audit_log_id = append_audit_record(
         {
             "domain": result.disease_domain,
@@ -117,6 +121,9 @@ def _pipeline_result(query_text: str, clinical_data: dict[str, float], forced_do
 
 def _build_response(bundle: dict[str, Any]) -> SeverityResponse:
     result = bundle["result"]
+    bundle['safety_flags'].append('research_classification_not_clinical_severity')
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') == '1':
+        bundle['safety_flags'].append('synthetic_demo_mode_enabled')
     return SeverityResponse(
         disease_domain=result.disease_domain,
         severity_score=result.severity_score,
@@ -166,6 +173,9 @@ def pipeline_status() -> dict[str, Any]:
         pdf_backend = "builtin_minimal"
 
     return {
+        "research_only": True,
+        "demo_mode": os.getenv("MEDICAL_AI_ALLOW_DEMO", "0") == "1",
+        "loaded_domains": app.state.registry.list_domains(),
         "pipeline_layers": 7,
         "implemented": {
             "layer1_input": [
@@ -235,18 +245,29 @@ async def predict_image(
     query_text: str = Form(""),
     clinical_json: str = Form("{}"),
 ) -> Any:
-    payload = await file.read()
-    clinical = _parse_clinical_json(clinical_json)
+    payload = await file.read(20 * 1024 * 1024 + 1)
+    if len(payload) > 20 * 1024 * 1024:
+        raise HTTPException(413, 'Upload exceeds 20MB research limit')
+    from pathlib import Path
+    path = Path(os.getenv('PNEUMONIA_IMAGE_MODEL_PATH', 'models/pneumonia_image.pt'))
+    if not path.exists():
+        if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') == '1':
+            clinical = _parse_clinical_json(clinical_json)
+            forced_domain, routed_clinical, routed_query = image_upload_to_clinical_features(file.filename or 'upload', payload, query_text, clinical)
+            return _run_prediction(routed_query, routed_clinical, forced_domain=forced_domain)
+        raise HTTPException(503, 'No trained pneumonia image model. Run scripts/train_pneumonia_image.py first.')
+    from src.models.pneumonia_image import PneumoniaImageModel
     try:
-        forced_domain, routed_clinical, routed_query = image_upload_to_clinical_features(
-            file.filename or "upload",
-            payload,
-            query_text,
-            clinical,
-        )
-    except ValueError as e:
-        raise HTTPException(status_code=422, detail=str(e)) from e
-    return _run_prediction(routed_query, routed_clinical, forced_domain=forced_domain)
+        result = PneumoniaImageModel(path).predict_bytes(payload)
+    except (ValueError, OSError) as exc:
+        raise HTTPException(422, str(exc)) from exc
+    citations = retrieve_literature(app.state.vector_store, result)
+    explanation = build_clinical_report(result, query_text, citations)
+    faithful, method = evaluate_faithfulness(explanation, citations)
+    return _build_response({'result': result, 'citations': citations, 'explanation': explanation,
+       'faithfulness_passed': faithful, 'faithfulness_method': method, 'missing_feature_prompts': [],
+       'safety_flags': ['research_classification_not_clinical_severity', 'image_attribution_not_validated'],
+       'recommended_actions': ['Consult a qualified clinician.'], 'audit_log_id': None})
 
 
 @app.post("/predict/ecg", response_model=SeverityResponse)
@@ -255,7 +276,11 @@ async def predict_ecg(
     query_text: str = Form(""),
     clinical_json: str = Form("{}"),
 ) -> Any:
-    payload = await file.read()
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise HTTPException(503, 'ecg diagnostic model is not trained or validated; proxy inference disabled.')
+    payload = await file.read(20 * 1024 * 1024 + 1)
+    if len(payload) > 20 * 1024 * 1024:
+        raise HTTPException(413, 'Upload exceeds 20MB research limit')
     clinical = _parse_clinical_json(clinical_json)
     try:
         forced_domain, routed_clinical, routed_query = ecg_upload_to_clinical_features(
@@ -275,7 +300,11 @@ async def predict_audio(
     query_text: str = Form(""),
     clinical_json: str = Form("{}"),
 ) -> Any:
-    payload = await file.read()
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise HTTPException(503, 'audio diagnostic model is not trained or validated; proxy inference disabled.')
+    payload = await file.read(20 * 1024 * 1024 + 1)
+    if len(payload) > 20 * 1024 * 1024:
+        raise HTTPException(413, 'Upload exceeds 20MB research limit')
     clinical = _parse_clinical_json(clinical_json)
     try:
         forced_domain, routed_clinical, routed_query = audio_upload_to_clinical_features(
@@ -295,7 +324,11 @@ async def predict_genomics(
     query_text: str = Form(""),
     clinical_json: str = Form("{}"),
 ) -> Any:
-    payload = await file.read()
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise HTTPException(503, 'genomics diagnostic model is not trained or validated; proxy inference disabled.')
+    payload = await file.read(20 * 1024 * 1024 + 1)
+    if len(payload) > 20 * 1024 * 1024:
+        raise HTTPException(413, 'Upload exceeds 20MB research limit')
     clinical = _parse_clinical_json(clinical_json)
     try:
         forced_domain, routed_clinical, routed_query = genomics_upload_to_clinical_features(
@@ -325,22 +358,22 @@ def report_pdf(patient: PatientInput):
         pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
         pdf.set_font("Helvetica", "B", 16)
-        pdf.cell(0, 10, "Medical AI Severity Report", ln=True)
+        pdf.cell(0, 10, "Medical AI Research Report", ln=True)
         pdf.set_font("Helvetica", "", 10)
         pdf.cell(0, 6, f"Domain: {response.disease_domain}", ln=True)
-        pdf.cell(0, 6, f"Severity: {response.severity_score:.1f}/100  ({response.severity_label})", ln=True)
+        pdf.cell(0, 6, f"Research probability score: {response.severity_score:.1f}/100  ({response.severity_label})", ln=True)
         pdf.cell(0, 6, f"Confidence: {response.confidence:.3f}", ln=True)
         pdf.ln(4)
 
         pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 8, "Top Risk Factors (SHAP-ranked)", ln=True)
+        pdf.cell(0, 8, "Underlying-tree SHAP Features", ln=True)
         pdf.set_font("Helvetica", "", 10)
         for feat in response.top_risk_factors:
             pdf.cell(0, 6, f"  - {feat}", ln=True)
         pdf.ln(4)
 
         pdf.set_font("Helvetica", "B", 12)
-        pdf.cell(0, 8, "Clinical Report", ln=True)
+        pdf.cell(0, 8, "Research Report", ln=True)
         pdf.set_font("Helvetica", "", 9)
         for line in response.explanation.split("\n"):
             pdf.multi_cell(0, 5, line.encode("latin-1", "replace").decode("latin-1"))
@@ -363,12 +396,12 @@ def report_pdf(patient: PatientInput):
         )
 
         out = pdf.output(dest="S")
-        pdf_bytes = out.encode("latin-1") if isinstance(out, str) else out
+        pdf_bytes = out.encode("latin-1") if isinstance(out, str) else bytes(out)
     except Exception:
         basic_lines = [
-            "Medical AI Severity Report",
+            "Medical AI Research Report",
             f"Domain: {response.disease_domain}",
-            f"Severity: {response.severity_score:.1f}/100 ({response.severity_label})",
+            f"Research probability score: {response.severity_score:.1f}/100 ({response.severity_label})",
             f"Confidence: {response.confidence:.3f}",
             "",
             "Top Risk Factors:",
@@ -392,3 +425,16 @@ def report_pdf(patient: PatientInput):
         media_type="application/pdf",
         headers={"Content-Disposition": "attachment; filename=medical_ai_report.pdf"},
     )
+
+
+@app.get('/models')
+def models():
+    return {'research_only': True, 'domains': {d: app.state.registry.required_features_for_domain(d) for d in app.state.registry.list_domains()},
+            'image_checkpoint_required': 'models/pneumonia_image.pt'}
+
+@app.post('/dialogue/missing')
+def dialogue_missing(patient: PatientInput):
+    domain = app.state.registry.classify_domain(patient.query_text)
+    if domain == 'unknown': raise HTTPException(422, 'Specify a known disease domain')
+    from src.extensions.dialogue import missing_data_dialogue
+    return {'domain': domain, 'questions': missing_data_dialogue(app.state.registry.required_features_for_domain(domain), patient.clinical_data)}

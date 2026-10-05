@@ -136,6 +136,8 @@ class MedicalVectorStore:
         ):
             docs.append(
                 {
+                    "url": meta.get("url", ""),
+                    "pmid": meta.get("pmid", ""),
                     "text": text,
                     "source": meta.get("source", "Unknown"),
                     "domain": meta.get("domain", "general"),

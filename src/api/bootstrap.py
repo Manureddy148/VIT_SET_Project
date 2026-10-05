@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 
+from src.models.research_tabular import ResearchTabularModel
 from src.models.ckd_model import CKDModel
 from src.models.diabetes_model import DiabetesModel
 from src.models.heart_model import HeartModel
@@ -19,6 +20,12 @@ def build_registry() -> ModelRegistry:
     reg = ModelRegistry()
     mdir = _model_dir()
 
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        for domain in ('diabetes', 'heart_disease'):
+            path = mdir / f'{domain}_research.joblib'
+            if path.exists():
+                reg.register(ResearchTabularModel(path), keywords=[domain.replace('_', ' '), 'glucose' if domain == 'diabetes' else 'cardiac'])
+        return reg
     dm = DiabetesModel()
     dpath = os.getenv("DIABETES_MODEL_PATH", str(mdir / "diabetes_v1.joblib"))
     if Path(dpath).exists():
@@ -166,7 +173,7 @@ def seed_vector_store_if_empty(store) -> None:
         return
     
     # Try loading real PubMed documents first
-    pubmed_docs_path = Path("data/processed/pubmed_docs.json")
+    pubmed_docs_path = Path("data/processed/pubmed_verified.json")
     if pubmed_docs_path.exists():
         try:
             with open(pubmed_docs_path, "r", encoding="utf-8") as f:

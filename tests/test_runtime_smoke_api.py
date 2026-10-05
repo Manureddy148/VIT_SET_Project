@@ -56,7 +56,8 @@ def test_smoke_predict_liver_structured_only() -> None:
         out = r.json()
         assert out["disease_domain"] == "liver_disease"
         assert 0 <= out["severity_score"] <= 100
-        assert len(out.get("literature_citations", [])) > 0
+        assert out["literature_citations"] == []
+        assert out["faithfulness_passed"] is False
 
 
 def test_smoke_stream_and_pdf() -> None:

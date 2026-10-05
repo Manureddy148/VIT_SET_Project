@@ -1,0 +1,18 @@
+{
+  "python": "3.10.12",
+  "packages": {
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "xgboost": "3.2.0",
+    "shap": "0.49.1",
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu",
+    "fastapi": "0.142.2",
+    "pytest": "9.1.1",
+    "chromadb": "1.5.9",
+    "sentence-transformers": "5.7.0"
+  },
+  "last_test_run": "50 passed; real-image training not run",
+  "base_sha": "e71fce9e519e5540e11760b7fb58c9d4b02369df"
+}

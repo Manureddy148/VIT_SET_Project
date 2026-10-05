@@ -1,9 +1,10 @@
 # Optional Layer 5 — install when not using MEDICAL_AI_SKIP_RAG=1
-chromadb==0.5.0
-sentence-transformers==3.0.1
+chromadb>=1.0,<2
+sentence-transformers>=3.4,<6
 langchain>=0.2.16
 langchain-groq>=0.1.9
-ragas>=0.1.21
+ragas>=0.2,<0.4
 transformers>=4.44.0
 neurokit2>=0.2.9
 faiss-cpu>=1.8.0
+datasets>=3

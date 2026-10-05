@@ -1,6 +1,7 @@
 """Layer 5: basic faithfulness check — retrieved text must appear in synthesis."""
 
 import os
+import re
 
 
 def snippets_in_report(snippets: list[str], report: str) -> bool:
@@ -9,6 +10,12 @@ def snippets_in_report(snippets: list[str], report: str) -> bool:
 
 
 def evaluate_faithfulness(report: str, citations: list[dict]) -> tuple[bool, str]:
+    if re.search(r"\b\d+(?:\.\d+)?\s*(?:mg|mcg|units)\b", report, re.I):
+        return False, "dose_text_blocked"
+    if not citations:
+        return False, "no_verified_citations"
+    if any(not c.get("url") for c in citations):
+        return False, "missing_source_urls"
     snippets = [c.get("text", "") for c in citations[:3]]
     fallback_ok = snippets_in_report(snippets, report) if snippets else True
 

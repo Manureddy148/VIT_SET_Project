@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "domain": "heart_disease",
+    "source": "https://archive.ics.uci.edu/static/public/45/data.csv",
+    "sha256": "868cd646a53ffbc55611192bae7496911a163937c185710f6b8aa11549b88df1",
+    "rows": 303,
+    "train_rows": 181,
+    "calibration_rows": 61,
+    "test_rows": 61,
+    "subset": false,
+    "seed": 42,
+    "purpose": "research disease classification, NOT clinical severity"
+  },
+  "uncalibrated": {
+    "auc": 0.948051948051948,
+    "average_precision": 0.9337407588945321,
+    "brier": 0.08990760758687799,
+    "ece_10_bins": 0.08336626029894001
+  },
+  "platt_calibrated": {
+    "auc": 0.948051948051948,
+    "average_precision": 0.9337407588945321,
+    "brier": 0.1008703694834972,
+    "ece_10_bins": 0.14975586775435096
+  },
+  "target_auc": 0.85,
+  "target_met": true
+}

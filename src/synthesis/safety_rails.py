@@ -1,6 +1,6 @@
 MEDICAL_DISCLAIMER = (
     "This output is for research and educational purposes only. "
-    "It is not a medical diagnosis. Always consult a qualified clinician."
+    "It is not a medical diagnosis. The 0-100 score is a disease-classification probability display, not validated clinical severity; confidence is not an uncertainty estimate. Never use it for medication dosing. Always consult a qualified clinician."
 )
 
 

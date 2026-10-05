@@ -23,7 +23,7 @@ def build_clinical_report(
     cites_block = "\n".join(cite_lines) if cite_lines else "No literature retrieved."
 
     return (
-        f"Severity: {prediction.severity_score:.1f}/100 ({prediction.severity_label}) "
+        f"Research probability display: {prediction.severity_score:.1f}/100 ({prediction.severity_label}) "
         f"for domain '{prediction.disease_domain}'. "
         f"Primary modeled drivers (SHAP-ranked): {tops}.\n\n"
         f"Input summary: {query_text[:400]}\n\n"

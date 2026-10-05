@@ -4,13 +4,14 @@ on:
   push:
     branches: [main, "feat/**"]
   pull_request:
-    branches: [main]
+    branches: [main, "feat/**"]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     env:
       MEDICAL_AI_SKIP_RAG: "1"
+      MEDICAL_AI_ALLOW_DEMO: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
