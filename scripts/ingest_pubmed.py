@@ -10,8 +10,6 @@ from pathlib import Path
 
 # SSL context for NCBI API (research/educational context)
 _SSL_CONTEXT = ssl.create_default_context()
-_SSL_CONTEXT.check_hostname = False
-_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
 
 PUBMED_SEARCH_CONFIG = {
