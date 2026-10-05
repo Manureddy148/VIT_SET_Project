@@ -1,0 +1,5 @@
+soundfile>=0.12
+nibabel>=5
+wfdb>=4
+pyedflib>=0.1
+transformers>=4.44
