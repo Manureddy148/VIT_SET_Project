@@ -68,5 +68,5 @@ Snapshot: 2026-10-05. Source files: all five named `Create Roadmap` files, plus 
 | README / paper outline | Added | Methods/results and limitations use actual run reports only. |
 | Demo video | Not recorded | Depends on complete chosen demo path. |
 | Team clone/push access | Not verified | Do not change collaborator audience without user confirmation. |
-| Publish models/data / daily commits | Not performed | Remote push blocked on GitHub 2FA at this snapshot. Main and existing branches stay untouched. |
+| Publish models/data / daily commits | Not performed | Text source and run reports published on the new review branch after 2FA. Model binaries, raw data and abstract corpus excluded. Main and existing branches stay untouched. |
 | Clinician validation | Not done | Requires actual reviewer protocol/ethics approval; no invented feedback or scientific outcomes. |
