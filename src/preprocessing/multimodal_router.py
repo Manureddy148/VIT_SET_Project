@@ -109,6 +109,8 @@ def image_upload_to_clinical_features(
     query_text: str,
     base_clinical: Dict[str, float],
 ) -> Tuple[str, Dict[str, float], str]:
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise ValueError('Synthetic proxy feature conversion requires explicit demo mode; not diagnostic inference.')
     if not payload:
         raise ValueError("Uploaded image file is empty.")
 
@@ -158,6 +160,8 @@ def ecg_upload_to_clinical_features(
     query_text: str,
     base_clinical: Dict[str, float],
 ) -> Tuple[str, Dict[str, float], str]:
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise ValueError('Synthetic proxy feature conversion requires explicit demo mode; not diagnostic inference.')
     if not payload:
         raise ValueError("Uploaded ECG file is empty.")
 
@@ -193,6 +197,8 @@ def audio_upload_to_clinical_features(
     query_text: str,
     base_clinical: Dict[str, float],
 ) -> Tuple[str, Dict[str, float], str]:
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise ValueError('Synthetic proxy feature conversion requires explicit demo mode; not diagnostic inference.')
     if not payload:
         raise ValueError("Uploaded audio file is empty.")
     values = np.frombuffer(payload[:8192], dtype=np.uint8)
@@ -217,6 +223,8 @@ def genomics_upload_to_clinical_features(
     query_text: str,
     base_clinical: Dict[str, float],
 ) -> Tuple[str, Dict[str, float], str]:
+    if os.getenv('MEDICAL_AI_ALLOW_DEMO', '0') != '1':
+        raise ValueError('Synthetic proxy feature conversion requires explicit demo mode; not diagnostic inference.')
     if not payload:
         raise ValueError("Uploaded genomics file is empty.")
     text = payload.decode("utf-8", errors="ignore").lower()
