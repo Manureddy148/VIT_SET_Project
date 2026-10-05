@@ -8,7 +8,8 @@ import streamlit as st
 API = os.getenv("MEDICAL_API_URL", "http://127.0.0.1:8000")
 
 st.set_page_config(page_title="Medical AI Severity", layout="wide")
-st.title("Medical AI — Severity (demo)")
+st.title("Medical AI Research")
+st.warning("Research only. Disease classification probability is not validated clinical severity or a diagnosis. No medication dosing.")
 
 
 def render_result(out: dict) -> None:
@@ -25,7 +26,7 @@ def render_result(out: dict) -> None:
             go.Indicator(
                 mode="gauge+number",
                 value=out["severity_score"],
-                title={"text": f"Severity · {out['severity_label']}"},
+                title={"text": f"Research score · {out['severity_label']}"},
                 gauge={
                     "axis": {"range": [0, 100]},
                     "bar": {"color": gauge_color},
@@ -41,7 +42,7 @@ def render_result(out: dict) -> None:
         fig.update_layout(height=280, margin=dict(l=20, r=20, t=40, b=20))
         st.plotly_chart(fig, use_container_width=True)
         st.write("Domain:", out["disease_domain"])
-        st.write("Confidence:", f"{out['confidence']:.2f}")
+        st.write("Max class probability (not uncertainty):", f"{out['confidence']:.2f}")
         if out.get("audit_log_id"):
             st.caption(f"Audit log: {out['audit_log_id']}")
 
@@ -57,10 +58,10 @@ def render_result(out: dict) -> None:
                     marker_color=["#ef4444" if value > 0 else "#3b82f6" for _, value in ordered],
                 )
             )
-            bar.update_layout(height=280, margin=dict(l=20, r=20, t=40, b=20), title="SHAP Risk Drivers")
+            bar.update_layout(height=280, margin=dict(l=20, r=20, t=40, b=20), title="Underlying-tree SHAP Features")
             st.plotly_chart(bar, use_container_width=True)
 
-    st.subheader("Clinical Report")
+    st.subheader("Research Report")
     st.write(out["explanation"])
 
     st.subheader("Safety")
@@ -82,6 +83,8 @@ def render_result(out: dict) -> None:
             label = citation.get("source", f"Citation {idx}")
             excerpt = citation.get("text", "")
             with st.expander(f"[{idx}] {label}"):
+                if citation.get('url'):
+                    st.link_button('Open source', citation['url'])
                 st.write(excerpt)
     else:
         st.caption("No literature citations returned.")
@@ -117,6 +120,15 @@ def render_stream(query_text: str, clinical_data: dict) -> None:
                 lines.append(line)
         if lines:
             st.code("\n".join(lines), language="text")
+
+with st.sidebar:
+    st.subheader('Model schemas')
+    try:
+        schemas = httpx.get(f'{API}/models', timeout=10).json()
+        st.json(schemas)
+    except Exception:
+        st.caption('Start API to load current model schemas.')
+    st.caption('Use dataset feature names exactly. CDC survey buckets are not Pima glucose/insulin values.')
 
 text_tab, image_tab, ecg_tab, audio_tab, genomics_tab = st.tabs(["Text", "Image", "ECG", "Audio", "Genomics"])
 
